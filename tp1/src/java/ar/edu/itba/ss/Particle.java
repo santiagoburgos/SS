@@ -1,3 +1,5 @@
+package ar.edu.itba.ss;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +26,7 @@ public class Particle {
 
     public void setNeighbour(List<Particle> neighbour) {
         if (neighbour != null)
-        this.neighbour.addAll(neighbour);
+            this.neighbour.addAll(neighbour);
     }
 
     public List<Particle> getNeighbour() {
