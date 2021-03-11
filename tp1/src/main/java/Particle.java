@@ -1,12 +1,17 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Particle {
     private int number;
-    private double x;
-    private double y;
+    private double x, y;
+    private ArrayList<Particle> neighbour;
 
-    public Particle(int number, double x, double y) {
+    public Particle( double x, double y, int number) {
         this.number = number;
         this.x = x;
         this.y = y;
+        this.neighbour = new ArrayList<>();
+
     }
 
     public double getNumber() { return number; }
@@ -14,4 +19,13 @@ public class Particle {
     public double getX() { return x; }
 
     public double getY() { return y; }
+
+    public void setNeighbour(List<Particle> neighbour) {
+        if (neighbour != null)
+            this.neighbour.addAll(neighbour);
+    }
+
+    public ArrayList<Particle> getNeighbour() {
+        return neighbour;
+    }
 }
