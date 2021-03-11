@@ -1,3 +1,5 @@
+package ar.edu.itba.ss;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,8 +57,8 @@ public class CellIndex {
     public void printParticles(){
         for (int i = 0; i < N; i++){
             System.out.println("X: " + particles[i].getX() +
-                                "\tY: " + particles[i].getY() +
-                                "\tindex: " + particles[i].index);
+                    "\tY: " + particles[i].getY() +
+                    "\tindex: " + particles[i].index);
 
         }
     }
@@ -65,8 +67,8 @@ public class CellIndex {
         for (int i = 0; i < N; i++){
             for (Particle p : particles[i].getNeighbour()){
                 System.out.println("X: " + p.getX() +
-                                    "\tY: " + p.getY() +
-                                    "\tindex: " + p.index);
+                        "\tY: " + p.getY() +
+                        "\tindex: " + p.index);
 
             }
             System.out.println("\n");
