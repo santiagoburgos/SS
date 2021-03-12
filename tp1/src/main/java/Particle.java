@@ -4,12 +4,23 @@ import java.util.List;
 public class Particle {
     private int number;
     private double x, y;
+    private double radius = 0;
+
     private ArrayList<Particle> neighbour;
 
     public Particle( double x, double y, int number) {
         this.number = number;
         this.x = x;
         this.y = y;
+        this.neighbour = new ArrayList<>();
+
+    }
+
+    public Particle( double x, double y, double radius, int number) {
+        this.number = number;
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
         this.neighbour = new ArrayList<>();
 
     }

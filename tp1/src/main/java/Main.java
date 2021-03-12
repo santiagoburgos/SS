@@ -1,3 +1,5 @@
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Main {
@@ -33,6 +35,6 @@ public class Main {
         frame.setSize(d);
         frame.setVisible(true);
         ////////////////////////////////////////////////////
-*/
+        */
     }
 }

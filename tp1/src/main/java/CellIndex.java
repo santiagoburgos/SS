@@ -63,13 +63,9 @@ public class CellIndex {
 
         double auxX = floor(particle.getX()/lm);
         double auxY = floor(particle.getY()/lm);
-        
+
         int x = (int)auxX;
         int y = (int)auxY;
-
-        System.out.println("x " + particle.getX() + ", y " + particle.getY());
-        System.out.println("L " + L + " M " + M + " L/M " + lm );
-        System.out.println("auxX " + auxX + ", auxY " + auxY);
 
         if (list[x][y] == null){
             list[x][y] = new ArrayList<>();
