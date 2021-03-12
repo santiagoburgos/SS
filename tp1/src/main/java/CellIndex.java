@@ -8,6 +8,7 @@ public class CellIndex {
     private List<Particle> list[][];
     private Particle particles[];
 
+
     public CellIndex(int N, int L, int M, double R){
         this.N = N;
         this.L = L;
@@ -17,20 +18,38 @@ public class CellIndex {
         createParticles(N);
     }
 
+    public CellIndex(int N, int L, int M, double R, ArrayList<Particle> parts){
+        this.N = N;
+        this.L = L;
+        this.M = M;
+        this.R = R;
+        list = new List[this.M][this.M];
+
+
+        this.particles = new Particle[N];
+        for (int i = 0; i < N; i++){
+            particles[i] = parts.get(i);
+            setHead(particles[i]);
+        }
+
+    }
+
+
     private void createParticles(int N) {
         this.particles = new Particle[N];
         for (int i = 0; i < N; i++){
-            double x = Math.random() * M;
-            double y = Math.random() * M;
+            double x = Math.random() * L;
+            double y = Math.random() * L;
             particles[i] = new Particle(x, y, i + 1);
+
             setHead(particles[i]);
         }
     }
 
     //Guardo las particulas que pertenecen a la misma celda
     private void setHead(Particle particle){
-        int x = (int)particle.getX();
-        int y = (int)particle.getY();
+        int x = (int)particle.getX()/(L/M);
+        int y = (int)particle.getY()/(L/M);
 
         if (list[x][y] == null){
             list[x][y] = new ArrayList<>();
