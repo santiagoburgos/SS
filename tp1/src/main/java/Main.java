@@ -11,9 +11,12 @@ public class Main {
         double r_c = entries.get(3).get(0);
         ArrayList<Particle> particles = new ArrayList<>();
         for (int i = 4; i < 4 + N; i++)
-            particles.add(new Particle(entries.get(i).get(1), entries.get(i).get(0), i - 4));
+            particles.add(new Particle(entries.get(i).get(0), entries.get(i).get(1), i - 4));
 
-        CellIndex cellIndex = new CellIndex(10, 10, 10, 0.5);
+
+
+        //CellIndex cellIndex = new CellIndex(N, L, M, r_c, particles);
+        CellIndex cellIndex = new CellIndex(N, L, M, r_c);
         cellIndex.printParticles();
         cellIndex.setNeighbour();
         cellIndex.getOutput();
