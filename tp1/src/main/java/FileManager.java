@@ -14,7 +14,7 @@ public class FileManager {
     public ArrayList<ArrayList<Double>> readNumericFile(String fileName) {
         File file = new File(fileName);
         ArrayList<ArrayList<Double>> elements = new ArrayList<ArrayList<Double>>();
-        ArrayList<Double> aux = new ArrayList<Double>();
+        ArrayList<Double> aux;
         String num;
         String decimalNum;
         boolean addToDecimal;
@@ -23,6 +23,7 @@ public class FileManager {
         try {
             Scanner myReader = new Scanner(file);
             while (myReader.hasNextLine()) {
+                aux = new ArrayList<Double>();
                 String data = myReader.nextLine();
                 num = "";
                 decimalNum = "0";
