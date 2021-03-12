@@ -27,7 +27,7 @@ public class Particle {
 
 
     public void addNeighbour(Particle neighbour) {
-        if (neighbour != null)
+        if (neighbour != null && !this.neighbour.contains(neighbour))
             this.neighbour.add(neighbour);
     }
 
