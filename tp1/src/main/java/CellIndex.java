@@ -4,25 +4,33 @@ import java.util.List;
 public class CellIndex {
     private int N, L, M;   // N particulas, L tamanio de area, MxM celdas
     private double R;    // R radio de interaccion
+    private boolean periodic = false;
 
     private List<Particle> list[][];
     private Particle particles[];
 
 
-    public CellIndex(int N, int L, int M, double R){
+    public CellIndex(int N, int L, int M, double R, boolean periodic){
+
+        if((L/M) <= R){
+            //throw bad arguments
+        }
+
         this.N = N;
         this.L = L;
         this.M = M;
         this.R = R;
+        this.periodic = periodic;
         list = new List[this.M][this.M];
         createParticles(N);
     }
 
-    public CellIndex(int N, int L, int M, double R, ArrayList<Particle> parts){
+    public CellIndex(int N, int L, int M, double R, boolean periodic, ArrayList<Particle> parts){
         this.N = N;
         this.L = L;
         this.M = M;
         this.R = R;
+        this.periodic = periodic;
         list = new List[this.M][this.M];
 
 
@@ -74,6 +82,80 @@ public class CellIndex {
         }
     }
 
+
+
+
+    //recorro celdas y agrego vecinos
+    public void setNeighbour2(){     // hecho con condiciones periodicas de contorno
+        int x, y;
+        for (int i = 0; i < M; i++){
+            for (int j = 0; j < M; j++){
+                if (list[i][j] != null){
+
+                    for(Particle p : list[i][j]) {
+
+                        //misma celda
+                        for (Particle part : list[i][j]) {
+                            double distance = Math.hypot(part.getX() - p.getX(), part.getY() - p.getY()) - 2*R;
+                            if((p.getNumber() < part.getNumber()) && distance <= 0){
+                                p.addNeighbour(part);
+                                part.addNeighbour(p);
+                            }
+                        }
+
+                        //arriba
+                        if (list[i][(j + 1) % M]!= null && (periodic || j<M-1)) {
+                            for (Particle part : list[i][(j + 1) % M]) {
+                                double distance = Math.hypot(part.getX() - p.getX(), part.getY() - p.getY()) - 2*R;
+                                if(distance <= 0){
+                                    p.addNeighbour(part);
+                                    part.addNeighbour(p);
+                                }
+                            }
+                        }
+
+                        //arriba derecha
+                        if (list[(i + 1) % M][(j + 1) % M] != null && (periodic || (j<M-1 && i<M-1))) {
+                            for (Particle part : list[(i + 1) % M][(j + 1) % M]) {
+                                double distance = Math.hypot(part.getX() - p.getX(), part.getY() - p.getY()) - 2*R;
+                                if(distance <= 0){
+                                    p.addNeighbour(part);
+                                    part.addNeighbour(p);
+                                }
+                            }
+                        }
+
+                        //derecha
+                        if (list[(i + 1) % M][j] != null && (periodic || i<M-1)) {
+                            for (Particle part : list[(i + 1) % M][j]) {
+                                double distance = Math.hypot(part.getX() - p.getX(), part.getY() - p.getY()) - 2*R;
+                                if(distance <= 0){
+                                    p.addNeighbour(part);
+                                    part.addNeighbour(p);
+                                }
+                            }
+                        }
+
+                        // abajo derecha
+                        if (list[i == 0 ? M - 1 : (i - 1)][(j + 1) % M] != null && (periodic || (j<M-1 && i>0)) ) {
+                        for (Particle part : list[i == 0 ? M - 1 : (i - 1)][(j + 1) % M]) {
+                            double distance = Math.hypot(part.getX() - p.getX(), part.getY() - p.getY()) - 2*R;
+                            if(distance <= 0){
+                                p.addNeighbour(part);
+                                part.addNeighbour(p);
+                            }
+                        }
+                    }
+
+                    }
+                }
+            }
+        }
+    }
+
+
+
+
     public void printParticles(){
         for (int i = 0; i < N; i++){
             System.out.println("X: " + particles[i].getX() +
@@ -93,6 +175,19 @@ public class CellIndex {
             aux.add(p.getNeighbour());
         }
         fileManager.createResults(aux, 0);                  //TODO: setear tiempo de inicio
+    }
+
+
+    public void getOutput2(){
+        FileManager fileManager = new FileManager();
+        ArrayList<ArrayList<Particle>> aux = new ArrayList<>();
+        for (Particle p : particles){
+            ArrayList<Particle> aux2 = new ArrayList<>();
+            aux2.add(p);
+            aux2.addAll(p.getNeighbour());
+            aux.add(aux2);
+        }
+        fileManager.createResults(aux, 0);
     }
 
 }

@@ -15,12 +15,13 @@ public class Main {
 
 
 
-        CellIndex cellIndex = new CellIndex(N, L, M, r_c, particles);
+        CellIndex cellIndex = new CellIndex(N, L, M, r_c, true, particles);
         //randomize particles positions
-        //CellIndex cellIndex = new CellIndex(N, L, M, r_c);
-        cellIndex.printParticles();
-        cellIndex.setNeighbour();
-        cellIndex.getOutput();
+        //CellIndex cellIndex = new CellIndex(N, L, M, true, r_c);
+        //cellIndex.printParticles();
+        cellIndex.setNeighbour2();
+        cellIndex.getOutput2();
+
         /*
         ////////////////prueba grafica ////////////////////
         JFrame frame = new JFrame("Graphics");

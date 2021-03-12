@@ -25,6 +25,13 @@ public class Particle {
             this.neighbour.addAll(neighbour);
     }
 
+
+    public void addNeighbour(Particle neighbour) {
+        if (neighbour != null)
+            this.neighbour.add(neighbour);
+    }
+
+
     public ArrayList<Particle> getNeighbour() {
         return neighbour;
     }
