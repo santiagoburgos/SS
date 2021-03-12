@@ -7,10 +7,10 @@ public class Graphic extends JPanel {
     private  Point lastPoint;
     private Point particles[];
     private int radius;
-    private int M;
+    private int L;
     public Graphic(int size, int radius){
-        this.M = size;
-        setSize(M, M);
+        this.L = size;
+        setSize(L, L);
         this.radius = radius;
         createParticles();
 
@@ -23,7 +23,6 @@ public class Graphic extends JPanel {
                     if (lastPoint.getX() <= p.getX() + radius && lastPoint.getX() >= p.getX() - radius){
                         if (lastPoint.getY() <= p.getY() + radius && lastPoint.getY() >= p.getY() - radius){
                             changeColor(p);
-                            System.out.println("ENTROOO");
                         }
                     }
                 }
@@ -48,8 +47,8 @@ public class Graphic extends JPanel {
     private void createParticles() {
         particles = new Point[10];
         for (int i = 0; i < 10; i++) {
-            double ranx = Math.random() * this.M + 50;
-            double rany = Math.random() * this.M + 50;
+            double ranx = Math.random() * this.L + 50;
+            double rany = Math.random() * this.L + 50;
             System.out.println("Particula creada en x: " + ranx + "\ty: " + rany);
             this.particles[i] =  new Point((int) ranx, (int) rany);
         }
