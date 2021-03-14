@@ -30,7 +30,18 @@ public class FileManager {
                 addToDecimal = false;
                 base = 10;
                 lastChar = ' ';
-                for(char s: data.toCharArray()) {
+
+
+                for (String word : data.split("\\s")) {
+                    if (!word.isEmpty())
+                        aux.add(Double.parseDouble(word));
+
+                }
+
+
+
+
+                /*for(char s: data.toCharArray()) {
                     if (isWhitespace(s) && !isWhitespace(lastChar)) {
                         aux.add(new Double(num) * Math.pow(base, new Integer(decimalNum)));
                         num = "";
@@ -53,8 +64,10 @@ public class FileManager {
                 }
                 if (num != "") {
                     aux.add(new Double(num) * Math.pow(base, new Integer(decimalNum)));
-                }
+                }*/
                 elements.add(aux);
+
+
             }
             myReader.close();
         } catch (FileNotFoundException e) {

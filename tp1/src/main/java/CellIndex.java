@@ -1,8 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.Math.floor;
-import static java.lang.Math.max;
+import static java.lang.Math.*;
 
 public class CellIndex {
     private int N, L, M;   // N particulas, L tamanio de area, MxM celdas
@@ -28,36 +27,47 @@ public class CellIndex {
         createParticles(N);
     }*/
 
+
+
+
     public CellIndex(int N, int L, int M, double R, boolean periodic, ArrayList<Particle> parts){
 
-        if(((float)L/(float)M) <= R){
-            return;
+        double maxRadius = 0;
+        for(Particle p: parts){
+            if(p.getRadius() > maxRadius)
+                maxRadius = p.getRadius();
         }
+
+
 
         this.N = N;
         this.L = L;
         this.M = M;
+        this.R = R;
         this.periodic = periodic;
         list = new List[this.M][this.M];
 
-        double maxRadius = 0;
+        if(((float)L/(float)M) <= (maxRadius+R)){
+            throw new IllegalArgumentException();
+        }
+
 
         this.particles = new Particle[N];
         for (int i = 0; i < N; i++){
             Particle p = parts.get(i);
-            if(p.getRadius() > maxRadius)
-                maxRadius = p.getRadius();
 
             particles[i] = p;
             setHead(particles[i]);
         }
-
-        this.R = R + maxRadius;
-
     }
 
 
-    /*private void createParticles(int N) {
+    public void calculateNeighbors(){
+
+    }
+
+/*
+    private void createParticles(int N) {
         this.particles = new Particle[N];
         for (int i = 0; i < N; i++){
             double x = Math.random() * L;
@@ -66,7 +76,38 @@ public class CellIndex {
 
             setHead(particles[i]);
         }
+    }
+
+
+    public CellIndex(int N, int L, double R, boolean periodic, ArrayList<Particle> parts){
+
+        this.N = N;
+        this.L = L;
+        this.periodic = periodic;
+        list = new List[this.M][this.M];
+
+        double maxRadius = 0;
+        for(Particle p: parts){
+            if(p.getRadius() > maxRadius)
+                maxRadius = p.getRadius();
+        }
+        this.R = R + maxRadius;
+        M = (int)floor((float)L/(float)R);
+
+        System.out.println("M " + M);
+
+        this.particles = new Particle[N];
+        for (int i = 0; i < N; i++){
+            Particle p = parts.get(i);
+            particles[i] = p;
+            setHead(particles[i]);
+        }
+
+
+
     }*/
+
+
 
     //Guardo las particulas que pertenecen a la misma celda
     private void setHead(Particle particle){
@@ -83,6 +124,20 @@ public class CellIndex {
             list[x][y] = new ArrayList<>();
         }
         list[x][y].add(particle);
+
+/*
+        for (int i = 0; i < M; i++){
+            for (int j = 0; j < M; j++){
+                if (list[i][j] != null){
+                   System.out.println("celda:" + i + "-" + j);
+                    for (Particle p : list[i][j]){
+                        System.out.println(p.getNumber());
+                    }
+
+                }}} */
+
+
+
     }
 
 
@@ -99,8 +154,8 @@ public class CellIndex {
 
                         //misma celda
                         for (Particle part : list[i][j]) {
-                            double distance = Math.hypot(part.getX() - p.getX(), part.getY() - p.getY()) - 2*R;
-                            if((p.getNumber() < part.getNumber()) && distance <= 0){
+                            double distance = sqrt((part.getY() - p.getY()) * (part.getY() - p.getY()) + (part.getX() - p.getX()) * (part.getX() - p.getX())) - max(p.getRadius(), part.getRadius());
+                            if((p.getNumber() < part.getNumber()) && distance <= this.R){
                                 p.addNeighbour(part);
                                 part.addNeighbour(p);
                             }
@@ -109,8 +164,8 @@ public class CellIndex {
                         //arriba
                         if (list[i][(j + 1) % M]!= null && (periodic || j<M-1)) {
                             for (Particle part : list[i][(j + 1) % M]) {
-                                double distance = Math.hypot(part.getX() - p.getX(), part.getY() - p.getY()) - 2*R;
-                                if(distance <= 0 && p.getNumber() != part.getNumber()){
+                                double distance = sqrt((part.getY() - p.getY()) * (part.getY() - p.getY()) + (part.getX() - p.getX()) * (part.getX() - p.getX())) - max(p.getRadius(), part.getRadius());
+                                if(distance <= this.R && p.getNumber() != part.getNumber()){
                                     p.addNeighbour(part);
                                     part.addNeighbour(p);
                                 }
@@ -120,8 +175,8 @@ public class CellIndex {
                         //arriba derecha
                         if (list[(i + 1) % M][(j + 1) % M] != null && (periodic || (j<M-1 && i<M-1))) {
                             for (Particle part : list[(i + 1) % M][(j + 1) % M]) {
-                                double distance = Math.hypot(part.getX() - p.getX(), part.getY() - p.getY()) - 2*R;
-                                if(distance <= 0 && p.getNumber() != part.getNumber()){
+                                double distance = sqrt((part.getY() - p.getY()) * (part.getY() - p.getY()) + (part.getX() - p.getX()) * (part.getX() - p.getX())) - max(p.getRadius(), part.getRadius());
+                                if(distance <= this.R && p.getNumber() != part.getNumber()){
                                     p.addNeighbour(part);
                                     part.addNeighbour(p);
                                 }
@@ -131,8 +186,8 @@ public class CellIndex {
                         //derecha
                         if (list[(i + 1) % M][j] != null && (periodic || i<M-1)) {
                             for (Particle part : list[(i + 1) % M][j]) {
-                                double distance = Math.hypot(part.getX() - p.getX(), part.getY() - p.getY()) - 2*R;
-                                if(distance <= 0 && p.getNumber() != part.getNumber()){
+                                double distance = sqrt((part.getY() - p.getY()) * (part.getY() - p.getY()) + (part.getX() - p.getX()) * (part.getX() - p.getX())) - max(p.getRadius(), part.getRadius());
+                                if(distance <= this.R && p.getNumber() != part.getNumber()){
                                     p.addNeighbour(part);
                                     part.addNeighbour(p);
                                 }
@@ -142,8 +197,8 @@ public class CellIndex {
                         // abajo derecha
                         if (list[i == 0 ? M - 1 : (i - 1)][(j + 1) % M] != null && (periodic || (j<M-1 && i>0)) ) {
                         for (Particle part : list[i == 0 ? M - 1 : (i - 1)][(j + 1) % M]) {
-                            double distance = Math.hypot(part.getX() - p.getX(), part.getY() - p.getY()) - 2*R;
-                            if(distance <= 0 && p.getNumber() != part.getNumber()){
+                            double distance = sqrt((part.getY() - p.getY()) * (part.getY() - p.getY()) + (part.getX() - p.getX()) * (part.getX() - p.getX())) - max(p.getRadius(), part.getRadius());
+                            if(distance <= this.R && p.getNumber() != part.getNumber()){
                                 p.addNeighbour(part);
                                 part.addNeighbour(p);
                             }
