@@ -115,20 +115,17 @@ public class FileManager {
         int whiteSpace = 0;
         File file = new File(fileName);
         ArrayList<Particle> elements = new ArrayList<Particle>();
-        ArrayList<String> aux2;
         Particle aux;
         String number;
         String x;
         String y;
         String radius;
-        char lastChar;
         try {
             Scanner myReader = new Scanner(file);
             for (int j = 0; j < amountToSkip; j++)
                 myReader.nextLine();
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
-                aux2 = new ArrayList<>();
                 aux = new Particle();
                 number = "";
                 x = "";
@@ -170,9 +167,7 @@ public class FileManager {
                     }
                 }
                 whiteSpace = 0;
-                for (Particle i : aux.getNeighbour()){
-                    System.out.println("Particula: " + aux.getNumber() + "con vecinos: " + i.getNumber());
-                }
+
                 elements.add(aux);
             }
             myReader.close();

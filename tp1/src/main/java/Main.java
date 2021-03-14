@@ -23,6 +23,8 @@ public class Main {
         cellIndex.getOutput();
 
         ArrayList<Particle> results = fm.readResultsFile("particles.txt", 3);
+        if (results.size() == 0)
+            return;
 
         JFrame frame = new JFrame("Graphics");
         frame.getContentPane().add(new Graphic(450, results, 10), BorderLayout.CENTER);
