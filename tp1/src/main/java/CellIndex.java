@@ -195,7 +195,7 @@ public class CellIndex {
             aux2.addAll(p.getNeighbour());
             aux.add(aux2);
         }
-        fileManager.createResults(aux, 0);
+        fileManager.createResults(aux, 0, "particles.txt");
     }
 
 }

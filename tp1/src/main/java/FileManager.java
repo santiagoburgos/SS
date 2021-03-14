@@ -65,11 +65,10 @@ public class FileManager {
         return elements;
     }
 
-    public void createResults(ArrayList<ArrayList<Particle>> relationships, long start) {
-        boolean isFirst;
+    public void createResults(ArrayList<ArrayList<Particle>> relationships, long start, String fileName) {
         try {
             FileWriter writer = null;
-            writer = new FileWriter("relations.txt");
+            writer = new FileWriter(fileName);
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
             LocalDateTime now = LocalDateTime.now();
             long nowSeconds = System.nanoTime();
@@ -80,14 +79,8 @@ public class FileManager {
             writer.append("\n");
 
             for (ArrayList<Particle> particles: relationships) {
-                isFirst = true;
                 for (Particle p: particles) {
-                    if (isFirst) {
-                        writer.append("Particle: " + p.getNumber() + " on x: " + p.getX() + " y: " + p.getY());
-                        isFirst = false;
-                    } else {
-                        writer.append(" , " + p.getNumber() + " on x: " + p.getX() + " y: " + p.getY());
-                    }
+                    writer.append(p.getNumber() + " " + p.getX() + " " + p.getY() + " " + p.getRadius()+ ", ");
                 }
                 writer.append("\n");
             }
@@ -97,5 +90,68 @@ public class FileManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public ArrayList<Particle> readResultsFile(String fileName, int amountToSkip) {
+        boolean isFirst;
+        File file = new File(fileName);
+        ArrayList<Particle> elements = new ArrayList<Particle>();
+        Particle aux;
+        String number;
+        String x;
+        String y;
+        String radius;
+        try {
+            Scanner myReader = new Scanner(file);
+            for (int j = 0; j < amountToSkip; j++)
+                myReader.nextLine();
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                aux = new Particle();
+                number = "";
+                x = "";
+                y = "";
+                radius = "";
+                isFirst = true;
+                for(char s: data.toCharArray()) {
+                    if (s - '0' < 10 && s - '0' >= 0) {
+                        if (s == ',') {
+                            if (isFirst) {
+                                isFirst = false;
+                                aux = new Particle(new Double(x), new Double(y), new Double(radius), Integer.parseInt(number));
+                            } else {
+                                aux.addNeighbour(new Particle(new Double(x), new Double(y), new Double(radius), Integer.parseInt(number)));
+                            }
+                            x = "";
+                            y = "";
+                            radius = "";
+                        } else if (!isWhitespace(s)) {
+                            if (number.length() == 0)
+                                number += s;
+                            if (x.length() == 0)
+                                x += s;
+                            else if (y.length() == 0)
+                                y += s;
+                            else
+                                radius +=s;
+                        }
+                    }
+                }
+                if (x != "") {
+                    if (isFirst)
+                        elements.add(new Particle(new Double(x), new Double(y), new Double(radius), Integer.parseInt(number)));
+                    else {
+                        aux.addNeighbour(new Particle(new Double(x), new Double(y), new Double(radius), Integer.parseInt(number)));
+                        elements.add(aux);
+                    }
+                }
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Could not read file.");
+            e.printStackTrace();
+        }
+
+        return elements;
     }
 }

@@ -8,6 +8,8 @@ public class Particle {
 
     private ArrayList<Particle> neighbour;
 
+    public Particle() {};
+
     public Particle( double x, double y, int number) {
         this.number = number;
         this.x = x;
@@ -30,6 +32,8 @@ public class Particle {
     public double getX() { return x; }
 
     public double getY() { return y; }
+
+    public double getRadius() { return radius; }
 
     public void setNeighbour(List<Particle> neighbour) {
         if (neighbour != null)
