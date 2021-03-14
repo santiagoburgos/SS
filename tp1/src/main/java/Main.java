@@ -17,12 +17,12 @@ public class Main {
 
 
 
-        CellIndex cellIndex = new CellIndex(N, L, M, r_c, true, particles);
+        CellIndex cellIndex = new CellIndex(N, L, 1, r_c, true, particles);
         //randomize particles positions
-        //CellIndex cellIndex = new CellIndex(N, L, M, true, r_c);
+        //CellIndex cellIndex = new CellIndex(1000, 20, 5, 0.5, true);
         //cellIndex.printParticles();
-        cellIndex.setNeighbour2();
-        cellIndex.getOutput2();
+        cellIndex.setNeighbour();
+        cellIndex.getOutput();
 
         JFrame frame = new JFrame("Graphics");
         frame.getContentPane().add(new Graphic(450, 20), BorderLayout.CENTER);

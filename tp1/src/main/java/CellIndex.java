@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Math.floor;
+import static java.lang.Math.max;
+
 public class CellIndex {
     private int N, L, M;   // N particulas, L tamanio de area, MxM celdas
     private double R;    // R radio de interaccion
@@ -10,7 +13,7 @@ public class CellIndex {
     private Particle particles[];
 
 
-    public CellIndex(int N, int L, int M, double R, boolean periodic){
+    /*public CellIndex(int N, int L, int M, double R, boolean periodic){
 
         if((L/M) <= R){
             //throw bad arguments
@@ -23,27 +26,38 @@ public class CellIndex {
         this.periodic = periodic;
         list = new List[this.M][this.M];
         createParticles(N);
-    }
+    }*/
 
     public CellIndex(int N, int L, int M, double R, boolean periodic, ArrayList<Particle> parts){
+
+        if(((float)L/(float)M) <= R){
+            return;
+        }
+
         this.N = N;
         this.L = L;
         this.M = M;
-        this.R = R;
         this.periodic = periodic;
         list = new List[this.M][this.M];
 
+        double maxRadius = 0;
 
         this.particles = new Particle[N];
         for (int i = 0; i < N; i++){
-            particles[i] = parts.get(i);
+            Particle p = parts.get(i);
+            if(p.getRadius() > maxRadius)
+                maxRadius = p.getRadius();
+
+            particles[i] = p;
             setHead(particles[i]);
         }
+
+        this.R = R + maxRadius;
 
     }
 
 
-    private void createParticles(int N) {
+    /*private void createParticles(int N) {
         this.particles = new Particle[N];
         for (int i = 0; i < N; i++){
             double x = Math.random() * L;
@@ -52,12 +66,18 @@ public class CellIndex {
 
             setHead(particles[i]);
         }
-    }
+    }*/
 
     //Guardo las particulas que pertenecen a la misma celda
     private void setHead(Particle particle){
-        int x = (int)particle.getX()/(L/M);
-        int y = (int)particle.getY()/(L/M);
+
+        float lm = ((float)L/(float)M);
+
+        double auxX = floor(particle.getX()/lm);
+        double auxY = floor(particle.getY()/lm);
+
+        int x = (int)auxX;
+        int y = (int)auxY;
 
         if (list[x][y] == null){
             list[x][y] = new ArrayList<>();
@@ -65,28 +85,11 @@ public class CellIndex {
         list[x][y].add(particle);
     }
 
-    //recorro celdas y agrego vecinos
-    public void setNeighbour(){     // hecho con condiciones periodicas de contorno
-        int x, y;
-        for (int i = 0; i < M; i++){
-            for (int j = 0; j < M; j++){
-                if (list[i][j] != null){    //TODO: considerar radios de interaccion antes de agregar como vecino
-
-                    list[i][j].get(0).setNeighbour(list[i][j]);
-                    list[i][j].get(0).setNeighbour(list[i == 0? M - 1  : (i - 1)][j]);
-                    list[i][j].get(0).setNeighbour(list[i == 0? M - 1  : (i - 1)][(j + 1) % M]);
-                    list[i][j].get(0).setNeighbour(list[i][(j + 1) % M]);
-                    list[i][j].get(0).setNeighbour(list[(i + 1) % M][(j + 1) % M]);
-                }
-            }
-        }
-    }
-
 
 
 
     //recorro celdas y agrego vecinos
-    public void setNeighbour2(){     // hecho con condiciones periodicas de contorno
+    public void setNeighbour(){
         int x, y;
         for (int i = 0; i < M; i++){
             for (int j = 0; j < M; j++){
@@ -107,7 +110,7 @@ public class CellIndex {
                         if (list[i][(j + 1) % M]!= null && (periodic || j<M-1)) {
                             for (Particle part : list[i][(j + 1) % M]) {
                                 double distance = Math.hypot(part.getX() - p.getX(), part.getY() - p.getY()) - 2*R;
-                                if(distance <= 0){
+                                if(distance <= 0 && p.getNumber() != part.getNumber()){
                                     p.addNeighbour(part);
                                     part.addNeighbour(p);
                                 }
@@ -118,7 +121,7 @@ public class CellIndex {
                         if (list[(i + 1) % M][(j + 1) % M] != null && (periodic || (j<M-1 && i<M-1))) {
                             for (Particle part : list[(i + 1) % M][(j + 1) % M]) {
                                 double distance = Math.hypot(part.getX() - p.getX(), part.getY() - p.getY()) - 2*R;
-                                if(distance <= 0){
+                                if(distance <= 0 && p.getNumber() != part.getNumber()){
                                     p.addNeighbour(part);
                                     part.addNeighbour(p);
                                 }
@@ -129,7 +132,7 @@ public class CellIndex {
                         if (list[(i + 1) % M][j] != null && (periodic || i<M-1)) {
                             for (Particle part : list[(i + 1) % M][j]) {
                                 double distance = Math.hypot(part.getX() - p.getX(), part.getY() - p.getY()) - 2*R;
-                                if(distance <= 0){
+                                if(distance <= 0 && p.getNumber() != part.getNumber()){
                                     p.addNeighbour(part);
                                     part.addNeighbour(p);
                                 }
@@ -140,7 +143,7 @@ public class CellIndex {
                         if (list[i == 0 ? M - 1 : (i - 1)][(j + 1) % M] != null && (periodic || (j<M-1 && i>0)) ) {
                         for (Particle part : list[i == 0 ? M - 1 : (i - 1)][(j + 1) % M]) {
                             double distance = Math.hypot(part.getX() - p.getX(), part.getY() - p.getY()) - 2*R;
-                            if(distance <= 0){
+                            if(distance <= 0 && p.getNumber() != part.getNumber()){
                                 p.addNeighbour(part);
                                 part.addNeighbour(p);
                             }
@@ -168,17 +171,9 @@ public class CellIndex {
         return particles;
     }
 
+
+
     public void getOutput(){
-        FileManager fileManager = new FileManager();
-        ArrayList<ArrayList<Particle>> aux = new ArrayList<>();
-        for (Particle p : particles){
-            aux.add(p.getNeighbour());
-        }
-        fileManager.createResults(aux, 0);                  //TODO: setear tiempo de inicio
-    }
-
-
-    public void getOutput2(){
         FileManager fileManager = new FileManager();
         ArrayList<ArrayList<Particle>> aux = new ArrayList<>();
         for (Particle p : particles){
@@ -187,7 +182,7 @@ public class CellIndex {
             aux2.addAll(p.getNeighbour());
             aux.add(aux2);
         }
-        fileManager.createResults(aux, 0);
+        fileManager.createResults(aux, 0, "particles.txt");
     }
 
 }
