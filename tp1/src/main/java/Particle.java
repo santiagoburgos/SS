@@ -27,7 +27,7 @@ public class Particle {
 
     }
 
-    public double getNumber() { return number; }
+    public int getNumber() { return number; }
 
     public double getX() { return x; }
 

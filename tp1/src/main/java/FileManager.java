@@ -91,9 +91,11 @@ public class FileManager {
             writer.append("Execution time: " + elapsedTimeInSecond + " seconds");
             writer.append("\n");
 
+            writer.append("Format: Number X Y Radius, \n");
             for (ArrayList<Particle> particles: relationships) {
+                writer.append(" ");
                 for (Particle p: particles) {
-                    writer.append(p.getNumber() + " " + p.getX() + " " + p.getY() + " " + p.getRadius()+ ", ");
+                    writer.append(p.getNumber() + " " + p.getX() + " " + p.getY() + " " + p.getRadius() + ", ");
                 }
                 writer.append("\n");
             }
@@ -107,6 +109,7 @@ public class FileManager {
 
     public ArrayList<Particle> readResultsFile(String fileName, int amountToSkip) {
         boolean isFirst;
+        int whiteSpace = 0;
         File file = new File(fileName);
         ArrayList<Particle> elements = new ArrayList<Particle>();
         ArrayList<String> aux2;
@@ -131,6 +134,47 @@ public class FileManager {
                 isFirst = true;
                 lastChar = ' ';
                 for(char s: data.toCharArray()) {
+<<<<<<< HEAD
+                    if (s == ' ') whiteSpace++;
+                    if ((s - '0' < 10 && s - '0' >= 0) || s == '.') {
+                        System.out.println("ws: " + whiteSpace);
+                        switch (whiteSpace){
+                            case 1:
+                                number += s;
+                                System.out.println("Number:" + number);
+                                break;
+                            case 2:
+                                x += s;
+                                System.out.println("x:" + x);
+                                break;
+                            case 3:
+                                y += s;
+                                System.out.println("y:" + y);
+                                break;
+                            case 4:
+                                radius += s;
+                                System.out.println("r:" + radius);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    if (s == ',') {
+                        if (isFirst) {
+                            isFirst = false;
+                            aux = new Particle(Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(radius), Integer.parseInt(number));
+                        } else {
+                            aux.addNeighbour(new Particle(new Double(x), new Double(y), new Double(radius), Integer.parseInt(number)));
+                        }
+                        whiteSpace = 0;
+                        number = "";
+                        x = "";
+                        y = "";
+                        radius = "";
+                    }
+                }
+                whiteSpace = 0;
+=======
                     if (s == ',') {
                         if (isFirst) {
                             isFirst = false;
@@ -162,6 +206,7 @@ public class FileManager {
                         aux2.add(number);
                     lastChar = s;
                 }
+>>>>>>> 0a8e2459b4e90ce7ce8031428dd8fdbd3012f3bc
                 elements.add(aux);
             }
             myReader.close();
