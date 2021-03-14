@@ -126,18 +126,6 @@ public class CellIndex {
         list[x][y].add(particle);
 
 
-        /*for (int i = 0; i < M; i++){
-            for (int j = 0; j < M; j++){
-                if (list[i][j] != null){
-                   System.out.println("celda:" + i + "-" + j);
-                    for (Particle p : list[i][j]){
-                        System.out.println(p.getNumber());
-                    }
-
-                }}}*/
-
-
-
     }
 
 
@@ -219,13 +207,13 @@ public class CellIndex {
                         }
 
                         // abajo derecha
-                        if (list[i == 0 ? M - 1 : (i - 1)][(j + 1) % M] != null && (periodic || (j<M-1 && i>0)) ) {
-                        for (Particle part : list[i == 0 ? M - 1 : (i - 1)][(j + 1) % M]) {
+                        if (list[(i + 1) % M][j == 0 ? M - 1 : (j - 1)] != null && (periodic || (i<M-1 && j>0)) ) {
+                        for (Particle part : list[(i + 1) % M][j == 0 ? M - 1 : (j - 1)]) {
                             double distance = sqrt((part.getY() - p.getY()) * (part.getY() - p.getY()) + (part.getX() - p.getX()) * (part.getX() - p.getX())) - max(p.getRadius(), part.getRadius());
 
-                            if(periodic && i == 0 && j == (M-1)){
-                                double periodicDistance = sqrt(((part.getY()-L) - p.getY()) * ((part.getY()-L) - p.getY()) + ((part.getX()+L) - p.getX()) * ((part.getX()+L) - p.getX())) - max(p.getRadius(), part.getRadius());
 
+                            if(periodic && i == (M-1) && j == 0){
+                                double periodicDistance = sqrt(((part.getY()-L) - p.getY()) * ((part.getY()-L) - p.getY()) + ((part.getX()+L) - p.getX()) * ((part.getX()+L) - p.getX())) - max(p.getRadius(), part.getRadius());
                                 distance = min(distance, periodicDistance);
                             }
 
