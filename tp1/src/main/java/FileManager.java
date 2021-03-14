@@ -109,6 +109,7 @@ public class FileManager {
         boolean isFirst;
         File file = new File(fileName);
         ArrayList<Particle> elements = new ArrayList<Particle>();
+        ArrayList<String> aux2;
         Particle aux;
         String number;
         String x;
@@ -120,6 +121,7 @@ public class FileManager {
                 myReader.nextLine();
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
+                aux2 = new ArrayList<>();
                 aux = new Particle();
                 number = "";
                 x = "";
@@ -127,34 +129,41 @@ public class FileManager {
                 radius = "";
                 isFirst = true;
                 for(char s: data.toCharArray()) {
-                    if (s - '0' < 10 && s - '0' >= 0) {
-                        if (s == ',') {
-                            if (isFirst) {
-                                isFirst = false;
-                                aux = new Particle(new Double(x), new Double(y), new Double(radius), Integer.parseInt(number));
-                            } else {
-                                aux.addNeighbour(new Particle(new Double(x), new Double(y), new Double(radius), Integer.parseInt(number)));
-                            }
-                            x = "";
-                            y = "";
-                            radius = "";
-                        } else if (!isWhitespace(s)) {
-                            if (number.length() == 0)
-                                number += s;
-                            if (x.length() == 0)
-                                x += s;
-                            else if (y.length() == 0)
-                                y += s;
-                            else
-                                radius +=s;
+                    if (s == ',') {
+                        if (isFirst) {
+                            isFirst = false;
+                            aux = new Particle(Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(radius), (int) Double.parseDouble(number));
+                        } else {
+                            aux.addNeighbour(new Particle(Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(radius), (int) Double.parseDouble(number)));
                         }
-                    }
+                        x = "";
+                        y = "";
+                        radius = "";
+                        number = "";
+                        aux2 = new ArrayList<>();
+                    } else if(!isWhitespace(s)) {
+                        switch (aux2.size()) {
+                            case 0:
+                                number += s;
+                                break;
+                            case 1:
+                                x += s;
+                                break;
+                            case 2:
+                                y += s;
+                                break;
+                            default:
+                                radius +=s;
+                                break;
+                        }
+                    } else if (isWhitespace(s))
+                        aux2.add(number);
                 }
                 if (x != "") {
                     if (isFirst)
-                        elements.add(new Particle(new Double(x), new Double(y), new Double(radius), Integer.parseInt(number)));
+                        elements.add(new Particle(Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(radius), (int) Double.parseDouble(number)));
                     else {
-                        aux.addNeighbour(new Particle(new Double(x), new Double(y), new Double(radius), Integer.parseInt(number)));
+                        aux.addNeighbour(new Particle(Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(radius), (int) Double.parseDouble(number)));
                         elements.add(aux);
                     }
                 }
