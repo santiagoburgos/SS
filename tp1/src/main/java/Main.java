@@ -1,3 +1,5 @@
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Main {
@@ -22,8 +24,6 @@ public class Main {
         cellIndex.setNeighbour2();
         cellIndex.getOutput2();
 
-        /*
-        ////////////////prueba grafica ////////////////////
         JFrame frame = new JFrame("Graphics");
         frame.getContentPane().add(new Graphic(450, 20), BorderLayout.CENTER);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -32,7 +32,6 @@ public class Main {
         Dimension d = tk.getScreenSize();
         frame.setSize(d);
         frame.setVisible(true);
-        ////////////////////////////////////////////////////
-*/
+
     }
 }
