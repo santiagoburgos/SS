@@ -24,8 +24,10 @@ public class Main {
         cellIndex.setNeighbour();
         cellIndex.getOutput();
 
+        ArrayList<Particle> results = fm.readResultsFile("particles.txt", 3);
+
         JFrame frame = new JFrame("Graphics");
-        frame.getContentPane().add(new Graphic(450, 20), BorderLayout.CENTER);
+        frame.getContentPane().add(new Graphic(450, results), BorderLayout.CENTER);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         Toolkit tk = Toolkit.getDefaultToolkit();
