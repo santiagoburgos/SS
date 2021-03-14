@@ -152,6 +152,10 @@ public class CellIndex {
 
                     for(Particle p : list[i][j]) {
 
+
+
+
+
                         //misma celda
                         for (Particle part : list[i][j]) {
                             double distance = sqrt((part.getY() - p.getY()) * (part.getY() - p.getY()) + (part.getX() - p.getX()) * (part.getX() - p.getX())) - max(p.getRadius(), part.getRadius());
@@ -165,6 +169,12 @@ public class CellIndex {
                         if (list[i][(j + 1) % M]!= null && (periodic || j<M-1)) {
                             for (Particle part : list[i][(j + 1) % M]) {
                                 double distance = sqrt((part.getY() - p.getY()) * (part.getY() - p.getY()) + (part.getX() - p.getX()) * (part.getX() - p.getX())) - max(p.getRadius(), part.getRadius());
+
+                                if(periodic && j == (M-1)){
+                                    double periodicDistance = sqrt(((part.getY()+L) - p.getY()) * ((part.getY()+L) - p.getY()) + ((part.getX()+L) - p.getX()) * ((part.getX()+L) - p.getX())) - max(p.getRadius(), part.getRadius());
+                                    distance = min(distance, periodicDistance);
+                                }
+
                                 if(distance <= this.R && p.getNumber() != part.getNumber()){
                                     p.addNeighbour(part);
                                     part.addNeighbour(p);
@@ -174,8 +184,15 @@ public class CellIndex {
 
                         //arriba derecha
                         if (list[(i + 1) % M][(j + 1) % M] != null && (periodic || (j<M-1 && i<M-1))) {
+
                             for (Particle part : list[(i + 1) % M][(j + 1) % M]) {
                                 double distance = sqrt((part.getY() - p.getY()) * (part.getY() - p.getY()) + (part.getX() - p.getX()) * (part.getX() - p.getX())) - max(p.getRadius(), part.getRadius());
+
+                                if(periodic && i == (M-1) && j == (M-1)){
+                                    double periodicDistance = sqrt(((part.getY()+L) - p.getY()) * ((part.getY()+L) - p.getY()) + ((part.getX()+L) - p.getX()) * ((part.getX()+L) - p.getX())) - max(p.getRadius(), part.getRadius());
+                                    distance = min(distance, periodicDistance);
+                                }
+
                                 if(distance <= this.R && p.getNumber() != part.getNumber()){
                                     p.addNeighbour(part);
                                     part.addNeighbour(p);
@@ -187,6 +204,12 @@ public class CellIndex {
                         if (list[(i + 1) % M][j] != null && (periodic || i<M-1)) {
                             for (Particle part : list[(i + 1) % M][j]) {
                                 double distance = sqrt((part.getY() - p.getY()) * (part.getY() - p.getY()) + (part.getX() - p.getX()) * (part.getX() - p.getX())) - max(p.getRadius(), part.getRadius());
+
+                                if(periodic && i == (M-1)){
+                                    double periodicDistance = sqrt(((part.getY()+L) - p.getY()) * ((part.getY()+L) - p.getY()) + ((part.getX()+L) - p.getX()) * ((part.getX()+L) - p.getX())) - max(p.getRadius(), part.getRadius());
+                                    distance = min(distance, periodicDistance);
+                                }
+
                                 if(distance <= this.R && p.getNumber() != part.getNumber()){
                                     p.addNeighbour(part);
                                     part.addNeighbour(p);
@@ -198,6 +221,13 @@ public class CellIndex {
                         if (list[i == 0 ? M - 1 : (i - 1)][(j + 1) % M] != null && (periodic || (j<M-1 && i>0)) ) {
                         for (Particle part : list[i == 0 ? M - 1 : (i - 1)][(j + 1) % M]) {
                             double distance = sqrt((part.getY() - p.getY()) * (part.getY() - p.getY()) + (part.getX() - p.getX()) * (part.getX() - p.getX())) - max(p.getRadius(), part.getRadius());
+
+                            if(periodic && i == 0 && j == (M-1)){
+                                double periodicDistance = sqrt(((part.getY()+L) - p.getY()) * ((part.getY()+L) - p.getY()) + ((part.getX()+L) - p.getX()) * ((part.getX()+L) - p.getX())) - max(p.getRadius(), part.getRadius());
+                                distance = min(distance, periodicDistance);
+                            }
+
+
                             if(distance <= this.R && p.getNumber() != part.getNumber()){
                                 p.addNeighbour(part);
                                 part.addNeighbour(p);
