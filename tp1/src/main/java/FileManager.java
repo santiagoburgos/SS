@@ -162,14 +162,7 @@ public class FileManager {
                         aux2.add(number);
                     lastChar = s;
                 }
-                if (x != "") {
-                    if (isFirst)
-                        elements.add(new Particle(Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(radius), (int) Double.parseDouble(number)));
-                    else {
-                        aux.addNeighbour(new Particle(Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(radius), (int) Double.parseDouble(number)));
-                        elements.add(aux);
-                    }
-                }
+                elements.add(aux);
             }
             myReader.close();
         } catch (FileNotFoundException e) {
