@@ -115,6 +115,7 @@ public class FileManager {
         String x;
         String y;
         String radius;
+        char lastChar;
         try {
             Scanner myReader = new Scanner(file);
             for (int j = 0; j < amountToSkip; j++)
@@ -128,6 +129,7 @@ public class FileManager {
                 y = "";
                 radius = "";
                 isFirst = true;
+                lastChar = ' ';
                 for(char s: data.toCharArray()) {
                     if (s == ',') {
                         if (isFirst) {
@@ -140,7 +142,7 @@ public class FileManager {
                         y = "";
                         radius = "";
                         number = "";
-                        aux2 = new ArrayList<>();
+                        aux2.clear();
                     } else if(!isWhitespace(s)) {
                         switch (aux2.size()) {
                             case 0:
@@ -156,8 +158,9 @@ public class FileManager {
                                 radius +=s;
                                 break;
                         }
-                    } else if (isWhitespace(s))
+                    } else if (isWhitespace(s) && lastChar != ',')
                         aux2.add(number);
+                    lastChar = s;
                 }
                 if (x != "") {
                     if (isFirst)

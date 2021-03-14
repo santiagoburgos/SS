@@ -44,7 +44,6 @@ public class Main {
         cellIndex.getOutput();
 
         /////////////////////////
-        
 
 
         JFrame frame = new JFrame("Graphics");
