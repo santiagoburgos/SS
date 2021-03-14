@@ -47,6 +47,8 @@ public class Main {
 
 
         ArrayList<Particle> results = fm.readResultsFile("particles.txt", 3);
+        if (results.size() == 0)
+            return;
 
         JFrame frame = new JFrame("Graphics");
         frame.getContentPane().add(new Graphic(450, results), BorderLayout.CENTER);
