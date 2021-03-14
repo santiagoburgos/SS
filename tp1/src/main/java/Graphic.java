@@ -12,17 +12,12 @@ public class Graphic extends JPanel {
 
     private  Point lastPoint;
     private ArrayList<Particle> particles;
-    private int radius;
     private int L;
 
     public Graphic(int size, ArrayList<Particle> particles){
         this.L = size;
         setSize(L, L);
         this.particles = particles;
-        for (Particle p : this.particles){
-            System.out.println("SALIDA: X: " + p.getX() + " Y: " + p.getY() + " RADIUS: " + p.getRadius());
-        }
-        //createParticles();
 
         addMouseListener(new MouseAdapter() {
             ArrayList<Particle> colorChanged = new ArrayList<>();
@@ -34,8 +29,8 @@ public class Graphic extends JPanel {
                 }
                 if (e.getButton() == MouseEvent.BUTTON1 && colorChanged.isEmpty()){
                     for (Particle p : particles){
-                        if (lastPoint.getX() <= p.getX() + radius && lastPoint.getX() >= p.getX() - radius){
-                            if (lastPoint.getY() <= p.getY() + radius && lastPoint.getY() >= p.getY() - radius){
+                        if (lastPoint.getX() <= p.getX() + p.getRadius() && lastPoint.getX() >= p.getX() - p.getRadius()){
+                            if (lastPoint.getY() <= p.getY() + p.getRadius() && lastPoint.getY() >= p.getY() - p.getRadius()){
                                 changeColor(p, p.getNeighbour());
                                 ArrayList<Particle> aux = new ArrayList<>();
                                 aux.add(p);
@@ -61,42 +56,39 @@ public class Graphic extends JPanel {
         });
     }
 
-    private void resetColor(ArrayList<Particle> colorChanged) {
+    //dibuja un ciruclo indicando centro, radio y color
+    private void createCircle(double x, double y, double radius, Color color){
         Graphics g = getGraphics();
+        g.setColor(color);
+        g.drawOval((int) (x - radius), (int) (y - radius), (int) radius * 2, (int) radius * 2);
+
+    }
+
+    //resetea el color luego de elegir una particula
+    private void resetColor(ArrayList<Particle> colorChanged) {
         for (Particle rel : colorChanged){
-            g.drawOval((int) rel.getX(), (int) rel.getY(), (int) rel.getRadius(), (int) rel.getRadius());
+            createCircle(rel.getX(), rel.getY(), rel.getRadius(), Color.blue);
         }
 
     }
 
-/*
-    private void createParticles() {
-        this.particles = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            double ranx = Math.random() * this.L;
-            double rany = Math.random() * this.L;
-            System.out.println("Particula creada en x: " + ranx + "\ty: " + rany);
-            this.particles.add(new Particle(ranx, rany, i + 1));
-        }
-    }
-*/
     //grafica las particulas
     public void graphicCircle(){
-        Graphics g = getGraphics();
         for (Particle p : particles){
-            g.drawOval((int) p.getX(), (int) p.getY(), (int) p.getRadius(), (int) p.getRadius());
+            createCircle(p.getX(), p.getY(), p.getRadius(), Color.blue);
         }
     }
 
     //cambia el color al tocarla
     public void changeColor(Particle p, ArrayList<Particle> points){
         Graphics g = getGraphics();
+        createCircle(p.getX(), p.getY(), p.getRadius(), Color.red);
         g.setColor(Color.green);
         for (Particle rel : points){
-            g.drawOval((int) rel.getX(), (int) rel.getY(), this.radius, this.radius);
+            System.out.println("VECINOS: " + rel.getX() + ", " + rel.getY());
+            createCircle(rel.getX(), rel.getY(), rel.getRadius(), Color.green);
         }
-        g.setColor(Color.red);
-        g.drawOval((int) p.getX(), (int) p.getY(), this.radius, this.radius);
+
     }
 
 
