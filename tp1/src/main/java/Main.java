@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String[] args) {
+       /*
         FileManager fm = new FileManager();
         ArrayList<ArrayList<Double>> entries = fm.readNumericFile("entrada1.txt");
         int L = entries.get(0).get(0).intValue();
@@ -23,6 +24,27 @@ public class Main {
         //cellIndex.printParticles();
         cellIndex.setNeighbour();
         cellIndex.getOutput();
+         */
+
+        FileManager fm = new FileManager();
+        ArrayList<ArrayList<Double>> staticData = fm.readNumericFile("Static100.txt");
+        ArrayList<ArrayList<Double>> dynamicData = fm.readNumericFile("Dynamic100.txt");
+
+        int N = staticData.get(0).get(0).intValue();
+        int L = staticData.get(1).get(0).intValue();
+        double time = dynamicData.get(0).get(0).doubleValue();
+        double r_c = 1;
+
+        ArrayList<Particle> particles = new ArrayList<>();
+        for (int i = 1; i < 1 + N; i++)
+            particles.add(new Particle(dynamicData.get(i).get(1), dynamicData.get(i).get(0), staticData.get(i+1).get(0), i - 1));
+
+        CellIndex cellIndex = new CellIndex(N, L,25, r_c, false, particles);
+        cellIndex.setNeighbour();
+        cellIndex.getOutput();
+
+        /////////////////////////
+
 
         ArrayList<Particle> results = fm.readResultsFile("particles.txt", 3);
 
