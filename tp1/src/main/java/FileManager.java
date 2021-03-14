@@ -95,6 +95,9 @@ public class FileManager {
             for (ArrayList<Particle> particles: relationships) {
                 writer.append(" ");
                 for (Particle p: particles) {
+                    //PRUEBA
+                    //writer.append(p.getNumber() + " " + p.getX() + " " + p.getY() + " " + "2.0" + ", ");
+                    ////////
                     writer.append(p.getNumber() + " " + p.getX() + " " + p.getY() + " " + p.getRadius() + ", ");
                 }
                 writer.append("\n");
@@ -132,28 +135,21 @@ public class FileManager {
                 y = "";
                 radius = "";
                 isFirst = true;
-                lastChar = ' ';
                 for(char s: data.toCharArray()) {
-<<<<<<< HEAD
                     if (s == ' ') whiteSpace++;
                     if ((s - '0' < 10 && s - '0' >= 0) || s == '.') {
-                        System.out.println("ws: " + whiteSpace);
                         switch (whiteSpace){
                             case 1:
                                 number += s;
-                                System.out.println("Number:" + number);
                                 break;
                             case 2:
                                 x += s;
-                                System.out.println("x:" + x);
                                 break;
                             case 3:
                                 y += s;
-                                System.out.println("y:" + y);
                                 break;
                             case 4:
                                 radius += s;
-                                System.out.println("r:" + radius);
                                 break;
                             default:
                                 break;
@@ -174,39 +170,9 @@ public class FileManager {
                     }
                 }
                 whiteSpace = 0;
-=======
-                    if (s == ',') {
-                        if (isFirst) {
-                            isFirst = false;
-                            aux = new Particle(Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(radius), (int) Double.parseDouble(number));
-                        } else {
-                            aux.addNeighbour(new Particle(Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(radius), (int) Double.parseDouble(number)));
-                        }
-                        x = "";
-                        y = "";
-                        radius = "";
-                        number = "";
-                        aux2.clear();
-                    } else if(!isWhitespace(s)) {
-                        switch (aux2.size()) {
-                            case 0:
-                                number += s;
-                                break;
-                            case 1:
-                                x += s;
-                                break;
-                            case 2:
-                                y += s;
-                                break;
-                            default:
-                                radius +=s;
-                                break;
-                        }
-                    } else if (isWhitespace(s) && lastChar != ',')
-                        aux2.add(number);
-                    lastChar = s;
+                for (Particle i : aux.getNeighbour()){
+                    System.out.println("Particula: " + aux.getNumber() + "con vecinos: " + i.getNumber());
                 }
->>>>>>> 0a8e2459b4e90ce7ce8031428dd8fdbd3012f3bc
                 elements.add(aux);
             }
             myReader.close();

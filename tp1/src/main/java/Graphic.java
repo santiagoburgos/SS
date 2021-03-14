@@ -10,14 +10,18 @@ import static java.lang.Character.isWhitespace;
 
 public class Graphic extends JPanel {
 
+    private final static int RAD_MULTI = 5;
     private  Point lastPoint;
     private ArrayList<Particle> particles;
     private int L;
+    private int multi;
 
-    public Graphic(int size, ArrayList<Particle> particles){
-        this.L = size;
+    public Graphic(int size, ArrayList<Particle> particles, int multi){
+        this.multi = multi;
+        this.L = size * multi;
         setSize(L, L);
         this.particles = particles;
+
 
         addMouseListener(new MouseAdapter() {
             ArrayList<Particle> colorChanged = new ArrayList<>();
@@ -28,9 +32,12 @@ public class Graphic extends JPanel {
                     colorChanged.clear();
                 }
                 if (e.getButton() == MouseEvent.BUTTON1 && colorChanged.isEmpty()){
+                    System.out.println("Click: " + lastPoint.getX() + ", " + lastPoint.getY());
                     for (Particle p : particles){
-                        if (lastPoint.getX() <= p.getX() + p.getRadius() && lastPoint.getX() >= p.getX() - p.getRadius()){
-                            if (lastPoint.getY() <= p.getY() + p.getRadius() && lastPoint.getY() >= p.getY() - p.getRadius()){
+                        //System.out.println("X: " + p.getX() * multi + " Y: " + p.getY() * multi);
+                        System.out.println((p.getRadius()) * multi);
+                        if (lastPoint.getX() <= (p.getX() + p.getRadius() * RAD_MULTI) * multi && lastPoint.getX() >= (p.getX() - p.getRadius() * RAD_MULTI) * multi){
+                            if (lastPoint.getY() <= (p.getY() + p.getRadius() * RAD_MULTI) * multi && lastPoint.getY() >= (p.getY() - p.getRadius() * RAD_MULTI) * multi){
                                 changeColor(p, p.getNeighbour());
                                 ArrayList<Particle> aux = new ArrayList<>();
                                 aux.add(p);
@@ -60,8 +67,8 @@ public class Graphic extends JPanel {
     private void createCircle(double x, double y, double radius, Color color){
         Graphics g = getGraphics();
         g.setColor(color);
-        g.drawOval((int) (x - radius), (int) (y - radius), (int) radius * 2, (int) radius * 2);
-
+        int diam = (int) Math.round(radius * RAD_MULTI * 2 * this.multi);
+        g.drawOval((int) (x - radius * RAD_MULTI) * this.multi, (int) (y - radius * RAD_MULTI) * this.multi, diam, diam);
     }
 
     //resetea el color luego de elegir una particula
@@ -81,9 +88,7 @@ public class Graphic extends JPanel {
 
     //cambia el color al tocarla
     public void changeColor(Particle p, ArrayList<Particle> points){
-        Graphics g = getGraphics();
         createCircle(p.getX(), p.getY(), p.getRadius(), Color.red);
-        g.setColor(Color.green);
         for (Particle rel : points){
             System.out.println("VECINOS: " + rel.getX() + ", " + rel.getY());
             createCircle(rel.getX(), rel.getY(), rel.getRadius(), Color.green);

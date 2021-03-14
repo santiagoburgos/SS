@@ -149,13 +149,7 @@ public class CellIndex {
         for (int i = 0; i < M; i++){
             for (int j = 0; j < M; j++){
                 if (list[i][j] != null){
-
                     for(Particle p : list[i][j]) {
-
-
-
-
-
                         //misma celda
                         for (Particle part : list[i][j]) {
                             double distance = sqrt((part.getY() - p.getY()) * (part.getY() - p.getY()) + (part.getX() - p.getX()) * (part.getX() - p.getX())) - max(p.getRadius(), part.getRadius());
@@ -209,7 +203,6 @@ public class CellIndex {
                                     double periodicDistance = sqrt(((part.getY()+L) - p.getY()) * ((part.getY()+L) - p.getY()) + ((part.getX()+L) - p.getX()) * ((part.getX()+L) - p.getX())) - max(p.getRadius(), part.getRadius());
                                     distance = min(distance, periodicDistance);
                                 }
-
                                 if(distance <= this.R && p.getNumber() != part.getNumber()){
                                     p.addNeighbour(part);
                                     part.addNeighbour(p);
@@ -226,8 +219,6 @@ public class CellIndex {
                                 double periodicDistance = sqrt(((part.getY()+L) - p.getY()) * ((part.getY()+L) - p.getY()) + ((part.getX()+L) - p.getX()) * ((part.getX()+L) - p.getX())) - max(p.getRadius(), part.getRadius());
                                 distance = min(distance, periodicDistance);
                             }
-
-
                             if(distance <= this.R && p.getNumber() != part.getNumber()){
                                 p.addNeighbour(part);
                                 part.addNeighbour(p);
@@ -241,9 +232,6 @@ public class CellIndex {
         }
     }
 
-
-
-
     public void printParticles(){
         for (int i = 0; i < N; i++){
             System.out.println("X: " + particles[i].getX() +
@@ -251,12 +239,6 @@ public class CellIndex {
                     "\tindex: " + particles[i].getNumber());
         }
     }
-
-    public Particle[] getParticles() {
-        return particles;
-    }
-
-
 
     public void getOutput(){
         FileManager fileManager = new FileManager();
