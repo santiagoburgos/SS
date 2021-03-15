@@ -35,9 +35,10 @@ public class Graphic extends JPanel {
                     System.out.println("Click: " + lastPoint.getX() + ", " + lastPoint.getY());
                     for (Particle p : particles){
                         //System.out.println("X: " + p.getX() * multi + " Y: " + p.getY() * multi);
-                        System.out.println((p.getRadius()) * multi);
+                        //System.out.println((p.getRadius()) * multi);
                         if (lastPoint.getX() <= (p.getX() + RAD) * multi && lastPoint.getX() >= (p.getX() - RAD) * multi){
                             if (lastPoint.getY() <= (p.getY() + RAD) * multi && lastPoint.getY() >= (p.getY() - RAD) * multi){
+                                System.out.println("Selected: " + p.getNumber() + " " + p.getX() + ", " + p.getY());
                                 changeColor(p, p.getNeighbour());
                                 ArrayList<Particle> aux = new ArrayList<>();
                                 aux.add(p);
@@ -68,7 +69,8 @@ public class Graphic extends JPanel {
         Graphics g = getGraphics();
         g.setColor(color);
         int diam = RAD * 2 * this.multi;
-        g.fillOval((int) (x - RAD) * this.multi, (int) (y - RAD) * this.multi, diam, diam);
+        //g.fillOval((int) (x - RAD) * this.multi, (int) (y - RAD) * this.multi, diam, diam);
+        g.drawOval((int) (x - RAD) * this.multi, (int) (y - RAD) * this.multi, diam, diam);
     }
 
     //resetea el color luego de elegir una particula
@@ -90,7 +92,7 @@ public class Graphic extends JPanel {
     public void changeColor(Particle p, ArrayList<Particle> points){
         createCircle(p.getX(), p.getY(), Color.red);
         for (Particle rel : points){
-            System.out.println("VECINOS: " + rel.getX() + ", " + rel.getY());
+            System.out.println("Neighbor " + rel.getNumber() + ": " + rel.getX() + " " + rel.getY());
             createCircle(rel.getX(), rel.getY(), Color.green);
         }
 
