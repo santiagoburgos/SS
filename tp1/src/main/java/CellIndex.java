@@ -12,23 +12,6 @@ public class CellIndex {
     private Particle particles[];
 
 
-    /*public CellIndex(int N, int L, int M, double R, boolean periodic){
-
-        if((L/M) <= R){
-            //throw bad arguments
-        }
-
-        this.N = N;
-        this.L = L;
-        this.M = M;
-        this.R = R;
-        this.periodic = periodic;
-        list = new List[this.M][this.M];
-        createParticles(N);
-    }*/
-
-
-
 
     public CellIndex(int N, int L, int M, double R, boolean periodic, ArrayList<Particle> parts){
 
@@ -61,54 +44,6 @@ public class CellIndex {
         }
     }
 
-
-    public void calculateNeighbors(){
-
-    }
-
-/*
-    private void createParticles(int N) {
-        this.particles = new Particle[N];
-        for (int i = 0; i < N; i++){
-            double x = Math.random() * L;
-            double y = Math.random() * L;
-            particles[i] = new Particle(x, y, i + 1);
-
-            setHead(particles[i]);
-        }
-    }
-
-
-    public CellIndex(int N, int L, double R, boolean periodic, ArrayList<Particle> parts){
-
-        this.N = N;
-        this.L = L;
-        this.periodic = periodic;
-        list = new List[this.M][this.M];
-
-        double maxRadius = 0;
-        for(Particle p: parts){
-            if(p.getRadius() > maxRadius)
-                maxRadius = p.getRadius();
-        }
-        this.R = R + maxRadius;
-        M = (int)floor((float)L/(float)R);
-
-        System.out.println("M " + M);
-
-        this.particles = new Particle[N];
-        for (int i = 0; i < N; i++){
-            Particle p = parts.get(i);
-            particles[i] = p;
-            setHead(particles[i]);
-        }
-
-
-
-    }*/
-
-
-
     //Guardo las particulas que pertenecen a la misma celda
     private void setHead(Particle particle){
 
@@ -128,9 +63,7 @@ public class CellIndex {
 
     }
 
-
-
-
+    
     //recorro celdas y agrego vecinos
     public void setNeighbour(){
         int x, y;
