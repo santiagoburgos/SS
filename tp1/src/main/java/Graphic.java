@@ -68,7 +68,8 @@ public class Graphic extends JPanel {
         Graphics g = getGraphics();
         g.setColor(color);
         int diam = (int) Math.round(radius * RAD_MULTI * 2 * this.multi);
-        g.drawOval((int) (x - radius * RAD_MULTI) * this.multi, (int) (y - radius * RAD_MULTI) * this.multi, diam, diam);
+        g.fillOval((int) (x - radius * RAD_MULTI) * this.multi, (int) (y - radius * RAD_MULTI) * this.multi, diam, diam);
+//        g.drawOval((int) (x - radius * RAD_MULTI) * this.multi, (int) (y - radius * RAD_MULTI) * this.multi, diam, diam);
     }
 
     //resetea el color luego de elegir una particula
