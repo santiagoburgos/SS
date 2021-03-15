@@ -42,6 +42,7 @@ public class Graphic extends JPanel {
                                 aux.add(p);
                                 aux.addAll(p.getNeighbour());
                                 colorChanged.addAll(aux);
+                                break;
                             }
                         }
                     }

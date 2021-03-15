@@ -49,18 +49,18 @@ public class Main {
         }
 
         long startTime = System.nanoTime();
-        CellIndex cellIndex = new CellIndex(N, L,M, r_c, true, particles);
+        CellIndex cellIndex = new CellIndex(N, L,M, r_c, false, particles);
         cellIndex.setNeighbour();
         long endTime = System.nanoTime();
-        System.out.println("Periodic took " + (endTime - startTime) + " nanoseconds");
-        fm.createResults(cellIndex.getOutput(),  (endTime - startTime), "particlesPeriodic.txt");
-
-        startTime = System.nanoTime();
-        cellIndex = new CellIndex(N, L, M, r_c, false, particles);
-        cellIndex.setNeighbour();
-        endTime = System.nanoTime();
         System.out.println("Not periodic took " + (endTime - startTime) + " nanoseconds");
         fm.createResults(cellIndex.getOutput(),  (endTime - startTime), "particlesNotPeriodic.txt");
+
+        startTime = System.nanoTime();
+        cellIndex = new CellIndex(N, L, M, r_c, true, particles);
+        cellIndex.setNeighbour();
+        endTime = System.nanoTime();
+        System.out.println("Periodic took " + (endTime - startTime) + " nanoseconds");
+        fm.createResults(cellIndex.getOutput(),  (endTime - startTime), "particlesPeriodic.txt");
 
 
        // test();
