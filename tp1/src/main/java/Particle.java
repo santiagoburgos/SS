@@ -14,6 +14,7 @@ public class Particle {
         this.number = number;
         this.x = x;
         this.y = y;
+        this.radius = 0;
         this.neighbour = new ArrayList<>();
 
     }
