@@ -43,9 +43,11 @@ public class Main {
         System.out.println("Periodic took " + (endTime - startTime) + " milliseconds");
         fm.createResults(cellIndex.getOutput(),  0, "particlesPeriodic.txt");
 
+        startTime = System.currentTimeMillis();
         cellIndex = new CellIndex(N, L, M, r_c, false, particles);
         cellIndex.setNeighbour();
-        System.out.println("Not periodic took " + (System.currentTimeMillis() - endTime) + " milliseconds");
+        endTime = System.currentTimeMillis();
+        System.out.println("Not periodic took " + (endTime - startTime) + " milliseconds");
         fm.createResults(cellIndex.getOutput(),  0, "particlesNotPeriodic.txt");
 
 
