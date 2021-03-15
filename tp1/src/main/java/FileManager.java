@@ -110,6 +110,27 @@ public class FileManager {
         }
     }
 
+    public void createResults(ArrayList<ArrayList<Particle>> relationships, String fileName) {
+        try {
+            FileWriter writer = null;
+            writer = new FileWriter(fileName);
+
+            writer.append("Format: Number X Y Radius, \n");
+            for (ArrayList<Particle> particles: relationships) {
+                writer.append(" ");
+                for (Particle p: particles) {
+                    writer.append(p.getNumber() + " " + p.getX() + " " + p.getY() + " " + p.getRadius() + ", ");
+                }
+                writer.append("\n");
+            }
+
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public ArrayList<Particle> readResultsFile(String fileName, int amountToSkip) {
         boolean isFirst;
         int whiteSpace = 0;
