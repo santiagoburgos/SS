@@ -34,8 +34,6 @@ public class Graphic extends JPanel {
                 if (e.getButton() == MouseEvent.BUTTON1 && colorChanged.isEmpty()){
                     System.out.println("Click: " + lastPoint.getX() + ", " + lastPoint.getY());
                     for (Particle p : particles){
-                        //System.out.println("X: " + p.getX() * multi + " Y: " + p.getY() * multi);
-                        System.out.println((p.getRadius()) * multi);
                         if (lastPoint.getX() <= (p.getX() + RAD) * multi && lastPoint.getX() >= (p.getX() - RAD) * multi){
                             if (lastPoint.getY() <= (p.getY() + RAD) * multi && lastPoint.getY() >= (p.getY() - RAD) * multi){
                                 changeColor(p, p.getNeighbour());
@@ -90,7 +88,6 @@ public class Graphic extends JPanel {
     public void changeColor(Particle p, ArrayList<Particle> points){
         createCircle(p.getX(), p.getY(), Color.red);
         for (Particle rel : points){
-            System.out.println("VECINOS: " + rel.getX() + ", " + rel.getY());
             createCircle(rel.getX(), rel.getY(), Color.green);
         }
 
