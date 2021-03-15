@@ -230,8 +230,7 @@ public class CellIndex {
         }
     }
 
-    public void getOutput(){
-        FileManager fileManager = new FileManager();
+    public ArrayList<ArrayList<Particle>> getOutput(){
         ArrayList<ArrayList<Particle>> aux = new ArrayList<>();
         for (Particle p : particles){
             ArrayList<Particle> aux2 = new ArrayList<>();
@@ -239,7 +238,7 @@ public class CellIndex {
             aux2.addAll(p.getNeighbour());
             aux.add(aux2);
         }
-        fileManager.createResults(aux, 0, "particles.txt");
+        return aux;
     }
 
 }
