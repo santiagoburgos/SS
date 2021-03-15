@@ -18,9 +18,23 @@ public class Main {
         for (int i = 1; i < 1 + N; i++)
             particles.add(new Particle(dynamicData.get(i).get(1), dynamicData.get(i).get(0), staticData.get(i+1).get(0), i - 1));
 
+        long startTime = System.currentTimeMillis();
         CellIndex cellIndex = new CellIndex(N, L,5, r_c, true, particles);
         cellIndex.setNeighbour();
-        cellIndex.getOutput();
+        long endTime = System.currentTimeMillis();
+        System.out.println("That took " + (endTime - startTime) + " milliseconds");
+
+
+
+       fm.createResults(cellIndex.getOutput(),  System.nanoTime(), "particles.txt");
+
+
+      
+
+
+
+        fm.createResults(cellIndex.getOutput(), 0, "particles.txt");
+
 
         ArrayList<Particle> results = fm.readResultsFile("particles.txt", 3);
         if (results.size() == 0)
