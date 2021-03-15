@@ -32,23 +32,27 @@ public class Main {
                 for (Particle p: arr_p)
                     particles.add(p);
         } else {
-            for (int i = 6; i < 6 + N; i++)
-                particles.add(new Particle(dynamicData.get(i).get(1), dynamicData.get(i).get(0), staticData.get(i+1).get(0), i - 1));
+            if (N > dynamicData.size()) {
+                System.out.println("There are missing particles on the dynamic file");
+                return;
+            }
+            for (int i = 0; i < N; i++)
+                particles.add(new Particle(dynamicData.get(i).get(1), dynamicData.get(i).get(0), r, i));
         }
 
-        long startTime = System.currentTimeMillis();
+        long startTime = System.nanoTime();
         CellIndex cellIndex = new CellIndex(N, L,M, r_c, true, particles);
         cellIndex.setNeighbour();
-        long endTime = System.currentTimeMillis();
-        System.out.println("Periodic took " + (endTime - startTime) + " milliseconds");
-        fm.createResults(cellIndex.getOutput(),  0, "particlesPeriodic.txt");
+        long endTime = System.nanoTime();
+        System.out.println("Periodic took " + (endTime -startTime) + " nanoseconds");
+        fm.createResults(cellIndex.getOutput(),  endTime, "particlesPeriodic.txt");
 
-        startTime = System.currentTimeMillis();
+        startTime = System.nanoTime();
         cellIndex = new CellIndex(N, L, M, r_c, false, particles);
         cellIndex.setNeighbour();
-        endTime = System.currentTimeMillis();
-        System.out.println("Not periodic took " + (endTime - startTime) + " milliseconds");
-        fm.createResults(cellIndex.getOutput(),  0, "particlesNotPeriodic.txt");
+        endTime = System.nanoTime();
+        System.out.println("Not periodic took " + (endTime - startTime) + " nanoseconds");
+        fm.createResults(cellIndex.getOutput(),  endTime, "particlesNotPeriodic.txt");
 
 
        // test();
@@ -78,11 +82,11 @@ public class Main {
             }
 
             for(int M = 1; M <= 15; M++){
-                long startTime = System.currentTimeMillis();
+                long startTime = System.nanoTime();
                 CellIndex cellIndex = new CellIndex(N, 20,M, 1, true, p);
                 cellIndex.setNeighbour();
-                long endTime = System.currentTimeMillis();
-                System.out.println("N "+  N  +" and M "+ M + " took " + (endTime - startTime) + " milliseconds");
+                long endTime = System.nanoTime();
+                System.out.println("N "+  N  +" and M "+ M + " took " + (endTime -startTime) / 1000000 + " seconds");
             }
 
             System.out.println("\n");

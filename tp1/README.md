@@ -19,3 +19,9 @@ The `Static.txt` file has defined elements that must appear in different rows an
 If `r` is not defined, the radius for each particle will be between `0` and `0.25`.
 
 The particles will be generated in a `Dynamic.txt` file.
+
+The relationships will be generated in two different files:
+
+- `particlesNotPeriodic.txt`: where the CIM will be runned without being periodic on the surroundings.
+
+- `particlesPeriodic.txt`: where the CIM will be runned being periodic on the surroundings.

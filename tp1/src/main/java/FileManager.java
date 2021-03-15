@@ -78,17 +78,15 @@ public class FileManager {
         return elements;
     }
 
-    public void createResults(ArrayList<ArrayList<Particle>> relationships, long start, String fileName) {
+    public void createResults(ArrayList<ArrayList<Particle>> relationships, long time, String fileName) {
         try {
             FileWriter writer = null;
             writer = new FileWriter(fileName);
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
             LocalDateTime now = LocalDateTime.now();
-            long nowSeconds = System.nanoTime();
-            double elapsedTimeInSecond = (double) (nowSeconds - start) / 1000000000;
             writer.append("Time: " + dtf.format(now));
             writer.append("\n");
-            writer.append("Execution time: " + elapsedTimeInSecond + " seconds");
+            writer.append("Execution time: " + time + " seconds");
             writer.append("\n");
 
             writer.append("Format: Number X Y Radius, \n");
@@ -115,7 +113,6 @@ public class FileManager {
             FileWriter writer = null;
             writer = new FileWriter(fileName);
 
-            writer.append("Format: Number X Y Radius, \n");
             for (ArrayList<Particle> particles: relationships) {
                 writer.append(" ");
                 for (Particle p: particles) {
