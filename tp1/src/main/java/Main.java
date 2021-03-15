@@ -21,6 +21,14 @@ public class Main {
             hasR = true;
             r = staticData.get(4).get(0).doubleValue();
         }
+        System.out.println("L: " + L);
+        System.out.println("N: " + N);
+        System.out.println("r_c: " + r_c);
+        System.out.println("M: " + M);
+        if (hasR)
+            System.out.println("r: " + r);
+        else
+            System.out.println("r max: " + r);
 
         ParticleGenerator pg = new ParticleGenerator(r, hasR);
 
@@ -44,15 +52,15 @@ public class Main {
         CellIndex cellIndex = new CellIndex(N, L,M, r_c, true, particles);
         cellIndex.setNeighbour();
         long endTime = System.nanoTime();
-        System.out.println("Periodic took " + (endTime -startTime) + " nanoseconds");
-        fm.createResults(cellIndex.getOutput(),  endTime, "particlesPeriodic.txt");
+        System.out.println("Periodic took " + (endTime - startTime) + " nanoseconds");
+        fm.createResults(cellIndex.getOutput(),  (endTime - startTime), "particlesPeriodic.txt");
 
         startTime = System.nanoTime();
         cellIndex = new CellIndex(N, L, M, r_c, false, particles);
         cellIndex.setNeighbour();
         endTime = System.nanoTime();
         System.out.println("Not periodic took " + (endTime - startTime) + " nanoseconds");
-        fm.createResults(cellIndex.getOutput(),  endTime, "particlesNotPeriodic.txt");
+        fm.createResults(cellIndex.getOutput(),  (endTime - startTime), "particlesNotPeriodic.txt");
 
 
        // test();
@@ -86,7 +94,7 @@ public class Main {
                 CellIndex cellIndex = new CellIndex(N, 20,M, 1, true, p);
                 cellIndex.setNeighbour();
                 long endTime = System.nanoTime();
-                System.out.println("N "+  N  +" and M "+ M + " took " + (endTime -startTime) / 1000000 + " seconds");
+                System.out.println("N "+  N  +" and M "+ M + " took " + (endTime -startTime) + " nanoseconds");
             }
 
             System.out.println("\n");

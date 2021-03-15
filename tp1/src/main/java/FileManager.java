@@ -86,7 +86,7 @@ public class FileManager {
             LocalDateTime now = LocalDateTime.now();
             writer.append("Time: " + dtf.format(now));
             writer.append("\n");
-            writer.append("Execution time: " + time + " seconds");
+            writer.append("Execution time: " + time + " nanoseconds");
             writer.append("\n");
 
             writer.append("Format: Number X Y Radius, \n");

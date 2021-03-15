@@ -34,8 +34,8 @@ public class Graphic extends JPanel {
                 if (e.getButton() == MouseEvent.BUTTON1 && colorChanged.isEmpty()){
                     System.out.println("Click: " + lastPoint.getX() + ", " + lastPoint.getY());
                     for (Particle p : particles){
-                        if (lastPoint.getX() <= (p.getX() + RAD) * multi && lastPoint.getX() >= (p.getX() - RAD) * multi){
-                            if (lastPoint.getY() <= (p.getY() + RAD) * multi && lastPoint.getY() >= (p.getY() - RAD) * multi){
+                        if (lastPoint.getX() <= (p.getX() + (1 + p.getRadius())) * multi && lastPoint.getX() >= (p.getX() - (1 + p.getRadius())) * multi){
+                            if (lastPoint.getY() <= (p.getY() + (1 + p.getRadius())) * multi && lastPoint.getY() >= (p.getY() - (1 + p.getRadius())) * multi){
                                 System.out.println("Selected: " + p.getNumber() + " " + p.getX() + ", " + p.getY());
                                 changeColor(p, p.getNeighbour());
                                 ArrayList<Particle> aux = new ArrayList<>();
@@ -63,18 +63,18 @@ public class Graphic extends JPanel {
     }
 
     //dibuja un ciruclo indicando centro, radio y color
-    private void createCircle(double x, double y, Color color){
+    private void createCircle(double x, double y, double radius, Color color){
         Graphics g = getGraphics();
         g.setColor(color);
-        int diam = RAD * 2 * this.multi;
+        int diam = (int) (1 + radius) * 2 * this.multi;
         //g.fillOval((int) (x - RAD) * this.multi, (int) (y - RAD) * this.multi, diam, diam);
-        g.drawOval((int) (x - RAD) * this.multi, (int) (y - RAD) * this.multi, diam, diam);
+        g.drawOval((int) (x - (1 + radius)) * this.multi, (int) (y - (1 + radius)) * this.multi, diam, diam);
     }
 
     //resetea el color luego de elegir una particula
     private void resetColor(ArrayList<Particle> colorChanged) {
         for (Particle rel : colorChanged){
-            createCircle(rel.getX(), rel.getY(), Color.blue);
+            createCircle(rel.getX(), rel.getY(), rel.getRadius(), Color.blue);
         }
 
     }
@@ -82,15 +82,15 @@ public class Graphic extends JPanel {
     //grafica las particulas
     public void graphicCircle(){
         for (Particle p : particles){
-            createCircle(p.getX(), p.getY(), Color.blue);
+            createCircle(p.getX(), p.getY(), p.getRadius(), Color.blue);
         }
     }
 
     //cambia el color al tocarla
     public void changeColor(Particle p, ArrayList<Particle> points){
-        createCircle(p.getX(), p.getY(), Color.red);
+        createCircle(p.getX(), p.getY(), p.getRadius(), Color.red);
         for (Particle rel : points){
-            createCircle(rel.getX(), rel.getY(), Color.green);
+            createCircle(rel.getX(), rel.getY(), rel.getRadius(), Color.green);
         }
 
     }
