@@ -10,7 +10,7 @@ import static java.lang.Character.isWhitespace;
 
 public class Graphic extends JPanel {
 
-    private final static int RAD_MULTI = 5;
+    private final static int RAD = 2;
     private  Point lastPoint;
     private ArrayList<Particle> particles;
     private int L;
@@ -36,8 +36,8 @@ public class Graphic extends JPanel {
                     for (Particle p : particles){
                         //System.out.println("X: " + p.getX() * multi + " Y: " + p.getY() * multi);
                         System.out.println((p.getRadius()) * multi);
-                        if (lastPoint.getX() <= (p.getX() + p.getRadius() * RAD_MULTI) * multi && lastPoint.getX() >= (p.getX() - p.getRadius() * RAD_MULTI) * multi){
-                            if (lastPoint.getY() <= (p.getY() + p.getRadius() * RAD_MULTI) * multi && lastPoint.getY() >= (p.getY() - p.getRadius() * RAD_MULTI) * multi){
+                        if (lastPoint.getX() <= (p.getX() + RAD) * multi && lastPoint.getX() >= (p.getX() - RAD) * multi){
+                            if (lastPoint.getY() <= (p.getY() + RAD) * multi && lastPoint.getY() >= (p.getY() - RAD) * multi){
                                 changeColor(p, p.getNeighbour());
                                 ArrayList<Particle> aux = new ArrayList<>();
                                 aux.add(p);
@@ -64,18 +64,17 @@ public class Graphic extends JPanel {
     }
 
     //dibuja un ciruclo indicando centro, radio y color
-    private void createCircle(double x, double y, double radius, Color color){
+    private void createCircle(double x, double y, Color color){
         Graphics g = getGraphics();
         g.setColor(color);
-        int diam = (int) Math.round(radius * RAD_MULTI * 2 * this.multi);
-        g.fillOval((int) (x - radius * RAD_MULTI) * this.multi, (int) (y - radius * RAD_MULTI) * this.multi, diam, diam);
-//        g.drawOval((int) (x - radius * RAD_MULTI) * this.multi, (int) (y - radius * RAD_MULTI) * this.multi, diam, diam);
+        int diam = RAD * 2 * this.multi;
+        g.fillOval((int) (x - RAD) * this.multi, (int) (y - RAD) * this.multi, diam, diam);
     }
 
     //resetea el color luego de elegir una particula
     private void resetColor(ArrayList<Particle> colorChanged) {
         for (Particle rel : colorChanged){
-            createCircle(rel.getX(), rel.getY(), rel.getRadius(), Color.blue);
+            createCircle(rel.getX(), rel.getY(), Color.blue);
         }
 
     }
@@ -83,16 +82,16 @@ public class Graphic extends JPanel {
     //grafica las particulas
     public void graphicCircle(){
         for (Particle p : particles){
-            createCircle(p.getX(), p.getY(), p.getRadius(), Color.blue);
+            createCircle(p.getX(), p.getY(), Color.blue);
         }
     }
 
     //cambia el color al tocarla
     public void changeColor(Particle p, ArrayList<Particle> points){
-        createCircle(p.getX(), p.getY(), p.getRadius(), Color.red);
+        createCircle(p.getX(), p.getY(), Color.red);
         for (Particle rel : points){
             System.out.println("VECINOS: " + rel.getX() + ", " + rel.getY());
-            createCircle(rel.getX(), rel.getY(), rel.getRadius(), Color.green);
+            createCircle(rel.getX(), rel.getY(), Color.green);
         }
 
     }
