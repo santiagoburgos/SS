@@ -114,6 +114,7 @@ public class FileManager {
         try {
             FileWriter writer = null;
             writer = new FileWriter(fileName);
+            System.out.println(relationships.size());
 
             writer.append("Format: Number X Y Radius, \n");
             for (ArrayList<Particle> particles: relationships) {

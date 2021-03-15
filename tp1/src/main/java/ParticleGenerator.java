@@ -1,34 +1,38 @@
+import com.sun.xml.internal.ws.wsdl.writer.document.Part;
+
 import java.util.ArrayList;
 
 public class ParticleGenerator {
-    private ArrayList<ArrayList<Particle>> particles;
     private int i;
     private double maxRadius;
     private int l;
 
     public ParticleGenerator(double maxRadius){
-        this.particles = new ArrayList<>();
         this.maxRadius = maxRadius;
     }
 
     //genera 'n' particulas variando su posicion entre 0 y 'l'; con radio entre 0 y 'maxRadius'
     public ArrayList<ArrayList<Particle>> generate(int n, int l, double maxRadius){
+        ArrayList<ArrayList<Particle>> particles = new ArrayList<>();
+        ArrayList<Particle> auxArray;
+        ArrayList<Particle> allGenerated = new ArrayList<>();
         this.l = l;
         for (i = 0; i < n; i++){
+            auxArray = new ArrayList<>();
             Particle aux = createParticle(maxRadius);
-            if (this.particles.isEmpty()){
-                this.particles.add(new ArrayList<>());
-                this.particles.get(0).add(aux);
+            if (allGenerated.isEmpty()){
+                auxArray.add(aux);
             } else {
-                for (ArrayList<Particle> parts : this.particles) {
-                    for (Particle p : parts){
-                        aux = checkPosition(aux, p);
-                    }
-                }
-                this.particles.get(0).add(aux);
+                for (Particle p : allGenerated)
+                    aux = checkPosition(aux, p);
+                auxArray.add(aux);
             }
+            allGenerated.add(aux);
+            particles.add(auxArray);
         }
-        return this.particles;
+        System.out.println(n);
+        System.out.println(particles.size());
+        return particles;
     }
 
     //Evita superposicion de particulas
