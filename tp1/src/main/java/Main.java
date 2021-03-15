@@ -43,9 +43,51 @@ public class Main {
         System.out.println("Periodic took " + (endTime - startTime) + " milliseconds");
         fm.createResults(cellIndex.getOutput(),  0, "particlesPeriodic.txt");
 
-        cellIndex = new CellIndex(N, L,M, r_c, false, particles);
+        cellIndex = new CellIndex(N, L, M, r_c, false, particles);
         cellIndex.setNeighbour();
         System.out.println("Not periodic took " + (System.currentTimeMillis() - endTime) + " milliseconds");
         fm.createResults(cellIndex.getOutput(),  0, "particlesNotPeriodic.txt");
+
+
+       // test();
     }
+
+
+
+
+
+
+    public static void test(){
+
+        ArrayList<Integer> number = new ArrayList<>();
+        number.add(100);
+        number.add(500);
+        number.add(1000);
+        number.add(5000);
+        number.add(10000);
+        number.add(20000);
+
+        for(Integer N : number){
+            ArrayList<Particle> p= new ArrayList<>();
+            for (int i = 0; i < N; i++) {
+                double x = Math.random() * 20;
+                double y = Math.random() * 20;
+                p.add(new Particle(x, y, 0.25, i + 1));
+            }
+
+            for(int M = 1; M <= 15; M++){
+                long startTime = System.currentTimeMillis();
+                CellIndex cellIndex = new CellIndex(N, 20,M, 1, true, p);
+                cellIndex.setNeighbour();
+                long endTime = System.currentTimeMillis();
+                System.out.println("N "+  N  +" and M "+ M + " took " + (endTime - startTime) + " milliseconds");
+            }
+
+            System.out.println("\n");
+
+        }
+
+    }
+
+
 }
