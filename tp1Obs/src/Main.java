@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) {
         FileManager fm = new FileManager();
-        ArrayList<Particle> results = fm.readResultsFile("particlesNotPeriodic.txt", 3);
+        ArrayList<Particle> results = fm.readResultsFile("particlesPeriodic.txt", 3);
         if (results.size() == 0)
             return;
         JFrame frame = new JFrame("Graphics");

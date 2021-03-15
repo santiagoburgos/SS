@@ -84,6 +84,8 @@ public class Graphic extends JPanel {
     public void graphicCircle(){
         for (Particle p : particles){
             createCircle(p.getX(), p.getY(), p.getRadius(), Color.blue);
+            Graphics g = getGraphics();
+            g.drawString(String.valueOf(p.getNumber()), (int) ((p.getX()) - (1 + p.getRadius())) * this.multi, (int) (p.getY() - (1 + p.getRadius())) * this.multi);
         }
     }
 
