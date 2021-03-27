@@ -4,123 +4,59 @@ public class LifeCells {
 
 
     private Cell cells[][];
-    private int size;
-    private int center;
-    double percentage;
-
     public Map<Integer, Cell[][]> lifeCells = new HashMap<>();
-
 
     private Cell cellsTD[][][];
     public Map<Integer, Cell[][][]> lifeCellsTD = new HashMap<>();
 
+    private int size;
 
+    public LifeCells( int time, Cell cellsInitial[][]) {
 
-    public LifeCells(int size, int center, int percentageAlive, int time, boolean td) {
-        this.size = size;
-        this.center = center;
-        this.percentage = percentageAlive;
+        this.size = cellsInitial.length;
 
-        if(!td){
             cells = new Cell[size][size];
-            SetCells();
+        Cell state[][] = new Cell[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                    Cell cell = cellsInitial[i][j];
+                    cells[i][j] = cell;
+                    state[i][j] = new Cell(cell.x, cell.y, 0, cell.alive);
+
+            }
+        }
+        lifeCells.put(0, state);
             SetNeighbours();
             for (int i = 1; i <= time; i++) {
                 timeForward(i);
             }
-        }
-        else{
-            cellsTD = new Cell[size][size][size];
-            SetCellsTD();
-            SetNeighboursTD();
-            for (int i = 1; i <= time; i++) {
-                timeForwardTD(i);
-
-            }
-        }
-
-
-
-
-
-
-
-
-
 
     }
 
+    public LifeCells( int time, Cell cellsInitial[][][]) {
+        this.size = cellsInitial.length;
 
-    public void SetCellsTD() {
+            cellsTD = new Cell[size][size][size];
 
-        //setear las q empiezan vivas
 
         Cell state[][][] = new Cell[size][size][size];
-
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 for (int z = 0; z < size; z++) {
-
-                    Cell cell;
-
-                    if( i < size/2+center/2 &&  i > size/2-center/2 && j < size/2+center/2 &&  j > size/2-center/2 && z < size/2+center/2 &&  z > size/2-center/2){
-
-
-                        double test = Math.random();
-                        double perc = percentage/100;
-                        boolean al = test > perc ? false : true;
-                         cell = new Cell(i, j, z, al);
-                    }
-                    else{
-                        cell = new Cell(i, j, z, false);
-                    }
-
-
+                    Cell cell = cellsInitial[i][j][z];
                     cellsTD[i][j][z] = cell;
                     state[i][j][z] = new Cell(cell.x, cell.y, cell.z, cell.alive);
                 }
             }
         }
         lifeCellsTD.put(0, state);
-    }
 
-
-    public void SetCells() {
-
-        //setear las q empiezan vivas
-
-        Cell state[][] = new Cell[size][size];
-
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-
-                Cell cell;
-
-                if( i < size/2+center/2 &&  i > size/2-center/2 && j < size/2+center/2 &&  j > size/2-center/2){
-
-                    double test = Math.random();
-                    double perc = percentage/100;
-                    boolean al = test > perc ? false : true;
-                    cell = new Cell(i, j, 0, al);
-
-
-
-                }
-                else{
-                    cell = new Cell(i, j, 0, false);
-                }
-
-
-                cells[i][j] = cell;
-
-                state[i][j] = new Cell(cell.x, cell.y, 0,cell.alive);
-
+            SetNeighboursTD();
+            for (int i = 1; i <= time; i++) {
+                timeForwardTD(i);
             }
-        }
-        lifeCells.put(0, state);
+
     }
-
-
 
     public void SetNeighboursTD() {
         for (int i = 0; i < size; i++) {
@@ -207,7 +143,6 @@ public class LifeCells {
     }
 
 
-
     public void SetNeighbours() {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -274,9 +209,6 @@ public class LifeCells {
             c.changeState();
         }
     }
-
-
-
 
     public void timeForward(int time){
 
