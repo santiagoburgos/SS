@@ -5,9 +5,13 @@ public class LifeCells {
 
     private Cell cells[][];
     public Map<Integer, Cell[][]> lifeCells = new HashMap<>();
+    public Map<Integer, Integer> aliveCells = new HashMap<>();
+    public Map<Integer, Integer> maxDistance = new HashMap<>();
 
     private Cell cellsTD[][][];
     public Map<Integer, Cell[][][]> lifeCellsTD = new HashMap<>();
+    public Map<Integer, Integer> aliveCellsTD = new HashMap<>();
+    public Map<Integer, Integer> maxDistanceTD = new HashMap<>();
 
     private int size;
 
@@ -17,20 +21,22 @@ public class LifeCells {
 
             cells = new Cell[size][size];
         Cell state[][] = new Cell[size][size];
+
+
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                     Cell cell = cellsInitial[i][j];
                     cells[i][j] = cell;
                     state[i][j] = new Cell(cell.x, cell.y, 0, cell.alive);
-
             }
         }
         lifeCells.put(0, state);
+
             SetNeighbours();
             for (int i = 1; i <= time; i++) {
                 timeForward(i);
             }
-
+        stats(time, false);
     }
 
     public LifeCells( int time, Cell cellsInitial[][][]) {
@@ -56,6 +62,7 @@ public class LifeCells {
                 timeForwardTD(i);
             }
 
+            stats(time,true);
     }
 
     public void SetNeighboursTD() {
@@ -183,19 +190,18 @@ public class LifeCells {
             for (int j = 0; j < size; j++) {
                 for (int z = 0; z < size; z++) {
 
-                    //System.out.println(cellsTD[i][j][z].neighbours.size());
 
                     Cell cell = cellsTD[i][j][z];
                     int aliveN = cell.aliveNeighbours();
 
                     if (cell.alive) {
                         if (aliveN != 2 && aliveN != 3) {
-                           // cell.setAlive(false);
+
                             cellsState.add(cell);
                         }
                     } else {
                         if (aliveN == 3) {
-                           // cell.setAlive(true);
+
                             cellsState.add(cell);
                         }
                     }
@@ -204,6 +210,7 @@ public class LifeCells {
             }
         }
         lifeCellsTD.put(time, state);
+
 
         for(Cell c :cellsState){
             c.changeState();
@@ -216,19 +223,19 @@ public class LifeCells {
 
         List<Cell> cellsState = new ArrayList<>();
 
+
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
 
                 Cell cell = cells[i][j];
                 int aliveN = cell.aliveNeighbours();
+
                 if(cell.alive){
                     if(aliveN != 2 && aliveN != 3 ){
-                        //cell.setAlive(false);
                         cellsState.add(cell);
                     }
                 } else{
                     if(aliveN == 3){
-                        //cell.setAlive(true);
                         cellsState.add(cell);
                     }
                 }
@@ -244,6 +251,77 @@ public class LifeCells {
     }
 
 
+
+    public void stats(int time, boolean td){
+
+            if(!td){
+                int size = cells[0].length;
+                int aliveC = 0;
+                int maxDist = 0;
+                for (int t = 0; t <= time; t++) {
+                    for (int i = 0; i < size; i++) {
+                        for (int j = 0; j < size; j++) {
+                            Cell cell = lifeCells.get(t)[i][j];
+                            if (cell.alive) {
+                                aliveC += 1;
+                                int iDistance = (size / 2) - i;
+                                if (iDistance < 0)
+                                    iDistance = iDistance * -1;
+                                int jDistance = (size / 2) - j;
+                                if (jDistance < 0)
+                                    jDistance = iDistance * -1;
+                                int distance = Math.max(iDistance, jDistance);
+                                if (distance > maxDist)
+                                    maxDist = distance;
+                            }
+                        }
+                    }
+                    aliveCells.put(t,aliveC);
+                    maxDistance.put(t,maxDist);
+                    aliveC = 0;
+                    maxDist = 0;
+                }
+            } else{
+                int size = cellsTD[0][0].length;
+                int aliveC = 0;
+                int maxDist = 0;
+                for (int t = 0; t <= time; t++) {
+                    for (int i = 0; i < size; i++) {
+                        for (int j = 0; j < size; j++) {
+                            for (int z = 0; z < size; z++) {
+                                Cell cell = lifeCellsTD.get(t)[i][j][z];
+                                if (cell.alive) {
+                                    aliveC += 1;
+                                    int iDistance = (size / 2) - i;
+                                    if (iDistance < 0)
+                                        iDistance = iDistance * -1;
+                                    int jDistance = (size / 2) - j;
+                                    if (jDistance < 0)
+                                        jDistance = iDistance * -1;
+                                    int zDistance = (size / 2) - z;
+                                    if (zDistance < 0)
+                                        zDistance = zDistance * -1;
+                                    int distance = Math.max(Math.max(iDistance, jDistance),zDistance);
+                                    if (distance > maxDist)
+                                        maxDist = distance;
+                                }
+                            }
+                        }
+                    }
+                    aliveCellsTD.put(t,aliveC);
+                    maxDistanceTD.put(t,maxDist);
+                    aliveC = 0;
+                    maxDist = 0;
+                }
+            }
+
+
+
+
+
+
+
+    }
 
 
 }

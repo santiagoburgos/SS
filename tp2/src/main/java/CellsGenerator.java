@@ -35,7 +35,7 @@ public class CellsGenerator {
         double centerSize = center * center * center;
         int liveCells = (int)((percentage*centerSize)/100);
 
-        for (int i = 0; i < liveCells; i++) {
+        for (int i = 0; i < liveCells-1; i++) {
             Cell c = list.get(i);
             c.alive = true;
             state[c.x][c.y][c.z].alive = true;
@@ -66,7 +66,8 @@ public class CellsGenerator {
         Collections.shuffle(list);
         double centerSize = center * center;
         int liveCells = (int)((percentage*centerSize)/100);
-        for (int i = 0; i < liveCells; i++) {
+
+        for (int i = 0; i < liveCells-1; i++) {
             Cell c = list.get(i);
             c.alive = true;
             state[c.x][c.y].alive = true;
