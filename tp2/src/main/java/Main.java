@@ -35,19 +35,20 @@ public class Main {
         if (dimensions == 2) {
             Cell[][] cells = cg.generateCells(size,center, percentage);
 
-            LifeCells lc = new LifeCells( time, cells);
-            for (int i = 0; i <= time; i++) {
+            LifeCells lc = new LifeCells( 100, cells, Rule.FREDKIN, true);
+            for (int i = 0; i <= lc.finalTime; i++) {
                 OvitoGen.saveDynamicFile(i,lc.aliveCells.get(i), lc.lifeCells,"D:\\OV\\");
-                System.out.println("time " + i + " maxdist " + lc.maxDistance.get(i) + " aliveCells " + lc.aliveCells.get(i) );
+                //    System.out.println("time " + i + " maxdist " + lc.maxDistance.get(i) + " aliveCells " + lc.aliveCells.get(i) );
+
             }
 
         } else {
             Cell[][][] cellsTD = cg.generateCellsTD(size,center,percentage);
 
-            LifeCells lctd = new LifeCells( time, cellsTD);
-            for (int i = 0; i <= time; i++) {
-                OvitoGen.saveDynamicFileTD(i, lctd.aliveCellsTD.get(i), lctd.lifeCellsTD,"D:\\OVTD\\");
-                System.out.println("time " + i + " maxdist " + lctd.maxDistanceTD.get(i) + " aliveCells " + lctd.aliveCellsTD.get(i) );
+            LifeCells lctd = new LifeCells( 100, cellsTD, Rule.FREDKIN, true);
+            for (int i = 0; i <= lctd.finalTime; i++) {
+                OvitoGen.saveDynamicFileTD(i, lctd.aliveCellsTD.get(i), lctd.lifeCellsTD, "D:\\OVTD\\");
+                // System.out.println("time " + i + " maxdist " + lctd.maxDistanceTD.get(i) + " aliveCells " + lctd.aliveCellsTD.get(i) );
             }
 
         }

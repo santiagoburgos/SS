@@ -1,0 +1,6 @@
+public enum Rule {
+    CONWAYLIFE,
+    FREDKINMOORE,
+    FREDKIN,
+    CONWAYLIFENEUMANN,
+}
