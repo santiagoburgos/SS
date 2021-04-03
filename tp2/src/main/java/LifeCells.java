@@ -13,10 +13,15 @@ public class LifeCells {
     public Map<Integer, Integer> aliveCellsTD = new HashMap<>();
     public Map<Integer, Integer> maxDistanceTD = new HashMap<>();
 
+
+    int finalTime;
     Rule rule;
+    boolean finishIfTouchLimit;
     private int size;
 
-    public LifeCells( int time, Cell cellsInitial[][], Rule rule) {
+    public LifeCells( int time, Cell cellsInitial[][], Rule rule, boolean finishIfTouchLimit) {
+        finalTime = time;
+        this.finishIfTouchLimit = finishIfTouchLimit;
         this.rule = rule;
         this.size = cellsInitial.length;
 
@@ -40,7 +45,9 @@ public class LifeCells {
         stats(time, false);
     }
 
-    public LifeCells( int time, Cell cellsInitial[][][], Rule rule) {
+    public LifeCells( int time, Cell cellsInitial[][][], Rule rule, boolean finishIfTouchLimit) {
+        finalTime = time;
+        this.finishIfTouchLimit = finishIfTouchLimit;
         this.rule = rule;
         this.size = cellsInitial.length;
 
@@ -61,10 +68,12 @@ public class LifeCells {
 
             SetNeighboursTD();
             for (int i = 1; i <= time; i++) {
-                timeForwardTD(i);
+               boolean finish = timeForwardTD(i);
+                if(finish)
+                    break;
             }
 
-            stats(time,true);
+            stats(finalTime,true);
     }
 
     public void SetNeighboursTD() {
@@ -182,7 +191,8 @@ public class LifeCells {
         }
     }
 
-    public void timeForwardTD(int time){
+    public boolean timeForwardTD(int time){
+        boolean finish = false;
 
         Cell state[][][] = new Cell[size][size][size];
 
@@ -194,6 +204,16 @@ public class LifeCells {
 
 
                     Cell cell = cellsTD[i][j][z];
+
+
+                    if(cell.alive && finishIfTouchLimit){
+                        if( i==0 || j==0 || i==(size-1) || j==(size-1) || z==0 || z==(size-1)){
+                            finalTime = time;
+                            finish = true;
+                        }
+                    }
+
+
                     if(handleRule(rule, cell)){
                         cellsState.add(cell);
                     }
@@ -208,10 +228,16 @@ public class LifeCells {
         for(Cell c :cellsState){
             c.changeState();
         }
+
+        if(finish)
+            return true;
+
+        return false;
     }
 
 
-    public void timeForward(int time){
+    public boolean timeForward(int time){
+        boolean finish = false;
 
         Cell state[][] = new Cell[size][size];
 
@@ -222,6 +248,15 @@ public class LifeCells {
             for (int j = 0; j < size; j++) {
 
                 Cell cell = cells[i][j];
+
+                if(cell.alive && finishIfTouchLimit){
+                    if( i==0 || j==0 || i==(size-1) || j==(size-1)){
+                        finalTime = time;
+                        finish = true;
+                    }
+                }
+
+
                 if(handleRule(rule, cell)){
                     cellsState.add(cell);
                 }
@@ -236,6 +271,10 @@ public class LifeCells {
             c.changeState();
         }
 
+        if(finish)
+            return true;
+
+        return false;
     }
 
 
