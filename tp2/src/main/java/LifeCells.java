@@ -13,10 +13,11 @@ public class LifeCells {
     public Map<Integer, Integer> aliveCellsTD = new HashMap<>();
     public Map<Integer, Integer> maxDistanceTD = new HashMap<>();
 
+    Rule rule;
     private int size;
 
-    public LifeCells( int time, Cell cellsInitial[][]) {
-
+    public LifeCells( int time, Cell cellsInitial[][], Rule rule) {
+        this.rule = rule;
         this.size = cellsInitial.length;
 
             cells = new Cell[size][size];
@@ -39,7 +40,8 @@ public class LifeCells {
         stats(time, false);
     }
 
-    public LifeCells( int time, Cell cellsInitial[][][]) {
+    public LifeCells( int time, Cell cellsInitial[][][], Rule rule) {
+        this.rule = rule;
         this.size = cellsInitial.length;
 
             cellsTD = new Cell[size][size][size];
@@ -192,20 +194,11 @@ public class LifeCells {
 
 
                     Cell cell = cellsTD[i][j][z];
-                    int aliveN = cell.aliveNeighbours();
-
-                    if (cell.alive) {
-                        if (aliveN != 2 && aliveN != 3) {
-
-                            cellsState.add(cell);
-                        }
-                    } else {
-                        if (aliveN == 3) {
-
-                            cellsState.add(cell);
-                        }
+                    if(handleRule(rule, cell)){
+                        cellsState.add(cell);
                     }
                     state[i][j][z] = new Cell(cell.x, cell.y, cell.z, cell.alive);
+
                 }
             }
         }
@@ -216,6 +209,7 @@ public class LifeCells {
             c.changeState();
         }
     }
+
 
     public void timeForward(int time){
 
@@ -228,26 +222,75 @@ public class LifeCells {
             for (int j = 0; j < size; j++) {
 
                 Cell cell = cells[i][j];
-                int aliveN = cell.aliveNeighbours();
-
-                if(cell.alive){
-                    if(aliveN != 2 && aliveN != 3 ){
-                        cellsState.add(cell);
-                    }
-                } else{
-                    if(aliveN == 3){
-                        cellsState.add(cell);
-                    }
+                if(handleRule(rule, cell)){
+                    cellsState.add(cell);
                 }
                 state[i][j] = new Cell(cell.x, cell.y, 0,cell.alive);
+
             }
         }
         lifeCells.put(time, state);
+
 
         for(Cell c :cellsState){
             c.changeState();
         }
 
+    }
+
+
+    public boolean handleRule(Rule rule, Cell cell){
+
+        if(rule == Rule.CONWAYLIFE){
+            int aliveN = cell.aliveNeighbours();
+            if(cell.alive){
+                if(aliveN != 2 && aliveN != 3 ){
+                    return true;
+                }
+            } else{
+                if(aliveN == 3){
+                    return true;
+                }
+            }
+        }
+        if(rule == Rule.FREDKINMOORE){
+            int aliveN = cell.aliveNeighbours();
+            if(cell.alive){
+                if(aliveN %2 == 0 ){
+                    return true;
+                }
+            } else{
+                if(aliveN %2 != 0){
+                    return true;
+                }
+            }
+        }
+        if(rule == Rule.FREDKIN){
+            int aliveN = cell.aliveNeumannNeighbours();
+            if(cell.alive){
+                if(aliveN %2 == 0 ){
+                    return true;
+                }
+            } else{
+                if(aliveN %2 != 0){
+                    return true;
+                }
+            }
+        }
+        if(rule == Rule.CONWAYLIFENEUMANN){
+            int aliveN = cell.aliveNeumannNeighbours();
+            if(cell.alive){
+                if(aliveN != 2 && aliveN != 3 ){
+                    return true;
+                }
+            } else{
+                if(aliveN == 3){
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
 
