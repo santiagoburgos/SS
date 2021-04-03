@@ -53,21 +53,26 @@ public class FileGenerator {
             return new InitialData(dimensions, size, percentage, center);
     }
 
-    public void createResults(Map<Integer, Cell[][]> lifeCells, long start, String fileName) {
+    public void createResults(int frame, Map<Integer, Cell[][]> lifeCells, String fileName) {
         try {
             FileWriter writer = null;
             writer = new FileWriter(fileName);
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
             LocalDateTime now = LocalDateTime.now();
-            long nowSeconds = System.nanoTime();
-            double elapsedTimeInSecond = (double) (nowSeconds - start) / 1000000000;
             writer.append("Time: " + dtf.format(now));
-            writer.append("\n");
-            writer.append("Execution time: " + elapsedTimeInSecond + " seconds");
             writer.append("\n");
 
             writer.append("\nLife Cells \n");
-            // TODO LIFE CELLS
+            int size = lifeCells.get(0).length;
+
+            for (int i = 0; i < size; i++) {
+                for (int j = 0; j < size; j++) {
+                    if(lifeCells.get(frame)[i][j].alive) {
+                        writer.append(lifeCells.get(frame)[i][j].getX() + " " + lifeCells.get(frame)[i][j].getY() + " " + lifeCells.get(frame)[i][j].getZ() + " " + (lifeCells.get(frame)[i][j].alive ? 1 : 2));
+                        writer.append("\n");
+                    }
+                }
+            }
 
             writer.flush();
             writer.close();
@@ -76,21 +81,28 @@ public class FileGenerator {
         }
     }
 
-    public void createResultsTD(Map<Integer, Cell[][][]> lifeCells, long start, String fileName) {
+    public void createResultsTD(int frame, Map<Integer, Cell[][][]> lifeCells, String fileName) {
         try {
             FileWriter writer = null;
             writer = new FileWriter(fileName);
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
             LocalDateTime now = LocalDateTime.now();
-            long nowSeconds = System.nanoTime();
-            double elapsedTimeInSecond = (double) (nowSeconds - start) / 1000000000;
             writer.append("Time: " + dtf.format(now));
-            writer.append("\n");
-            writer.append("Execution time: " + elapsedTimeInSecond + " seconds");
             writer.append("\n");
 
             writer.append("\nLife Cells \n");
-            // TODO LIFE CELLS
+            int size = lifeCells.get(0).length;
+
+            for (int i = 0; i < size; i++) {
+                for (int j = 0; j < size; j++) {
+                    for (int z = 0; z < size; z++) {
+                        if (lifeCells.get(frame)[i][j][z].alive) {
+                            writer.append(lifeCells.get(frame)[i][j][z].getX() + " " + lifeCells.get(frame)[i][j][z].getY() + " " + lifeCells.get(frame)[i][j][z].getZ() + " " + (lifeCells.get(frame)[i][j][z].alive ? 1 : 2));
+                            writer.append("\n");
+                        }
+                    }
+                }
+            }
 
             writer.flush();
             writer.close();
