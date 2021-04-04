@@ -224,6 +224,23 @@ public class LifeCells {
         }
         lifeCellsTD.put(time, state);
 
+        if (time > 10) {
+            for (int i = time - 10; i < time; i++) {
+                Cell[][][] aux  = lifeCellsTD.get(i);
+                boolean flag = true;
+                for (int x = 0; x < size && flag; x++) {
+                    for (int y = 0; y < size && flag; y++) {
+                        for (int z = 0; z < size && flag; z++) {
+                            if (aux[x][y][z].alive != state[x][y][z].alive)
+                                flag = false;
+                        }
+                    }
+                }
+                if (flag)
+                    finish = true;
+            }
+        }
+
 
         for(Cell c :cellsState){
             c.changeState();
@@ -266,6 +283,22 @@ public class LifeCells {
         }
         lifeCells.put(time, state);
 
+        if (time > 10) {
+            for (int i = time - 10; i < time; i++) {
+                Cell[][] aux  = lifeCells.get(i);
+                boolean flag = true;
+                for (int x = 0; x < size && flag; x++) {
+                    for (int y = 0; y < size && flag; y++) {
+                        if (aux[x][y].alive != state[x][y].alive)
+                            flag = false;
+                    }
+                }
+                if (flag) {
+                    System.out.println("Founded a cycle on the cells");
+                    finish = true;
+                }
+            }
+        }
 
         for(Cell c :cellsState){
             c.changeState();
