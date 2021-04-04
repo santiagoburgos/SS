@@ -36,13 +36,15 @@ public class LifeCells {
                     state[i][j] = new Cell(cell.x, cell.y, 0, cell.alive);
             }
         }
-        lifeCells.put(0, state);
+
 
             SetNeighbours();
-            for (int i = 1; i <= time; i++) {
-                timeForward(i);
+            for (int i = 0; i < time; i++) {
+                boolean finish = timeForward(i);
+                if(finish)
+                    break;
             }
-        stats(time, false);
+        stats(finalTime, false);
     }
 
     public LifeCells( int time, Cell cellsInitial[][][], Rule rule, boolean finishIfTouchLimit) {
@@ -64,10 +66,10 @@ public class LifeCells {
                 }
             }
         }
-        lifeCellsTD.put(0, state);
+
 
             SetNeighboursTD();
-            for (int i = 1; i <= time; i++) {
+            for (int i = 0; i < time; i++) {
                boolean finish = timeForwardTD(i);
                 if(finish)
                     break;
@@ -236,8 +238,10 @@ public class LifeCells {
                         }
                     }
                 }
-                if (flag)
+                if (flag) {
+                    finalTime = time;
                     finish = true;
+                }
             }
         }
 
@@ -295,6 +299,7 @@ public class LifeCells {
                 }
                 if (flag) {
                     System.out.println("Founded a cycle on the cells");
+                    finalTime = time;
                     finish = true;
                 }
             }
@@ -373,7 +378,7 @@ public class LifeCells {
                 int size = cells[0].length;
                 int aliveC = 0;
                 int maxDist = 0;
-                for (int t = 0; t <= time; t++) {
+                for (int t = 0; t < time; t++) {
                     for (int i = 0; i < size; i++) {
                         for (int j = 0; j < size; j++) {
                             Cell cell = lifeCells.get(t)[i][j];
@@ -400,7 +405,7 @@ public class LifeCells {
                 int size = cellsTD[0][0].length;
                 int aliveC = 0;
                 int maxDist = 0;
-                for (int t = 0; t <= time; t++) {
+                for (int t = 0; t < time; t++) {
                     for (int i = 0; i < size; i++) {
                         for (int j = 0; j < size; j++) {
                             for (int z = 0; z < size; z++) {

@@ -35,7 +35,10 @@ public class CellsGenerator {
         double centerSize = center * center * center;
         int liveCells = (int)((percentage*centerSize)/100);
 
-        for (int i = 0; i < liveCells-1; i++) {
+        if(list.size() < liveCells)
+            liveCells -=1;
+
+        for (int i = 0; i < liveCells; i++) {
             Cell c = list.get(i);
             c.alive = true;
             state[c.x][c.y][c.z].alive = true;
@@ -44,6 +47,7 @@ public class CellsGenerator {
     }
 
     public Cell[][] generateCells(int size, int center, double percentage){
+
 
         Cell state[][] = new Cell[size][size];
         List<Cell> list = new ArrayList<>();
@@ -67,7 +71,11 @@ public class CellsGenerator {
         double centerSize = center * center;
         int liveCells = (int)((percentage*centerSize)/100);
 
-        for (int i = 0; i < liveCells-1; i++) {
+        if(list.size() < liveCells)
+            liveCells -=1;
+
+
+        for (int i = 0; i < liveCells; i++) {
             Cell c = list.get(i);
             c.alive = true;
             state[c.x][c.y].alive = true;
