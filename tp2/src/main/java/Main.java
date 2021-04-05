@@ -17,13 +17,8 @@ public class Main {
         int center = initial.getCenter();
         int time = initial.getTime();
 
-        if (initial.getIsSize()) {
-            System.out.println("To be implemented");
-            return;
-        }
-
         if (percentage > 100) {
-            System.out.println("Percentage bigger than 100%");
+            System.out.println("Percentage cannot be bigger than 100");
             return;
         }
 
@@ -40,7 +35,7 @@ public class Main {
         if (dimensions == 2) {
             Cell[][] cells = cg.generateCells(size,center, percentage);
 
-            LifeCells lc = new LifeCells( 100, cells, Rule.FREDKIN, true);
+            LifeCells lc = new LifeCells( time, cells, Rule.FREDKIN, true);
 
             try {
                 createFile("2dstats.cvs", lc.maxDistance, lc.aliveCells, lc.finalTime);
@@ -56,7 +51,7 @@ public class Main {
             Cell[][][] cellsTD = cg.generateCellsTD(size, center, percentage);
 
 
-            LifeCells lctd = new LifeCells(100, cellsTD, Rule.FREDKIN, true);
+            LifeCells lctd = new LifeCells(time, cellsTD, Rule.FREDKIN, true);
 
             try {
                 createFile("3dstats.cvs", lctd.maxDistanceTD, lctd.aliveCellsTD, lctd.finalTime);
