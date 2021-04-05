@@ -30,12 +30,12 @@ public class Main {
 
         CellsGenerator cg = new CellsGenerator();
 
-
+        System.out.println("dimension " + dimensions+"D, size " + size + ", center " + center + ", percentage " + percentage );
 
         if (dimensions == 2) {
             Cell[][] cells = cg.generateCells(size,center, percentage);
 
-            LifeCells lc = new LifeCells( time, cells, Rule.FREDKIN, true);
+            LifeCells lc = new LifeCells( time, cells, Rule.FREDKINMOORE, true);
 
             try {
                 createFile("2dstats.cvs", lc.maxDistance, lc.aliveCells, lc.finalTime);
@@ -43,7 +43,7 @@ public class Main {
                 e.printStackTrace();
             }
 
-            for (int i = 0; i <= lc.finalTime; i++) {
+            for (int i = 0; i < lc.finalTime; i++) {
                 OvitoGen.saveDynamicFile(i,lc.aliveCells.get(i), lc.lifeCells,"D:\\OV\\");
             }
 
@@ -59,7 +59,7 @@ public class Main {
                 e.printStackTrace();
             }
 
-            for (int i = 0; i <= lctd.finalTime; i++) {
+            for (int i = 0; i < lctd.finalTime; i++) {
                 OvitoGen.saveDynamicFileTD(i, lctd.aliveCellsTD.get(i), lctd.lifeCellsTD, "D:\\OVTD\\");
             }
         }
@@ -72,7 +72,7 @@ public class Main {
 
 
         writer.write("time,maxdistance,alivecells\n");
-        for (int i = 0; i <= time; i++) {
+        for (int i = 0; i < time; i++) {
             writer.write(i+","+maxDistance.get(i)+","+aliveCells.get(i)+"\n");
         }
 
