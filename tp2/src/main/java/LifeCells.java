@@ -374,7 +374,7 @@ public class LifeCells {
                     return true;
                 }
             } else{
-                if(aliveInferior < aliveSuperior){
+                if(aliveSuperior < aliveInferior){
                     return true;
                 }
             }
