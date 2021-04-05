@@ -304,7 +304,6 @@ public class LifeCells {
                 }
             }
         }
-
         for(Cell c :cellsState){
             c.changeState();
         }
@@ -362,6 +361,20 @@ public class LifeCells {
                 }
             } else{
                 if(aliveN == 3){
+                    return true;
+                }
+            }
+        }
+
+        if (rule == Rule.HORSE) {
+            int aliveSuperior = cell.aliveSuperior();
+            int aliveInferior = cell.aliveInferior();
+            if(cell.alive){
+                if(aliveSuperior >= aliveInferior ){
+                    return true;
+                }
+            } else{
+                if(aliveInferior < aliveSuperior){
                     return true;
                 }
             }

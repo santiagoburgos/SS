@@ -3,4 +3,5 @@ public enum Rule {
     FREDKINMOORE,
     FREDKIN,
     CONWAYLIFENEUMANN,
+    HORSE
 }

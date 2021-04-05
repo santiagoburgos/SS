@@ -54,7 +54,31 @@ public class Cell {
         return alive;
     }
 
+    public int aliveSuperior(){
+        int alive = 0;
 
+        for (Cell c : neighbours){
+            if(c.getX() > x || (c.getY() > y && c.getX() == x)){
+                if(c.alive){
+                    alive += 1;
+                }
+            }
+        }
+        return alive;
+    }
+
+    public int aliveInferior(){
+        int alive = 0;
+
+        for (Cell c : neighbours){
+            if(c.getX() < x || (c.getY() < y && c.getX() == x)){
+                if(c.alive){
+                    alive += 1;
+                }
+            }
+        }
+        return alive;
+    }
 
     public int deadNeighbours(){
         int dead;
