@@ -14,6 +14,11 @@ public class CellsGenerator {
         Cell state[][][] = new Cell[size][size][size];
         List<Cell> list = new ArrayList<>();
 
+        double centerSize = center * center * center;
+        if(center % 2 !=0)
+            center +=1;
+
+
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 for (int z = 0; z < size; z++) {
@@ -32,12 +37,13 @@ public class CellsGenerator {
             }
         }
         Collections.shuffle(list);
-        double centerSize = center * center * center;
+
         int liveCells = (int)((percentage*centerSize)/100);
 
         if(list.size() < liveCells)
             liveCells -=1;
 
+        System.out.println(liveCells + " " + list.size());
         for (int i = 0; i < liveCells; i++) {
             Cell c = list.get(i);
             c.alive = true;
@@ -51,6 +57,11 @@ public class CellsGenerator {
 
         Cell state[][] = new Cell[size][size];
         List<Cell> list = new ArrayList<>();
+
+        double centerSize = center * center;
+        if(center % 2 !=0)
+            center +=1;
+
 
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -68,13 +79,14 @@ public class CellsGenerator {
         }
 
         Collections.shuffle(list);
-        double centerSize = center * center;
+
         int liveCells = (int)((percentage*centerSize)/100);
 
         if(list.size() < liveCells)
             liveCells -=1;
 
 
+        System.out.println(liveCells + " " + list.size());
         for (int i = 0; i < liveCells; i++) {
             Cell c = list.get(i);
             c.alive = true;
