@@ -23,7 +23,7 @@ public class OvitoGen {
                 for (int j = 0; j < size; j++) {
                     // Se crea en cada particula con su (posX, PosY, PosZ, color)
                     if(lifeCells.get(frame)[i][j].alive)
-                    out.println(lifeCells.get(frame)[i][j].getX() + " " + lifeCells.get(frame)[i][j].getY() + " " + lifeCells.get(frame)[i][j].getZ() + " " + (lifeCells.get(frame)[i][j].alive? 1:2) );
+                    out.println(lifeCells.get(frame)[i][j].getX() + " " + lifeCells.get(frame)[i][j].getY() + " " + lifeCells.get(frame)[i][j].getZ() + " " + (lifeCells.get(frame)[i][j].color) );
                 }
             }
 
@@ -52,7 +52,7 @@ public class OvitoGen {
                     for (int z = 0; z < size; z++) {
                         // Se crea en cada particula con su (posX, PosY, PosZ, color)
                         if(lifeCells.get(frame)[i][j][z].alive)
-                        out.println(lifeCells.get(frame)[i][j][z].getX() + " " + lifeCells.get(frame)[i][j][z].getY() + " " + lifeCells.get(frame)[i][j][z].getZ() + " " + (lifeCells.get(frame)[i][j][z].alive ? 1 : 2));
+                        out.println(lifeCells.get(frame)[i][j][z].getX() + " " + lifeCells.get(frame)[i][j][z].getY() + " " + lifeCells.get(frame)[i][j][z].getZ() + " " + (lifeCells.get(frame)[i][j][z].color));
                     }
                 }
             }

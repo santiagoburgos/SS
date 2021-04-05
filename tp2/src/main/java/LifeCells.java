@@ -402,11 +402,24 @@ public class LifeCells {
                                     iDistance = iDistance * -1;
                                 int jDistance = (size / 2) - j;
                                 if (jDistance < 0)
-                                    jDistance = iDistance * -1;
+                                    jDistance = jDistance * -1;
                                 int distance = Math.max(iDistance, jDistance);
                                 if (distance > maxDist)
                                     maxDist = distance;
                             }
+                            //
+                            int iDistance = (size/2) - i;
+                            if (iDistance < 0)
+                                iDistance = iDistance * -1;
+
+                            int jDistance = (size/2) - j;
+
+                            if (jDistance < 0)
+                                jDistance = jDistance * -1;
+
+                            int distance = Math.max(iDistance, jDistance);
+                            cell.color = distance;
+                            //
                         }
                     }
                     aliveCells.put(t,aliveC);
@@ -430,7 +443,7 @@ public class LifeCells {
                                         iDistance = iDistance * -1;
                                     int jDistance = (size / 2) - j;
                                     if (jDistance < 0)
-                                        jDistance = iDistance * -1;
+                                        jDistance = jDistance * -1;
                                     int zDistance = (size / 2) - z;
                                     if (zDistance < 0)
                                         zDistance = zDistance * -1;
@@ -438,6 +451,19 @@ public class LifeCells {
                                     if (distance > maxDist)
                                         maxDist = distance;
                                 }
+                                //
+                                int iDistance = (size / 2) - i;
+                                if (iDistance < 0)
+                                    iDistance = iDistance * -1;
+                                int jDistance = (size / 2) - j;
+                                if (jDistance < 0)
+                                    jDistance = jDistance * -1;
+                                int zDistance = (size / 2) - z;
+                                if (zDistance < 0)
+                                    zDistance = zDistance * -1;
+                                int distance = Math.max(Math.max(iDistance, jDistance),zDistance);
+                                cell.color = distance;
+                                //
                             }
                         }
                     }

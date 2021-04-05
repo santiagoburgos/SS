@@ -13,8 +13,10 @@ public class FileGenerator {
 
     public InitialData readStaticFile(String fileName) {
         File file = new File(fileName);
+        boolean isFirstLine = true;
         int dimensions = 0;
-        int time = 0;
+        boolean isTime = true;
+        int time = 100;
         int size = 0;
         float percentage = 0;
         int center = 0;
@@ -22,24 +24,33 @@ public class FileGenerator {
             Scanner myReader = new Scanner(file);
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
-                if (dimensions == 0)
-                    dimensions = Integer.parseInt(data);
-                else if (size == 0)
-                    size = Integer.parseInt(data);
-                else  if (percentage == 0)
-                    percentage = Float.parseFloat(data);
-                else if (center == 0)
-                    center = Integer.parseInt(data);
-                else if (time == 0)
-                    time = Integer.parseInt(data);
+                if (isFirstLine) {
+                    isFirstLine =  false;
+                    if (data == "S")
+                        isTime = false;
+                } else {
+                    if (dimensions == 0)
+                        dimensions = Integer.parseInt(data);
+                    else if (size == 0)
+                        size = Integer.parseInt(data);
+                    else  if (percentage == 0)
+                        percentage = Float.parseFloat(data);
+                    else if (center == 0)
+                        center = Integer.parseInt(data);
+                    else if (isTime)
+                        time = Integer.parseInt(data);
+                }
             }
             myReader.close();
         } catch (FileNotFoundException e) {
             System.out.println("Could not read file.");
             e.printStackTrace();
         }
-        return new InitialData(dimensions, size, percentage, center, time);
 
+        if (isTime)
+            return new InitialData(dimensions, size, percentage, center, time);
+        else
+            return new InitialData(dimensions, size, percentage, center);
     }
 
     public void createResults(int frame, Map<Integer, Cell[][]> lifeCells, String fileName) {
