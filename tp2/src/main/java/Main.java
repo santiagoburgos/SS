@@ -40,10 +40,10 @@ public class Main {
         if (dimensions == 2) {
             Cell[][] cells = cg.generateCells(size,center, percentage);
 
-            LifeCells lc = new LifeCells( 100, cells, Rule.FREDKINMOORE, true);
+            LifeCells lc = new LifeCells( 100, cells, Rule.FREDKIN, true);
 
             try {
-                createFile("2dstats.cvs", lc.maxDistance, lc.aliveCells, lc.finalTime);
+                createFile("2dstats.csv", lc.maxDistance, lc.aliveCells, lc.finalTime);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -56,10 +56,10 @@ public class Main {
             Cell[][][] cellsTD = cg.generateCellsTD(size, center, percentage);
 
 
-            LifeCells lctd = new LifeCells(100, cellsTD, Rule.FREDKIN, true);
+            LifeCells lctd = new LifeCells(100, cellsTD, Rule.CONWAYLIFE, true);
 
             try {
-                createFile("3dstats.cvs", lctd.maxDistanceTD, lctd.aliveCellsTD, lctd.finalTime);
+                createFile("3dstats.csv", lctd.maxDistanceTD, lctd.aliveCellsTD, lctd.finalTime);
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -8,6 +8,9 @@ public class Cell {
     boolean alive;
     public ArrayList<Cell> neighbours;
 
+    public int color = 1;
+
+
     public Cell(int x, int y, int z, boolean alive){
         neighbours = new ArrayList<>();
         this.x = x;
