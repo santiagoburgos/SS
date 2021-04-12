@@ -1,0 +1,91 @@
+@startuml
+
+Cell <|- CellsGenerator
+Cell <|- LifeCells
+
+LifeCells <|- Main
+InitialData <|- FileGenerator
+FileGenerator <|- Main
+CellsGenerator <|-- Main
+OvitoGen <|-- Main
+Rule <|- LifeCells
+
+enum Rule {
+CONWAYLIFE
+FREDKINMOORE
+FREDKIN
+CONWAYLIFENEUMANN
+HORSE
+}
+
+class Cell {
+int x
+int y
+int z
+boolean alive
+ArrayList<Cell> neighbours
+
+Cell(x: int, y: int, z: int, alive: boolean)
+
+void addNeighbour(neighbour: Cell)
+int aliveNeighbours()
+int aliveNeumannNeighbours()
+void changeState()
+}
+
+class InitialData {
+int time
+int dimensions
+int size
+float percentage
+int center
+
+InitialData(dimensions: int, size: int, percentage: float, int center, int time)
+}
+
+class CellsGenerator {
+CellsGenerator()
+
+Cell[][] generateCells(size: int, center: int, percentage: double)
+Cell[][][] generateCellsTD(size: int, center: int, percentage: double)
+}
+
+class FileGenerator {
+FileGenerator()
+
+InitialData readStaticFile(fileName: String)
+}
+
+
+class OvitoGen {
+void saveDynamicFile(frame: int, aliveCells: int, lifeCells: Map<Integer, Cell[][]>, path: String)
+void saveDynamicFileTD(frame: int, aliveCells: int, lifeCells: Map<Integer, Cell[][][]>, path: String)
+}
+
+class LifeCells {
+Cell cells[][]
+Map<Integer, Cell[][]> lifeCells
+Map<Integer, Integer> aliveCells
+Map<Integer, Integer> maxDistance
+Cell cellsTD[][][]
+Map<Integer, Cell[][][]> lifeCellsTD
+Map<Integer, Integer> aliveCellsTD
+Map<Integer, Integer> maxDistanceTD
+int finalTime
+Rule rule
+boolean finishIfTouchLimit
+int size
+
+LifeCells(time: int,  cellsInitial: Cell[][], rule: Rule, finishIfTouchLimit: boolean)
+LifeCells(time: int,  cellsInitial: Cell[][][], rule: Rule, finishIfTouchLimit: boolean)
+
+boolean timeForwardTD(time: int)
+boolean timeForward(time: int)
+}
+
+class Main {
+void main(args: String[])
+void createFile(fileName: String, maxDistance: Map<Integer, Integer>, aliveCells: Map<Integer, Integer>, time: int)
+}
+
+@enduml
