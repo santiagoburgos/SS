@@ -54,11 +54,16 @@ public class BrownianMovement {
 
     private boolean finish(){
 
-        float x = particles.get(0).getXPos() - R2;
-        float y =  particles.get(0).getXPos() - R2;
+        float x = particles.get(0).getXPos();
+        float y =  particles.get(0).getYPos();
 
-        if( x<=0f || y<=0f || y >= MAXSIZE || x >= MAXSIZE)
+
+
+        if( x<=R2 || y<=R2 || y >= MAXSIZE-R2 || x >= MAXSIZE-R2){
+            System.out.println("flag " + iterations);
             return true;
+        }
+
 
         return false;
     }
