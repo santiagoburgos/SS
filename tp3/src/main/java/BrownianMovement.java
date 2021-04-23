@@ -6,11 +6,8 @@ import static java.lang.Math.*;
 
 
 public class BrownianMovement {
-    private static final float MAXSIZE = 6f;
-    private static final float R1 = 0.2f;
-    private static final float R2 = 0.7f;
-    private static final float M1 = 0.9f;
-    private static final float M2 = 2.0f;
+
+    private StaticData staticData;
 
     private int maxIterations = 100000; //max events
     private int maxSimulatedTime = 200; //max events
@@ -25,7 +22,8 @@ public class BrownianMovement {
     float time = 0;
 
     int iterations;
-    public BrownianMovement(int N, float maxVel) {
+    public BrownianMovement(int N, float maxVel, StaticData staticData) {
+        this.staticData  = staticData;
         this.N = N;
         this.maxVel = maxVel;
         this.particles = new ArrayList<>();
@@ -58,8 +56,8 @@ public class BrownianMovement {
         float y =  particles.get(0).getYPos();
 
 
-
-        if( x<=R2 || y<=R2 || y >= MAXSIZE-R2 || x >= MAXSIZE-R2){
+        float aux = staticData.getSize()-staticData.getR2();
+        if( x<=staticData.getR2() || y<= staticData.getR2() || y >= aux || x >= aux){
             System.out.println("flag " + iterations);
             return true;
         }
@@ -74,7 +72,8 @@ public class BrownianMovement {
 
 
     private void generateParticles() {
-        particles.add(new Particle(MAXSIZE / 2.0f, MAXSIZE / 2.0f, 0.0f, 0.0f, R2, M2));
+        float middle = staticData.getSize() / 2.0f;
+        particles.add(new Particle(middle, middle, 0.0f, 0.0f, staticData.getR2(), staticData.getM2()));
 
         int particlesNumber = 1;
         int attempt = 0;
@@ -83,10 +82,11 @@ public class BrownianMovement {
 
         while (particlesNumber != N && attempt != maxAttempts) {
 
-            float xPos = (float) (R1 + ((MAXSIZE - R1) - R1) * r.nextDouble());
-            float yPos = (float) (R1 + ((MAXSIZE - R1) - R1) * r.nextDouble());
+            float aux = staticData.getSize()-staticData.getR1();
+            float xPos = (float) (staticData.getR1() + (aux - staticData.getR1()) * r.nextDouble());
+            float yPos = (float) (staticData.getR1() + (aux - staticData.getR1()) * r.nextDouble());
 
-            if (addParticle(xPos, yPos, R1, M1)) {
+            if (addParticle(xPos, yPos, staticData.getR1(), staticData.getM1())) {
                 particlesNumber += 1;
             }
             attempt += 1;
@@ -97,7 +97,7 @@ public class BrownianMovement {
     private boolean addParticle(float xPos, float yPos, float radius, float mass) {
         for (Particle p : particles) {
 
-            float distance = (float) (sqrt((yPos - p.getYPos()) * (yPos - p.getYPos()) + (xPos - p.getXPos()) * (xPos - p.getXPos())) - (p.getRadius() + R1));
+            float distance = (float) (sqrt((yPos - p.getYPos()) * (yPos - p.getYPos()) + (xPos - p.getXPos()) * (xPos - p.getXPos())) - (p.getRadius() + staticData.getR1()));
             if (distance < 0)
                 return false;
         }
@@ -108,7 +108,7 @@ public class BrownianMovement {
         float xVel = (float) (velocity * Math.cos(angle));
         float yVel = (float) (velocity * Math.sin(angle));
 
-        particles.add(new Particle(xPos, yPos, xVel, yVel, R1, M1));
+        particles.add(new Particle(xPos, yPos, xVel, yVel, staticData.getR1(), staticData.getR1()));
 
         return true;
     }
@@ -124,8 +124,8 @@ public class BrownianMovement {
         for (int i = 0; i < particles.size(); i++) {
 
 
-            float verticalWallTime = particles.get(i).verticalWallCollision(MAXSIZE);
-            float horizontalWallTime = particles.get(i).horizontalWallCollision(MAXSIZE);
+            float verticalWallTime = particles.get(i).verticalWallCollision(staticData.getSize());
+            float horizontalWallTime = particles.get(i).horizontalWallCollision(staticData.getSize());
 
 
             float particleCollisionTime = Float.MAX_VALUE;

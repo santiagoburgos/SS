@@ -5,6 +5,7 @@ Particle <|-- BrownianMovement
 Particle <|- OvitoGen
 OvitoGen <|-- Main
 BrownianMovement <|-- Main
+StaticData <|-- Main
 Collision <|- BrownianMovement
 COLLISIONTYPE <|- Collision
 
@@ -16,6 +17,17 @@ PARTCOL
 
 class Main {
     + static void main(String[] args)
+    + static StaticData readStaticFile(String)
+}
+
+class StaticData {
+    - float size
+    - float r1
+    - float r2
+    - float m1
+    - float m2
+
+    StaticData(float, float, float, float, float)
 }
 
 class OvitoGen{
@@ -39,11 +51,6 @@ class Particle{
 }
 
 class BrownianMovement {
-    - static final float MAXSIZE
-    - static final float R1
-    - static final float R2
-    - static final float M1
-    - static final float M2
     - int maxIterations
     - int maxSimulatedTime
     - int maxAttempts
@@ -54,7 +61,7 @@ class BrownianMovement {
     float time
     int iterations
 
-    + BrownianMovement(int, float)
+    + BrownianMovement(int, float, StaticData)
     - boolean finish()
     - void generateParticles()
     - boolean addParticle(float, float, float, float)
