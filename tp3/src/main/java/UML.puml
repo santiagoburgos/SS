@@ -1,0 +1,77 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+Particle <|-- BrownianMovement
+Particle <|- OvitoGen
+OvitoGen <|-- Main
+BrownianMovement <|-- Main
+Collision <|- BrownianMovement
+COLLISIONTYPE <|- Collision
+
+enum COLLISIONTYPE {
+VERWALL
+HORWALL
+PARTCOL
+}
+
+class Main {
+    + static void main(String[] args)
+}
+
+class OvitoGen{
+    + void saveDynamicFile(int, List<Particle>, String)
+}
+
+class Particle{
+    float xPos
+    float yPos
+    float xVel
+    float yVel
+    float radius
+    float mass
+    float collisionTime
+
+    + Particle(float, float, float, float, float, float)
+    + Float particleCollision(Particle)
+    + void newPosition(Float)
+    + Float verticalWallCollision(float)
+    + Float horizontalWallCollision(float)
+}
+
+class BrownianMovement {
+    - static final float MAXSIZE
+    - static final float R1
+    - static final float R2
+    - static final float M1
+    - static final float M2
+    - int maxIterations
+    - int maxSimulatedTime
+    - int maxAttempts
+    - double maxVel
+    - int N
+    - List<Particle> particles
+    + SortedMap<Float, List<Particle>> states
+    float time
+    int iterations
+
+    + BrownianMovement(int, float)
+    - boolean finish()
+    - void generateParticles()
+    - boolean addParticle(float, float, float, float)
+    - float nextCollisionTime()
+    - void updateStatus(float)
+    - void generateCollision()
+
+}
+
+class Collision {
+    COLLISIONTYPE type
+    Particle p1
+    Particle p2
+    float time
+    + Collision(float, COLLISIONTYPE, Particle)
+    + Collision(float, COLLISIONTYPE, Particle, Particle)
+}
+
+
+@enduml
