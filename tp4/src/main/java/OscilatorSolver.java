@@ -1,3 +1,6 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class OscilatorSolver {
@@ -84,7 +87,7 @@ public class OscilatorSolver {
         gpco5V.add(finalV);
     }
 
-    public void solve(){
+    public void solve() throws IOException {
         boolean isFirstTime = true;
         float t = 0;
         while (t < od.getTf()) {
@@ -95,5 +98,23 @@ public class OscilatorSolver {
             getGPCO5();
             isFirstTime = false;
         }
+        createEDOFile("originalR", originalR);
+        createEDOFile("verletR", verletR);
+        createEDOFile("verletV", verletV);
+        createEDOFile("beemannR", beemanR);
+        createEDOFile("beemanV", beemanV);
+        createEDOFile("gpco5R", gpco5R);
+        createEDOFile("gpco5V", gpco5V);
+    }
+
+    private void createEDOFile(String fileName, ArrayList<Float> elements) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
+
+        for (Float f: elements) {
+            writer.write(f + "\n");
+        }
+
+        writer.close();
+
     }
 }
