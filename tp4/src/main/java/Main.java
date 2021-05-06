@@ -13,7 +13,7 @@ public class Main {
             return;
 
         OscilatorSolver os = new OscilatorSolver(oscilatorData, dt);
-
+        os.solve();
 
     }
 
