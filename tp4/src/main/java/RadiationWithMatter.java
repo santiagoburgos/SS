@@ -1,4 +1,6 @@
 import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 public class RadiationWithMatter {
     private static final double Q = 1e-19;
@@ -12,6 +14,9 @@ public class RadiationWithMatter {
     private ParticleWithCharge particles[][];
     private ParticleWithCharge initial;
 
+    private SortedMap<Double, ParticleWithCharge> state;
+    private double time = 0;
+
     public RadiationWithMatter(double D, int N, double velX, double velY){
         particles = new ParticleWithCharge[N][N];
         this.D = D;
@@ -19,8 +24,29 @@ public class RadiationWithMatter {
         this.L = N * D - 1;
         this.velX = velX;
         this.velY = velY;
+        this.state = new TreeMap<>();
         generateParticles();
-        CoulombElectrostaticForce();
+        state.put(time, initial);
+        simulate();
+    }
+
+    private void simulate() {
+        while ((time != 0 && initial.getXPos() != -D) || EnoughistanceFromParticle()){
+            Double force = CoulombElectrostaticForce();
+            //TODO Simulation with integration method
+        }
+
+    }
+
+    private boolean EnoughistanceFromParticle() {
+        for (int i = 0; i < N; i++){        //TODO Se podria obtener vecinos en vez de recorrer todas
+            for (int j = 0; j < N; j++){
+                double distance = Math.sqrt(Math.pow(particles[i][j].getXPos() - initial.getXPos(), 2) +
+                        Math.pow(particles[i][j].getYPos() - initial.getYPos(), 2));
+                if (distance < 0.01 * D) return false;
+            }
+        }
+        return true;
     }
 
     private void generateParticles() {
