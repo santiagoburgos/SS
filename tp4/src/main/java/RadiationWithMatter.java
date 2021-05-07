@@ -16,17 +16,19 @@ public class RadiationWithMatter {
 
     private SortedMap<Double, ParticleWithCharge> state;
     private double time = 0;
+    private double deltaTime;
 
-    public RadiationWithMatter(double D, int N, double velX, double velY){
+    public RadiationWithMatter(double D, int N, double velX, double velY, double deltaTime){
         particles = new ParticleWithCharge[N][N];
         this.D = D;
         this.N = N;
         this.L = N * D - 1;
         this.velX = velX;
         this.velY = velY;
+        this.deltaTime = deltaTime;
         this.state = new TreeMap<>();
         generateParticles();
-        state.put(time, initial);
+        saveState();
         simulate();
     }
 
@@ -34,8 +36,14 @@ public class RadiationWithMatter {
         while ((time != 0 && initial.getXPos() != -D) || EnoughistanceFromParticle()){
             Double force = CoulombElectrostaticForce();
             //TODO Simulation with integration method
+            saveState();
         }
 
+    }
+
+    private void saveState() {
+        state.put(time, initial);
+        time += deltaTime;
     }
 
     private boolean EnoughistanceFromParticle() {

@@ -16,7 +16,7 @@ public class Main {
         OscilatorSolver os = new OscilatorSolver(oscilatorData, dt);
         os.solve();
 */
-        RadiationWithMatter radiationWithMatter = new RadiationWithMatter(1e-8, 16 * 16, 10e3, 100e3);
+        RadiationWithMatter radiationWithMatter = new RadiationWithMatter(1e-8, 16 * 16, 10e3, 100e3, 0.1);
     }
 
     public static OscilatorData readStaticOFile(String fileName) {
