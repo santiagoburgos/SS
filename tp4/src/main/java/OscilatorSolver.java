@@ -71,7 +71,7 @@ public class OscilatorSolver {
         float r2 = getForce(rt, vt) / od.getMass();
         float r3 = - od.getK() * vt / od.getMass() - od.getPhi() * r2 / od.getMass();
         float r4 = - od.getK() * r2 / od.getMass() - od.getPhi() * r3 / od.getMass();
-        float r5 =- od.getK() * r3 / od.getMass() - od.getPhi() * r4 / od.getMass();
+        float r5 = - od.getK() * r3 / od.getMass() - od.getPhi() * r4 / od.getMass();
 
         float rP = rt + vt * dt + r2 * (float) Math.pow(dt, 2) / 2 + r3 * (float) Math.pow(dt, 3) / 6 + r4 * (float) Math.pow(dt, 4) / 24 + r5 * (float) Math.pow(dt, 5) / 120;
         float r1P = vt + r2 * dt + r3 * (float) Math.pow(dt, 2) / 2 + r4 * (float) Math.pow(dt, 3) / 6 + r5 * (float) Math.pow(dt, 4) / 24;
@@ -98,13 +98,13 @@ public class OscilatorSolver {
             getGPCO5();
             isFirstTime = false;
         }
-        createEDOFile("originalR", originalR);
+        /*createEDOFile("originalR", originalR);
         createEDOFile("verletR", verletR);
         createEDOFile("verletV", verletV);
         createEDOFile("beemannR", beemanR);
         createEDOFile("beemanV", beemanV);
         createEDOFile("gpco5R", gpco5R);
-        createEDOFile("gpco5V", gpco5V);
+        createEDOFile("gpco5V", gpco5V);*/
     }
 
     private void createEDOFile(String fileName, ArrayList<Float> elements) throws IOException {
