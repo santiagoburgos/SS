@@ -1,7 +1,7 @@
 public class ParticleWithCharge extends Particle{
     private double charge;
-    public ParticleWithCharge(double xPos, double yPos, double xVel, double yVel, double radius, double mass, double charge) {
-        super((float) xPos, (float) yPos, (float) xVel, (float) yVel, (float) radius,(float) mass);
+    public ParticleWithCharge(float xPos, float yPos, float xVel, float yVel, double radius, double mass, double charge) {
+        super( xPos, yPos,  xVel,  yVel, (float) radius,(float) mass);
         this.charge = charge;
     }
 

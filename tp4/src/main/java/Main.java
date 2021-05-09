@@ -7,7 +7,8 @@ public class Main {
 
 
     public static void main(String[] args) throws IOException {
-/*      // EJERCICIO 1
+     // EJERCICIO 1
+        /*
         OscilatorData oscilatorData = Main.readStaticOFile("StaticO.txt");
         float dt = Main.readDynamicOFile("DynamicO.txt");
         if (oscilatorData == null || dt == 0)
@@ -15,8 +16,21 @@ public class Main {
 
         OscilatorSolver os = new OscilatorSolver(oscilatorData, dt);
         os.solve();
-*/
-        RadiationWithMatter radiationWithMatter = new RadiationWithMatter(1e-8, 16 * 16, 10e3, 100e3, 0.1);
+
+         */
+
+
+        RadiationWithMatter radiationWithMatter = new RadiationWithMatter(1e-8f, 16, 100e3f, 10e3f, 0.000000000000001);
+
+        int i = 0;
+        for (double d : radiationWithMatter.state.keySet()) {
+
+            OvitoGen.saveDynamicFile(i, radiationWithMatter.state.get(d), radiationWithMatter.particles, "D:\\OV\\");
+            i++;
+            }
+
+
+
     }
 
     public static OscilatorData readStaticOFile(String fileName) {

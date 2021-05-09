@@ -45,5 +45,13 @@ public class Particle {
         yVel = vel;
     }
 
+    public void setXPos(float pos) {
+        xPos = pos;
+    }
+
+    public void setYPos(float pos) {
+        yPos = pos;
+    }
+
 
 }
