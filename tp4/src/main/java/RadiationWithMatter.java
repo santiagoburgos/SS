@@ -1,48 +1,57 @@
-import java.util.List;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 
 public class RadiationWithMatter {
-    private static final double Q = 1e-19;
-    private static final double M = 1e-27;
-    private static final double K = 1e10;
+    private static final float Q = 1e-19f;
+    private static final float M = 1e-27f;
+    private static final float K = 1e10f;
 
 
-    private double L, D;
+    private float L, D;
     private int N;      //NxN = particles amount
-    private double velX, velY;
-    private ParticleWithCharge particles[][];
+    private float velX, velY;
+    public ParticleWithCharge particles[][];
     private ParticleWithCharge initial;
 
-    private SortedMap<Double, ParticleWithCharge> state;
+    public SortedMap<Double, ParticleWithCharge> state;
     private double time = 0;
     private double deltaTime;
 
-    public RadiationWithMatter(double D, int N, double velX, double velY, double deltaTime){
+    public RadiationWithMatter(float D, int N, float velX, float velY, double deltaTime){
         particles = new ParticleWithCharge[N][N];
         this.D = D;
         this.N = N;
-        this.L = N * D - 1;
+        this.L = (N-1) * D ;
         this.velX = velX;
         this.velY = velY;
         this.deltaTime = deltaTime;
         this.state = new TreeMap<>();
         generateParticles();
+
+
         saveState();
         simulate();
     }
 
     private void simulate() {
-        while ((time != 0 && initial.getXPos() != -D) || EnoughistanceFromParticle()){
-            Double force = CoulombElectrostaticForce();
-            //TODO Simulation with integration method
+
+        int iterations = 0;
+
+        while ( ( (time != 0 && initial.getXPos() != -D) || EnoughistanceFromParticle()  ) && iterations<5){
+
+
+            Float[] forces =CoulombElectrostaticForce();
+
+
             saveState();
+            iterations++;
         }
 
     }
 
     private void saveState() {
-        state.put(time, initial);
+
+        ParticleWithCharge p = new ParticleWithCharge(initial.getXPos(), initial.getYPos(), initial.getXVel(), initial.getYVel(), initial.getRadius(), initial.getMass(), initial.getCharge());
+        state.put(time, p);
         time += deltaTime;
     }
 
@@ -60,35 +69,58 @@ public class RadiationWithMatter {
     private void generateParticles() {
         for (int i = 0; i < N; i++){
             for (int j = 0; j < N; j++){
-                double xPos = i * D;
-                double yPos = j * D;
+                float xPos = i * D;
+                float yPos = j * D;
                 double charge = (i + j) % 2 == 0 ? -Q : Q;
                 particles[i][j] = new ParticleWithCharge(xPos, yPos,
-                        0, 0, 0.1,  M, charge);
+                        0, 0, 0.000000001,  M, charge);
             }
         }
-        double yPos = Math.random() * (2 * D) + (L / 2) - D;
+        Random r = new Random();
+        float yPos = ((L/2)-D) + r.nextFloat() * (((L/2)+D) - ((L/2)-D));
 
-        initial = new ParticleWithCharge(-D, yPos, velX, velY, 0.1, M, Q);
+
+        initial = new ParticleWithCharge(-D, yPos, velX, velY, 0.000000001, M, Q);
     }
 
-    public Double CoulombElectrostaticForce(){
+    public Float[] CoulombElectrostaticForce(){
         double sum = 0;
+        float fx=0;
+        float fy=0;
         for (int i = 0; i < N; i++){
             for (int j = 0; j < N; j++){
                 double rx = initial.getXPos() - particles[i][j].getXPos();
                 double ry = initial.getYPos() - particles[i][j].getYPos();
                 sum += particles[i][j].getCharge() / Math.pow(getModule(rx, ry), 2);
+
+
+                double fn = particles[i][j].getCharge() / Math.pow(getModule(rx, ry), 2);
+
+
+                double enx = rx/getModule(rx, ry);
+                double eny = ry/getModule(rx, ry);
+                fx += fn * enx;
+                fy += fn * eny;
             }
         }
 
         Double force = K * initial.getCharge() * sum;
-        return force;
 
+        fx = (float)(fx * K * initial.getCharge());
+        fy = (float)(fy * K * initial.getCharge());
+
+        Float[] forces = {fx,fy};
+        return forces;
     }
+
 
     private double getModule(double x, double y) {
         return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
     }
+
+
+
+
+
 
 }
