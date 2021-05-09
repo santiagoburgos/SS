@@ -10,7 +10,7 @@ public class Main {
      // EJERCICIO 1
         /*
         OscilatorData oscilatorData = Main.readStaticOFile("StaticO.txt");
-        float dt = Main.readDynamicOFile("DynamicO.txt");
+        double dt = Main.readDynamicOFile("DynamicO.txt");
         if (oscilatorData == null || dt == 0)
             return;
 
