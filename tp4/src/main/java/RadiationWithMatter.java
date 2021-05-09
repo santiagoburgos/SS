@@ -3,8 +3,7 @@
 import java.util.*;
 
 public class RadiationWithMatter {
-    private static final float Q = 1e-18f;
-    //private static final float Q = 1e-19f;
+    private static final float Q = 1e-19f;
     private static final float M = 1e-27f;
     private static final float K = 1e10f;
 
@@ -45,7 +44,7 @@ public class RadiationWithMatter {
 
         int iterations = 0;
 
-        while ( ( (time != 0 && initial.getXPos() != -D) || EnoughistanceFromParticle()  ) && iterations<2000){
+        while ( ( (time != 0 && initial.getXPos() != -D) || EnoughistanceFromParticle()  ) && !outOfBounderies() && iterations<2000){
 
 
 
@@ -60,7 +59,7 @@ public class RadiationWithMatter {
             iterations++;
         }
 
-
+        System.out.println(iterations);
     }
 
     private void saveState() {
@@ -68,6 +67,12 @@ public class RadiationWithMatter {
         ParticleWithCharge p = new ParticleWithCharge(initial.getXPos(), initial.getYPos(), initial.getXVel(), initial.getYVel(), initial.getRadius(), initial.getMass(), initial.getCharge());
         state.put(time, p);
         time += deltaTime;
+    }
+
+    private boolean outOfBounderies() {
+        if(initial.getXPos() > (L+D) || initial.getXPos() < (-D) || initial.getYPos() > (L+D) || initial.getYPos() < (-D))
+            return true;
+        return false;
     }
 
     private boolean EnoughistanceFromParticle() {

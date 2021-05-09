@@ -20,7 +20,7 @@ public class Main {
          */
 
 
-        RadiationWithMatter radiationWithMatter = new RadiationWithMatter(1e-8f, 16, 100e3f, 10e3f, 0.000000000000001);
+        RadiationWithMatter radiationWithMatter = new RadiationWithMatter(1e-8f, 16, 10e3f, 0, 0.00000000000001);
 
         int i = 0;
         for (double d : radiationWithMatter.state.keySet()) {
