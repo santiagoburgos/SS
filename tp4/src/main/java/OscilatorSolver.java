@@ -65,7 +65,7 @@ public class OscilatorSolver {
         double finalR = rt + vt * dt  + (2 * getForce(rt, vt) * Math.pow(dt, 2)) / (3 * od.getMass()) - Math.pow(dt, 2) * getForce(prevRt, prevVt) / (6 * od.getMass());
 
         double predictedV = vt + (3 * getForce(rt, vt) * dt) / 2 - dt * getForce(prevRt, prevVt) / (2 * od.getMass());
-        double correctedV = vt + getForce(finalR, predictedV)  * dt / 3 + (5 * getForce(rt, vt) * dt) / 6 - Math.pow(dt, 2) * getForce(prevRt, prevVt) / (6 * od.getMass());
+        double correctedV = vt + getForce(finalR, predictedV)  * dt / 3 + (5 * getForce(rt, vt) * dt) / 6 - dt * getForce(prevRt, prevVt) / (6 * od.getMass());
 
         beemanR.add(finalR);
         beemanV.add(correctedV);
@@ -104,20 +104,17 @@ public class OscilatorSolver {
             getBeeman();
             getGPCO5();
         }
-        /*createEDOFile("originalR", originalR);
+        createEDOFile("originalR", originalR);
         createEDOFile("verletR", verletR);
-        createEDOFile("verletV", verletV);
         createEDOFile("beemannR", beemanR);
-        createEDOFile("beemanV", beemanV);
         createEDOFile("gpco5R", gpco5R);
-        createEDOFile("gpco5V", gpco5V);*/
     }
 
-    private void createEDOFile(String fileName, ArrayList<Float> elements) throws IOException {
+    private void createEDOFile(String fileName, ArrayList<Double> elements) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
 
-        for (Float f: elements) {
-            writer.write(f + "\n");
+        for (Double element: elements) {
+            writer.write(element + "\n");
         }
 
         writer.close();
