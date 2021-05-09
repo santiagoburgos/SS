@@ -53,7 +53,7 @@ public class RadiationWithMatter {
             System.out.println("x " + initial.getXPos() + " f " + forces[0] + " y " + initial.getYPos() +" f " + forces[1] );
 
 
-            ver(forces);
+            verlet(forces);
 
             saveState();
             iterations++;
@@ -142,102 +142,47 @@ public class RadiationWithMatter {
 
 
 
-
-
-
-
     float[] prevR ={0,0};
-            public void ver(Float[] forces){
-                float rx = 2f*(float)initial.getXPos() - prevR[0] + (float)(Math.pow(deltaTime,2)/(float)initial.getMass()) * forces[0] ;
-                float ry = 2f*(float)initial.getYPos() - prevR[1] + (float)(Math.pow(deltaTime,2)/(float)initial.getMass()) * forces[1] ;
+    private void verlet(Float[] forces){
+        float rx = 2f*(float)initial.getXPos() - prevR[0] + (float)(Math.pow(deltaTime,2)/(float)initial.getMass()) * forces[0] ;
+        float ry = 2f*(float)initial.getYPos() - prevR[1] + (float)(Math.pow(deltaTime,2)/(float)initial.getMass()) * forces[1] ;
 
-                prevR[0] = initial.getXPos();
-                prevR[1] = initial.getYPos();
+        prevR[0] = initial.getXPos();
+        prevR[1] = initial.getYPos();
 
-                initial.setXPos(rx);
-                initial.setYPos(ry);
+        initial.setXPos(rx);
+        initial.setYPos(ry);
 
+        float vx = ((rx - prevR[0])/(2f*(float)deltaTime));
+        float vy = ((ry - prevR[1])/(2f*(float)deltaTime));
 
+        initial.setXVel(rx);
+        initial.setYVel(ry);
 
-            }
+    }
 
-
-
-
-
-
-
-
+    
 
 
+    private double potentialE(){
+        double sum =0;
 
-
-
-
-
-
-
-
-
-
-
-
-
-    double previousAx = 0;
-    double previousAy = 0;
-
-    private void beeman(float fxx, float fyy) {
-
-        float ax = fxx / initial.getMass();
-        float ay = fyy / initial.getMass();
-
-        System.out.println("ax " + ax + " ay " + ay);
-
-        double rx = initial.getXPos() + initial.getXVel()*deltaTime + (2/3) * ax * Math.pow(deltaTime,2) - (1/6) * previousAx * Math.pow(deltaTime,2) ;
-        double ry = initial.getYPos() + initial.getYVel()*deltaTime + (2/3) * ax * Math.pow(deltaTime,2) - (1/6) * previousAy * Math.pow(deltaTime,2) ;
-
-
-        double sum = 0;
-        double fx=0;
-        double fy=0;
-        for (int i = 0; i < N; i++){
-            for (int j = 0; j < N; j++){
-                double rxx = initial.getXPos() - particles[i][j].getXPos();
-                double ryy = initial.getYPos() - particles[i][j].getYPos();
-                sum += particles[i][j].getCharge() / Math.pow(getModule(rxx, ryy), 2);
-
-                double fn = particles[i][j].getCharge() / Math.pow(getModule(rx, ry), 2);
-                double enx = (initial.getXPos() - particles[i][j].getXPos())/getModule(rx, ry);
-                double eny = (initial.getYPos() - particles[i][j].getYPos())/getModule(rx, ry);
-                fx += fn * enx;
-                fy += fn * eny;
-
-
-
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                double rx = initial.getXPos() - particles[i][j].getXPos();
+                double ry = initial.getYPos() - particles[i][j].getYPos();
+                sum += particles[i][j].getCharge() / getModule(rx, ry);
             }
         }
-        fx = fx * K * initial.getCharge();
-        fy = fy * K * initial.getCharge();
 
+        double u = K * initial.getCharge() * sum;
 
-
-
-        double nextax = fx / initial.getMass();
-        double nextay = fy / initial.getMass();
-
-
-        double vx = initial.getXVel() + ((1/3) * nextax * deltaTime)+ ((5/6) * ax * deltaTime) - ((1/6) * previousAx * deltaTime);
-        double vy = initial.getYVel() + ((1/3) * nextay * deltaTime) + ((5/6) * ay * deltaTime) - ((1/6) * previousAy * deltaTime);
-
-        System.out.println("VX " + vx + " VY " + vy);
-        previousAx = ax;
-        previousAy = ay;
-
-        initial.setXPos((float)rx);
-        initial.setYPos((float)ry);
-        initial.setXVel((float)vx);
-        initial.setYVel((float)vy);
+        return u;
     }
+
+
+
+
 
 
 }
