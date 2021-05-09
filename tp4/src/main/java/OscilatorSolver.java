@@ -62,10 +62,10 @@ public class OscilatorSolver {
         double vt = beemanV.get(beemanV.size() - 1);
         double prevRt = verletR.get(verletR.size() - 2);
         double prevVt = verletV.get(verletV.size() - 2);
-        double finalR = rt + vt * dt  + (2 * getForce(rt, vt) * Math.pow(dt, 2)) / (3 * od.getMass()) - Math.pow(dt, 2) * getForce(prevRt, prevRt) / (6 * od.getMass());
+        double finalR = rt + vt * dt  + (2 * getForce(rt, vt) * Math.pow(dt, 2)) / (3 * od.getMass()) - Math.pow(dt, 2) * getForce(prevRt, prevVt) / (6 * od.getMass());
 
-        double predictedV = vt + (3 * getForce(rt, vt) * dt) / 2 - dt * getForce(prevRt, prevRt) / (2 * od.getMass());
-        double correctedV = vt + getForce(finalR, predictedV)  * dt / 3 + (5 * getForce(rt, vt) * dt) / 6 - Math.pow(dt, 2) * getForce(prevRt, prevRt) / (6 * od.getMass());
+        double predictedV = vt + (3 * getForce(rt, vt) * dt) / 2 - dt * getForce(prevRt, prevVt) / (2 * od.getMass());
+        double correctedV = vt + getForce(finalR, predictedV)  * dt / 3 + (5 * getForce(rt, vt) * dt) / 6 - Math.pow(dt, 2) * getForce(prevRt, prevVt) / (6 * od.getMass());
 
         beemanR.add(finalR);
         beemanV.add(correctedV);
