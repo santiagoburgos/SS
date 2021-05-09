@@ -1,11 +1,11 @@
 public class OscilatorData {
-    private float mass;
-    private float k;
-    private float phi;
-    private float tf;
-    private float r0;
+    private double mass;
+    private double k;
+    private double phi;
+    private double tf;
+    private double r0;
 
-    public OscilatorData(float mass, float k, float phi, float tf, float r0) {
+    public OscilatorData(double mass, double k, double phi, double tf, double r0) {
         this.mass = mass;
         this.k = k;
         this.phi = phi;
@@ -13,23 +13,23 @@ public class OscilatorData {
         this.r0 = r0;
     }
 
-    public float getMass() {
+    public double getMass() {
         return mass;
     }
 
-    public float getK() {
+    public double getK() {
         return k;
     }
 
-    public float getPhi() {
+    public double getPhi() {
         return phi;
     }
 
-    public float getTf() {
+    public double getTf() {
         return tf;
     }
 
-    public float getR0() {
+    public double getR0() {
         return r0;
     }
 }

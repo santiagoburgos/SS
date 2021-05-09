@@ -35,23 +35,23 @@ public class Main {
 
     public static OscilatorData readStaticOFile(String fileName) {
         File file = new File(fileName);
-        float mass = 0;
-        float k = 0;
-        float phi = 0;
-        float tf = 0;
-        float r0 = 0;
+        double mass = 0;
+        double k = 0;
+        double phi = 0;
+        double tf = 0;
+        double r0 = 0;
         try {
             Scanner myReader = new Scanner(file);
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
-                float aux;
+                double aux;
                 if (data.contains("^")) {
                     int potPosition = data.indexOf('^');
                     int num = Integer.parseInt(data.substring(0, potPosition));
-                    int pot =Integer.parseInt(data.substring(potPosition + 1));
-                    aux = (float) Math.pow(num, pot);
+                    int pot = Integer.parseInt(data.substring(potPosition + 1));
+                    aux = Math.pow(num, pot);
                 } else {
-                    aux = Float.parseFloat(data);
+                    aux = Double.parseDouble(data);
                 }
 
                 if (mass == 0)
@@ -76,14 +76,14 @@ public class Main {
 
     }
 
-    public static float readDynamicOFile(String fileName) {
+    public static double readDynamicOFile(String fileName) {
         File file = new File(fileName);
-        float aux = 0.1f;
+        double aux = 0.1f;
         try {
             Scanner myReader = new Scanner(file);
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
-                aux = Float.parseFloat(data);
+                aux = Double.parseDouble(data);
             }
             myReader.close();
         } catch (FileNotFoundException e) {
