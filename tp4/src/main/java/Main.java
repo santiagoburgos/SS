@@ -1,6 +1,7 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
@@ -20,16 +21,14 @@ public class Main {
          */
 
 
-        RadiationWithMatter radiationWithMatter = new RadiationWithMatter(1e-8f, 16, 10e3f, 0, 0.000000000000001);
+        RadiationWithMatter radiationWithMatter = new RadiationWithMatter(1e-8, 16, 20e3, 0, 1e-16, 100);
 
-        int i = 0;
+
+        int it = 0;
         for (double d : radiationWithMatter.state.keySet()) {
-
-            OvitoGen.saveDynamicFile(i, radiationWithMatter.state.get(d), radiationWithMatter.particles, "D:\\OV\\");
-            i++;
+            OvitoGen.saveDynamicFile(it, radiationWithMatter.state.get(d), radiationWithMatter.particles, "D:\\OV\\");
+            it++;
             }
-
-
 
     }
 
@@ -95,5 +94,8 @@ public class Main {
         return aux;
 
     }
+
+
+
 
 }
