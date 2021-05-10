@@ -114,7 +114,14 @@ public class OscilatorSolver {
         BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
 
         for (Double element: elements) {
-            writer.write(element + "\n");
+            String s = element.toString();
+            if (s.contains("E")) {
+
+            }
+            int indexOfPoint = s.indexOf(".");
+            String first = s.substring(0, indexOfPoint);
+            String second = s.substring(indexOfPoint + 1);
+            writer.write(first + "," + second + "\n");
         }
 
         writer.close();
