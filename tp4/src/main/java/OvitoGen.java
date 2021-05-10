@@ -1,3 +1,4 @@
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -19,11 +20,13 @@ public class OvitoGen {
             out.println("");
 
 
-                out.println(p.getXPos() + " " + p.getYPos() + " " + 0 + " " + p.getRadius() );
+                out.println(p.getXPos() + " " + p.getYPos() + " " + 0 + " " + p.getRadius() + " " + 1);
             for (int i = 0; i < parts.length; i++){
                 for (int j = 0; j < parts.length; j++){
 
-                    out.println(parts[i][j].getXPos() + " " + parts[i][j].getYPos() + " " + 0 + " " + parts[i][j].getRadius() );
+
+
+                    out.println(parts[i][j].getXPos() + " " + parts[i][j].getYPos() + " " + 0 + " " + parts[i][j].getRadius() + " " +  ((i + j) % 2 == 0 ? -1 : 1));
                 }
             }
 

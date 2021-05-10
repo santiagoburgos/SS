@@ -1,10 +1,10 @@
 public class Particle {
-    private float xPos, yPos;
-    private float xVel, yVel;
-    private float radius;
-    private float mass;
+    private double xPos, yPos;
+    private double xVel, yVel;
+    private double radius;
+    private double mass;
 
-    public Particle(float xPos, float yPos, float xVel, float yVel, float radius, float mass){
+    public Particle(double xPos, double yPos, double xVel, double yVel, double radius, double mass){
         this.xPos = xPos;
         this.yPos = yPos;
         this.xVel = xVel;
@@ -13,43 +13,43 @@ public class Particle {
         this.mass = mass;
     }
 
-    public float getXPos() {
+    public double getXPos() {
         return xPos;
     }
 
-    public float getYPos() {
+    public double getYPos() {
         return yPos;
     }
 
-    public float getXVel() {
+    public double getXVel() {
         return xVel;
     }
 
-    public float getYVel() {
+    public double getYVel() {
         return yVel;
     }
 
-    public float getRadius() {
+    public double getRadius() {
         return radius;
     }
 
-    public float getMass() {
+    public double getMass() {
         return mass;
     }
 
-    public void setXVel(float vel) {
+    public void setXVel(double vel) {
         xVel = vel;
     }
 
-    public void setYVel(float vel) {
+    public void setYVel(double vel) {
         yVel = vel;
     }
 
-    public void setXPos(float pos) {
+    public void setXPos(double pos) {
         xPos = pos;
     }
 
-    public void setYPos(float pos) {
+    public void setYPos(double pos) {
         yPos = pos;
     }
 
