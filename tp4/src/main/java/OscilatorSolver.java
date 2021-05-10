@@ -51,7 +51,7 @@ public class OscilatorSolver {
         double vt = verletV.get(verletV.size() - 1);
         double prevRt = verletR.get(verletR.size() - 2);
 
-        double finalR = 2 * rt - prevRt + ( (Math.pow(dt, 2) / od.getMass())) * getForce(rt, vt);
+        double finalR = 2 * rt - prevRt + Math.pow(dt, 2) * getForce(rt, vt) / od.getMass();
         double finalV = (rt - prevRt) / (2 * dt);
         verletR.add(finalR);
         verletV.add(finalV);
@@ -115,9 +115,6 @@ public class OscilatorSolver {
 
         for (Double element: elements) {
             String s = element.toString();
-            if (s.contains("E")) {
-
-            }
             int indexOfPoint = s.indexOf(".");
             String first = s.substring(0, indexOfPoint);
             String second = s.substring(indexOfPoint + 1);
