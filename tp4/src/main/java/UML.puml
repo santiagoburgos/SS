@@ -1,0 +1,81 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+OscilatorData <- Main
+OscilatorData <- OscilatorSolver
+OscilatorSolver <- Main
+RadiationWithMatter <-- Main
+OvitoGen <- Main
+Particle <- ParticleWithCharge
+ParticleWithCharge <- RadiationWithMatter
+
+class Particle {
+    - double xPos
+    - double yPos
+    - double xVel
+    - double yVel
+    - double radius
+    - double mass
+
+    + Particle(double, double, double, double, double, double)
+}
+
+class Main {
+    + static void main(String[])
+    + static OscilatorData readStaticOFile(String)
+    + static OscilatorData readDynamicOFile(String)
+}
+
+class OscilatorData {
+    - double mass
+    - double k
+    - double phi
+    - double tf
+    - double r0
+
+    + OscilatorData(double, double, double, double, double)
+}
+
+class OscilatorSolver {
+    + void solve(OscilatorData, double)
+}
+
+class OvitoGen {
+ + static void saveDynamicFile(int, ParticleWithCharge, ParticleWithCharge[][], String)
+}
+
+class ParticleWithCharge {
+    - double charge;
+    + ParticleWithCharge(double, double, double, double, double, double, double) {
+}
+
+class RadiationWithMatter {
+    - float Q
+    - float M
+    - float K
+    - double L
+    - double D
+    - int N
+    - double velX
+    - double velY
+    + ParticleWithCharge particles[][]
+    - ParticleWithCharge initial
+    - int saveDT
+    + SortedMap<Double, ParticleWithCharge> state
+    - double time
+    - double deltaTime
+    + SortedMap<Double, Double> energy
+
+    + RadiationWithMatter(double, int, double, double, double, int)
+    - void simulate()
+    - void saveState(int, double)
+    - boolean outOfBounderies()
+    - boolean EnoughistanceFromParticle()
+    - void generateParticles()
+    + Double[] CoulombElectrostaticForce()
+    - double kineticE()
+    - double potentialE()
+}
+
+
+@enduml
