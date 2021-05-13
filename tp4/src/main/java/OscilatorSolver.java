@@ -52,7 +52,7 @@ public class OscilatorSolver {
         double prevRt = verletR.get(verletR.size() - 2);
 
         double finalR = 2 * rt - prevRt + Math.pow(dt, 2) * getForce(rt, vt) / od.getMass();
-        double finalV = (rt - prevRt) / (2 * dt);
+        double finalV = (finalR - prevRt) / (2 * dt);
         verletR.add(finalR);
         verletV.add(finalV);
     }
