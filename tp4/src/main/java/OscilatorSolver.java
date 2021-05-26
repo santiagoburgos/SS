@@ -51,8 +51,8 @@ public class OscilatorSolver {
         double vt = verletV.get(verletV.size() - 1);
         double prevRt = verletR.get(verletR.size() - 2);
 
-        double finalR = 2 * rt - prevRt + ( (Math.pow(dt, 2) / od.getMass())) * getForce(rt, vt);
-        double finalV = (rt - prevRt) / (2 * dt);
+        double finalR = 2 * rt - prevRt + Math.pow(dt, 2) * getForce(rt, vt) / od.getMass();
+        double finalV = (finalR - prevRt) / (2 * dt);
         verletR.add(finalR);
         verletV.add(finalV);
     }
@@ -114,7 +114,11 @@ public class OscilatorSolver {
         BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
 
         for (Double element: elements) {
-            writer.write(element + "\n");
+            String s = element.toString();
+            int indexOfPoint = s.indexOf(".");
+            String first = s.substring(0, indexOfPoint);
+            String second = s.substring(indexOfPoint + 1);
+            writer.write(first + "," + second + "\n");
         }
 
         writer.close();
