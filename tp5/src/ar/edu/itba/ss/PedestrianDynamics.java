@@ -6,23 +6,28 @@ import static java.lang.Math.sqrt;
 
 public class PedestrianDynamics {
 
-    double size = 20;  // meters * meters
+    private static double size = 20;  // meters * meters
 
     double d = 1.2;      // meters
     double vMax = 2; // m/s
     double N = 200; // numbers por particles
 
     //radius in meters
-    double Rmin = 0.15;
-    double Rmax = 0.32;
-    double tao = 0.5;
+    private static double Rmin = 0.15;
+    private static double Rmax = 0.32;
+    private static double tao = 0.5;
 
-    double deltaTime = 0.01;
-
+    double deltaTime;
+    double deltaTime2;
 
     private List<Particle> particles = new ArrayList<>();
     public SortedMap<Double, List<Particle>> states = new TreeMap<>();
     double time = 0;
+
+
+    public List<Double> outTime = new ArrayList<>();
+    boolean allOut=false;
+
 
     int maxAttempts = 200000;
     private List<Double> vex = new ArrayList<>();
@@ -34,32 +39,56 @@ public class PedestrianDynamics {
     private double target1X0, target1X1;
     private double target2X0, target2X1;
 
-    public PedestrianDynamics(){
+    public PedestrianDynamics(double N, double d, double vMax, double dt2){
+
+        deltaTime = Rmin/(4*2*vMax);
+
+
+        if(dt2==0)
+            deltaTime2=dt2;
+        else
+            deltaTime2=dt2;
+
+        this.N = N;
+        this.d = d;
+
+
+        System.out.println("dt " + deltaTime);
 
         generateParticles();
         saveState(time);
 
-        target1X0 = (size/2)-((d/2)-0.2);
-        target1X1 = (size/2)+((d/2)-0.2);
+        target1X0 = (size/2)-((d/2)-0.1);
+        target1X1 = (size/2)+((d/2)-0.1);
 
-
-        for(int i=0; i<15000; i++){
+        int iterations = 0;
+        double time2 = 0f;
+        while(!allOut){
 
             calculateVe();
             adjustRadius();
             calculateVd();
             updateVelandPos();
 
-            time+=deltaTime;
-            saveState(time);
-        }
 
+            if(time >= time2){
+                saveState(time);
+                time2 +=deltaTime2;
+            }
+
+
+            time+=deltaTime;
+
+
+        }
+        System.out.println("final time: " + time);
     }
 
 
     private void generateParticles() {
         int particlesNumber = 0;
         int attempt = 0;
+
 
         Random r = new Random();
 
@@ -106,6 +135,74 @@ public class PedestrianDynamics {
             double vy = 0;
 
             Particle p = particles.get(i);
+
+
+
+
+            if(particles.get(i).getYPos()>0) {
+                if (((particles.get(i).getYPos() - particles.get(i).getRadius() <= 0) && ( particles.get(i).getXPos()  < ((size / 2) - (d / 2)))) || ((particles.get(i).getYPos() - particles.get(i).getRadius() <= 0) && (particles.get(i).getXPos()  > ((size / 2) + (d / 2)))) ) {
+                    p.setRadius(Rmin);
+                    vy -= vMax;
+                }
+            }
+
+
+
+            double wall0XPoint = ((size/2)-(d/2));
+            double wall0YPoint = 0;
+            double d0 = (sqrt((wall0YPoint - p.getYPos()) * (wall0YPoint - p.getYPos()) + (wall0XPoint - p.getXPos()) * (wall0XPoint - p.getXPos())) - (p.getRadius() + 0 ));
+            if (d0 < 0 && p.getXPos()>wall0XPoint){
+                    double degrees = Math.toDegrees(Math.atan2(wall0XPoint - p.getXPos(), wall0YPoint - p.getYPos()));
+                    degrees = degrees + Math.ceil( -degrees / 360 ) * 360;
+                    double angle = Math.toRadians(degrees);
+
+                    double vxx = vMax * Math.sin(angle);
+                    if(vxx<0)
+                        vxx = vxx*-1;
+                    double vyy = vMax * Math.cos(angle);
+                    if(vyy<0)
+                        vyy = vyy*-1;
+                    double modx= wall0XPoint - p.getXPos();
+                    if(modx<0)
+                        modx = modx*-1;
+                    double mody= wall0YPoint - p.getYPos();
+                    if(mody<0)
+                        mody = mody*-1;
+
+                    vx += vxx * ((wall0XPoint - p.getXPos())/modx);
+                    vy += vyy * ((wall0YPoint - p.getYPos())/mody);
+            }
+
+            double wall1XPoint = ((size/2)-(d/2));
+            double wall1YPoint = 0;
+            double d1 = (sqrt((wall1YPoint - p.getYPos()) * (wall1YPoint - p.getYPos()) + (wall1XPoint - p.getXPos()) * (wall1XPoint - p.getXPos())) - (p.getRadius() + 0 ));
+            if (d1 < 0 &&  p.getXPos()<wall1XPoint){
+                double degrees = Math.toDegrees(Math.atan2(wall1XPoint - p.getXPos(), wall1YPoint - p.getYPos()));
+                degrees = degrees + Math.ceil( -degrees / 360 ) * 360;
+                double angle = Math.toRadians(degrees);
+
+                double vxx = vMax * Math.sin(angle);
+                if(vxx<0)
+                    vxx = vxx*-1;
+                double vyy = vMax * Math.cos(angle);
+                if(vyy<0)
+                    vyy = vyy*-1;
+                double modx= wall1XPoint - p.getXPos();
+                if(modx<0)
+                    modx = modx*-1;
+                double mody= wall1YPoint - p.getYPos();
+                if(mody<0)
+                    mody = mody*-1;
+
+
+                vx += vxx * ((wall1XPoint - p.getXPos())/modx);
+                vy += vyy * ((wall1YPoint - p.getYPos())/mody);
+            }
+
+
+
+
+
             for(int j=0; j<particles.size(); j++){
                 if(i!=j){
                     Particle p2 = particles.get(j);
@@ -136,6 +233,8 @@ public class PedestrianDynamics {
                     }
                 }
             }
+
+
             vex.set(i, -vx);
             vey.set(i, -vy);
         }
@@ -152,8 +251,6 @@ public class PedestrianDynamics {
                 double rad = p.getRadius() + (Rmax/(tao/deltaTime));
                 p.setRadius(rad);
             }
-
-
 
         }
     }
@@ -177,14 +274,20 @@ public class PedestrianDynamics {
                     targetX = target1X1;
                 else{
                     targetX = p.getXPos();
-                  //  System.out.println(targetX);
                 }
             }
             else{
                 targetY = -20;
                 targetX = p.getXPos();
-            }
+                if((p.getXPos())< ((size/2)-1.5d)){
+                    targetX = ((size/2)-1.5d);
+                }
+                if((p.getXPos())> ((size/2)+1.5d)){
+                    targetX = ((size/2)+1.5d);
+                }
 
+
+            }
 
 
 
@@ -225,28 +328,20 @@ public class PedestrianDynamics {
             vdx.set(i,vx);
             vdy.set(i,vy);
 
+
+
         }
     }
 
 
     private void updateVelandPos(){
+
+        allOut=true;
+
         for(int i=0; i<particles.size(); i++){
 
             double xv = (vex.get(i)+vdx.get(i));
             double yv = (vey.get(i)+vdy.get(i));
-
-
-            if(particles.get(i).getYPos()>0){
-                if((particles.get(i).getYPos()-particles.get(i).getRadius() < 0) && (particles.get(i).getXPos()+particles.get(i).getRadius()< ((size/2)-(d/2)))){
-                    yv=0;
-                }
-                if((particles.get(i).getYPos()-particles.get(i).getRadius() < 0) && (particles.get(i).getXPos()-particles.get(i).getRadius()> ((size/2)+(d/2)))){
-                    yv=0;
-                }
-            }
-
-
-
 
 
 
@@ -258,6 +353,9 @@ public class PedestrianDynamics {
             particles.get(i).setXPos(xp);
             particles.get(i).setYPos(yp);
 
+            if(particles.get(i).getYPos()+particles.get(i).getRadius() >0){
+                allOut = false;
+            }
 
         }
     }

@@ -4,16 +4,12 @@ public class Main {
 
     public static void main(String[] args) {
 
-        PedestrianDynamics pd = new PedestrianDynamics();
+        PedestrianDynamics pd = new PedestrianDynamics(200, 1.2, 2, 0.1);
 
         int i=0;
-        float clock = 0f;
         for (double d : pd.states.keySet()) {
-            if(d >= clock){
                 OvitoGen.saveDynamicFile(i, pd.states.get(d),"D:\\OV\\");
                 i+=1;
-                clock +=0.1f;
-            }
         }
 
 
