@@ -4,11 +4,14 @@ public class Main {
 
     public static void main(String[] args) {
 
-        PedestrianDynamics pd = new PedestrianDynamics(200, 1.2, 2, 0.1);
+        double N = 180;
+        double d = 1.2;
+
+        PedestrianDynamics pd = new PedestrianDynamics(N, d, 2, 0.2);
 
         int i=0;
-        for (double d : pd.states.keySet()) {
-                OvitoGen.saveDynamicFile(i, pd.states.get(d),"D:\\OV\\");
+        for (double k : pd.states.keySet()) {
+                OvitoGen.saveDynamicFile(i, pd.states.get(k), d,"D:\\OV\\");
                 i+=1;
         }
 

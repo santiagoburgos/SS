@@ -41,7 +41,7 @@ public class PedestrianDynamics {
 
     public PedestrianDynamics(double N, double d, double vMax, double dt2){
 
-        deltaTime = Rmin/(4*2*vMax);
+        deltaTime = Rmin/(2*vMax);
 
 
         if(dt2==0)
@@ -141,7 +141,7 @@ public class PedestrianDynamics {
 
             if(particles.get(i).getYPos()>0) {
                 if (((particles.get(i).getYPos() - particles.get(i).getRadius() <= 0) && ( particles.get(i).getXPos()  < ((size / 2) - (d / 2)))) || ((particles.get(i).getYPos() - particles.get(i).getRadius() <= 0) && (particles.get(i).getXPos()  > ((size / 2) + (d / 2)))) ) {
-                    p.setRadius(Rmin);
+                   // p.setRadius(Rmin);
                     vy -= vMax;
                 }
             }
@@ -209,8 +209,8 @@ public class PedestrianDynamics {
                     double distance = (sqrt((p2.getYPos() - p.getYPos()) * (p2.getYPos() - p.getYPos()) + (p2.getXPos() - p.getXPos()) * (p2.getXPos() - p.getXPos())) - (p.getRadius() + p2.getRadius() ));
                     if (distance < 0){
 
-                        p.setRadius(Rmin);
-                        p2.setRadius(Rmin);
+                       // p.setRadius(Rmin);
+                       // p2.setRadius(Rmin);
 
                         double degrees = Math.toDegrees(Math.atan2(p2.getXPos() - p.getXPos(), p2.getYPos() - p.getYPos()));
                         degrees = degrees + Math.ceil( -degrees / 360 ) * 360;
@@ -247,9 +247,16 @@ public class PedestrianDynamics {
             //ajusto radio
             Particle p = particles.get(i);
 
+
+
             if(p.getRadius()<Rmax){
                 double rad = p.getRadius() + (Rmax/(tao/deltaTime));
                 p.setRadius(rad);
+            }
+
+
+            if(vex.get(i) != 0){
+                p.setRadius(Rmin);
             }
 
         }
@@ -285,14 +292,9 @@ public class PedestrianDynamics {
                 if((p.getXPos())> ((size/2)+1.5d)){
                     targetX = ((size/2)+1.5d);
                 }
-
-
             }
 
 
-
-            //
-            //
 
             double degrees = Math.toDegrees(Math.atan2(targetX - p.getXPos(), targetY - p.getYPos()));
             degrees = degrees + Math.ceil( -degrees / 360 ) * 360;
@@ -325,6 +327,10 @@ public class PedestrianDynamics {
             if(mody != 0)
             vy = vyy * ((targetY - p.getYPos())/mody);
 
+
+
+
+
             vdx.set(i,vx);
             vdy.set(i,vy);
 
@@ -352,6 +358,18 @@ public class PedestrianDynamics {
             double yp = particles.get(i).getYPos() + (deltaTime*yv);
             particles.get(i).setXPos(xp);
             particles.get(i).setYPos(yp);
+
+
+
+
+            //
+           // if(i==0){
+           //     System.out.println("vex " + vex.get(i) + " vdx " + vdx.get(i) + " rad " + particles.get(i).getRadius());
+           //     System.out.println("vey " + vey.get(i) + " vdy " + vdy.get(i) + " rad " + particles.get(i).getRadius());
+           // }
+            //
+
+
 
             if(particles.get(i).getYPos()+particles.get(i).getRadius() >0){
                 allOut = false;
