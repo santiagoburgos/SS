@@ -46,7 +46,7 @@ public class Main {
         for (double d : radiationWithMatter.state.keySet()) {
             OvitoGen.saveDynamicFile(it, radiationWithMatter.state.get(d), radiationWithMatter.particles, "D:\\OV\\");
             it++;
-            }
+        }
 
     }
 

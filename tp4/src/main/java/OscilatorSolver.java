@@ -104,21 +104,20 @@ public class OscilatorSolver {
             getBeeman();
             getGPCO5();
         }
-        createEDOFile("originalR", originalR);
-        createEDOFile("verletR", verletR);
-        createEDOFile("beemannR", beemanR);
-        createEDOFile("gpco5R", gpco5R);
+        createEDOFile("originalR", originalR, false);
+        createEDOFile("verletR", verletR, true);
+        createEDOFile("beemannR", beemanR, true);
+        createEDOFile("gpco5R", gpco5R, true);
     }
 
-    private void createEDOFile(String fileName, ArrayList<Double> elements) throws IOException {
+    private void createEDOFile(String fileName, ArrayList<Double> elements, boolean shouldOmmitFirst) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
-
+        boolean ommit = shouldOmmitFirst;
         for (Double element: elements) {
-            String s = element.toString();
-            int indexOfPoint = s.indexOf(".");
-            String first = s.substring(0, indexOfPoint);
-            String second = s.substring(indexOfPoint + 1);
-            writer.write(first + "," + second + "\n");
+            if (ommit)
+                ommit = false;
+            else
+                writer.write(element + "\n");
         }
 
         writer.close();
