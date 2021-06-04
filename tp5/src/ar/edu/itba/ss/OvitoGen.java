@@ -14,8 +14,8 @@ public class OvitoGen {
             PrintWriter out = new PrintWriter(bw))
         {
 
+
             /*
-            // esto dibuja la pared pero OJO esta alterando la lista de particulas
             double w1 = 10-(d/2);
             while (w1 >0){
                 particles.add(new Particle(w1,0,0,0,0.05));
@@ -26,8 +26,23 @@ public class OvitoGen {
                 particles.add(new Particle(w2,0,0,0,0.05));
                 w2+=0.05;
             }
+            double w3 = 0;
+            while (w3 <20){
+                particles.add(new Particle(w3,20,0,0,0.05));
+                w3+=0.05;
+            }
+            double w4 = 0;
+            while (w4 <20){
+                particles.add(new Particle(0,w4,0,0,0.05));
+                w4+=0.05;
+            }
+            double w5 = 0;
+            while (w5 <20){
+                particles.add(new Particle(20,w5,0,0,0.05));
+                w5+=0.05;
+            }
+            */
 
-             */
 
 
 
