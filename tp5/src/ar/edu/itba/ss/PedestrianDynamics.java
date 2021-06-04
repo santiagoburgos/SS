@@ -82,6 +82,7 @@ public class PedestrianDynamics {
 
         }
         System.out.println("final time: " + time);
+
     }
 
 
@@ -103,7 +104,14 @@ public class PedestrianDynamics {
             attempt += 1;
 
         }
+
+        for(Particle p : particles) {
+            pcopy.add(p);
+        }
     }
+    //
+    List<Particle> pcopy = new ArrayList<>();
+
 
     private boolean addParticle(double xPos, double yPos, double radius) {
         for (Particle p : particles) {
@@ -375,7 +383,20 @@ public class PedestrianDynamics {
                 allOut = false;
             }
 
+
+
+            if(particles.get(i).getYPos()+particles.get(i).getRadius() <0 && pcopy.contains(particles.get(i)) ){
+                outTime.add(time);
+                pcopy.remove(particles.get(i));
+            }
+
+
+
+
         }
+
+
+
     }
 
 
