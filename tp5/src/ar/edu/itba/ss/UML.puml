@@ -1,0 +1,65 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+Particle <- PedestrianDynamics
+PedestrianDynamics <-- Main
+OvitoGen <- Main
+
+class Main {
++ static void main(String[])
++ static void timesFile(List<Double>)
+}
+
+class OvitoGen {
+ + static void saveDynamicFile(int, List<Particle>, double, String)
+}
+
+class Particle {
+    - double xPos
+    - double yPos
+    - double xVel
+    - double yVel
+    - double radius
+    - double mass
+
+    + Particle(double, double, double, double, double, double)
+}
+
+class PedestrianDynamics {
+    - static double size
+    double d
+    double vMax
+    double N
+    - static double Rmin
+    - static double Rmax
+    - static double tao
+    double deltaTime;
+    double deltaTime2;
+    - List<Particle> particles
+    + SortedMap<Double, List<Particle>> states
+    double time
+    + List<Double> outTime
+    boolean allOut
+    int maxAttempts
+    - List<Double> vex
+    - List<Double> vey
+    - List<Double> vdx
+    - List<Double> vdy
+    - double target1X0
+    - double target1X1
+    - double target2X0
+    - double target2X1
+
+    + PedestrianDynamics(double, double, double, double)
+    - void generateParticles()
+    - boolean addParticle(double, double, double)
+    - void calculateVe()
+    - void adjustRadius()
+    - void calculateVd()
+    - void updateVelandPos()
+    - void saveState(double)
+}
+
+
+
+@enduml
