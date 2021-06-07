@@ -27,13 +27,17 @@ public class Main {
 
     }
 
-    public static void timesFile(List<Double> times) {
+      public static void timesFile(List<Double> times) {
         try {
             FileWriter myWriter = new FileWriter("times.csv");
 
-            myWriter.write("time\n");
+            myWriter.write("n,time\n");
+            int n =1;
+
+
             for(Double d: times){
-                myWriter.write(d +",\n");
+                myWriter.write((n +"," + d +"\n"));
+                n+=1;
             }
             myWriter.close();
 
