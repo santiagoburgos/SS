@@ -52,7 +52,7 @@ for x in range(0, len(people)):
    desv.append(math.sqrt((aux - (5 * pow(mean[x], 2))) / 5))
 
 plt.rcParams.update({'font.size': 14})
-plt.errorbar(time, mean, xerr=desv)
+plt.errorbar(time, mean, xerr=desv, ecolor="r")
 plt.xlabel('Tiempo (segundos)')
 plt.ylabel('Egresos')
 plt.show()
