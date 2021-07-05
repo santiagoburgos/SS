@@ -30,7 +30,7 @@ public class PederestianDynamics {
     private static double tao = 0.5;
 
 
-    double d = 6;      // meters
+    double d = 3;      // meters
 
     //TODO en algunos lados esta harcodeado el h
     double h = 2;
@@ -708,6 +708,24 @@ public class PederestianDynamics {
                 //
                 //
 
+                //RANDOMIZAR EL PUNTO Q APUNTA
+                Random r = new Random();
+
+                if(selected[0].x < selected[1].x){
+                    double randomValue = selected[0].x + (selected[1].x - selected[0].x) * r.nextDouble();
+                    x=randomValue;
+                    y=selected[0].y;
+                }
+                else{
+                    double randomValue = selected[1].x + (selected[0].x - selected[1].x) * r.nextDouble();
+                    x=randomValue;
+                    y=selected[0].y;
+                }
+
+
+
+                //IR AL PUNTO MAS CERCANO
+                /*
                 if(distance0 < distance1){
                     x=selected[0].x;
                     y=selected[0].y;
@@ -715,6 +733,8 @@ public class PederestianDynamics {
                     x=selected[1].x;
                     y=selected[1].y;
                 }
+
+                 */
 
 
 

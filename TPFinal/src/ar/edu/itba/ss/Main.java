@@ -8,10 +8,10 @@ public class Main {
 
     public static void main(String[] args) {
         double N = 500;
-        double d = 6;
+        double d = 3;
 
-        int conf = 2;
-        double l = 10;
+        int conf = 1;
+        double l = 12;
 
         PederestianDynamics pd = new PederestianDynamics(  2, 0.1, conf, l);
 
