@@ -8,9 +8,12 @@ public class Main {
 
     public static void main(String[] args) {
         double N = 500;
-        double d = 3;
+        double d = 6;
 
-        PederestianDynamics pd = new PederestianDynamics(  2, 0.1, 3, 2);
+        int conf = 2;
+        double l = 10;
+
+        PederestianDynamics pd = new PederestianDynamics(  2, 0.1, conf, l);
 
         // timesFile( pd.outTime);
 
@@ -19,8 +22,8 @@ public class Main {
 
         int i=0;
         for (double k : pd.states.keySet()) {
-        //    OvitoGen.saveDynamicFile(i, pd.states.get(k), d,"D:\\OV\\");
-      //      i+=1;
+            OvitoGen.saveDynamicFile(i, pd.states.get(k), d, conf ,l ,"D:\\OV\\");
+            i+=1;
         }
 
 

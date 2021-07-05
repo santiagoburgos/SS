@@ -30,9 +30,10 @@ public class PederestianDynamics {
     private static double tao = 0.5;
 
 
-    double d = 3;      // meters
+    double d = 6;      // meters
 
-    double h = 3;
+    //TODO en algunos lados esta harcodeado el h
+    double h = 2;
 
     double deltaTime;
     double deltaTime2;
@@ -479,8 +480,12 @@ public class PederestianDynamics {
        // }
 
 
+
         for(int n=0; n<hy0.length; n++){
+
             if(p.getYPos()>hy0[n]) {
+
+
                 if( ((p.getYPos()-p.getRadius()) <= hy0[n]) && ( p.getXPos() >= hx0[n]  &&   p.getXPos() <= hx1[n]   )    ){
                     vy -= vMax;
                     p.setRadius(Rmin);
@@ -495,6 +500,8 @@ public class PederestianDynamics {
             }
 
         }
+
+
 
 
 
@@ -784,17 +791,17 @@ public class PederestianDynamics {
             edgePoints.add(new Point2D.Double( ((size/2)-((d/3)/2)),0));
             edgePoints.add(new Point2D.Double(((size/2)+((d/3)/2)),0));
             edgePoints.add(new Point2D.Double(((size/2)+((d/3)/2)+l),0));
-            edgePoints.add(new Point2D.Double(((size/2)+((d/3)/2)+l+(d/3)),0));
+            edgePoints.add(new Point2D.Double( ((size/2)+((d/3)/2)+l+(d/3)) ,0));
 
             System.out.println(0 + " " + ((size/2)-((d/3)/2)-l-(d/3)) );
             System.out.println(((size/2)-((d/3)/2)-l) + " " + ((size/2)-((d/3)/2)) );
             System.out.println(((size/2)+((d/3)/2)) + " " + ((size/2)+((d/3)/2)+l) );
             System.out.println(((size/2)+((d/3)/2)+l+(d/3)) + " " + 20 );
 
-            hx0  = new double[]{ 0,(size/2)-((d/3)/2)-l, (size/2)+((d/3)/2), (size/2)+((d/3)/2)+l+(d/3)};
-            hx1 = new double[]{(size/2)-((d/3)/2)-l-(d/3), (size/2)-((d/3)/2), (size/2)+((d/3)/2)+l, 20};
+            hx0  = new double[]{ 0                       , (size/2)-((d/3)/2)-l, (size/2)+((d/3)/2)  , ((size/2)+((d/3)/2)+l+(d/3))};
+            hx1 = new double[]{(size/2)-((d/3)/2)-l-(d/3), (size/2)-((d/3)/2)  , (size/2)+((d/3)/2)+l, 20d};
 
-            hy0 = new double[]{0,0,0};
+            hy0 = new double[]{0,0,0, 0};
 
             //vertical walls
             vy0  = new double[]{0, 0};
