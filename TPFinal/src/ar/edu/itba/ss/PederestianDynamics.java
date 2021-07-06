@@ -1,6 +1,6 @@
 package ar.edu.itba.ss;
 
-import java.awt.*;
+
 import java.awt.geom.Point2D;
 import java.util.*;
 import java.util.List;
@@ -32,7 +32,6 @@ public class PederestianDynamics {
 
     double d = 3;      // meters
 
-    //TODO en algunos lados esta harcodeado el h
     double h = 2;
 
     double deltaTime;
@@ -54,11 +53,8 @@ public class PederestianDynamics {
     private List<Double> vdx = new ArrayList<>();
     private List<Double> vdy = new ArrayList<>();
 
-    private double target1X0, target1X1;
-    private double target2X0, target2X1;
 
 
-    //TODO
     double hx0 [];
     double hx1 [];
     double hy0 [];
@@ -77,10 +73,6 @@ public class PederestianDynamics {
         this.l = l;
 
         setupWalls();
-        //TODO
-       // edgePoints.add(new Point2D.Double(((size/2)-(d/2)),0));
-       // edgePoints.add(new Point2D.Double(((size/2)+(d/2)),0));
-
 
         deltaTime = Rmin/(2*vMax);
 
@@ -104,9 +96,6 @@ public class PederestianDynamics {
         saveState(time);
 
 
-        //
-        target1X0 = (size/2)-((d/2)-0.1);
-        target1X1 = (size/2)+((d/2)-0.1);
 
         int iterations = 0;
         double time2 = 0f;
@@ -144,11 +133,9 @@ public class PederestianDynamics {
         while (particlesNumber != N && attempt != maxAttempts) {
 
             double xPos = Rmax + ((size-Rmax) - Rmax) * r.nextDouble();
-           // double yPos = Rmax + ((size-Rmax) - Rmax) * r.nextDouble();
             double yPos = (Rmax + (((size-yStart)-Rmax) - Rmax) * r.nextDouble())+yStart;
 
-            //xPos = 12;
-            //yPos = 18;
+
 
             if (addParticle(xPos, yPos, Rmax)) {
                 particlesNumber += 1;
@@ -197,82 +184,17 @@ public class PederestianDynamics {
             Particle p = particles.get(i);
 
 
-            //TODO borders
+            //borders
 
             vy = horizontalBorders(p, vy);
             vx = verticalBorders(p, vx);
 
-            /*
-            if(particles.get(i).getYPos()>0) {
-                if (((particles.get(i).getYPos() - particles.get(i).getRadius() <= 0) && ( particles.get(i).getXPos()  < ((size / 2) - (d / 2)))) || ((particles.get(i).getYPos() - particles.get(i).getRadius() <= 0) && (particles.get(i).getXPos()  > ((size / 2) + (d / 2)))) ) {
-                    // p.setRadius(Rmin);
-                    vy -= vMax;
-                }
-            }
-             */
-
-
-            //TODO borders edges
+            //borders edges
 
             Point2D.Double edg = edges(particles.get(i), vx, vy);
 
             vx = edg.x;
             vy = edg.y;
-
-            /*
-            double wall0XPoint = ((size/2)-(d/2));
-            double wall0YPoint = 0;
-            double d0 = (sqrt((wall0YPoint - p.getYPos()) * (wall0YPoint - p.getYPos()) + (wall0XPoint - p.getXPos()) * (wall0XPoint - p.getXPos())) - (p.getRadius() + 0 ));
-            if (d0 < 0 && p.getXPos()>wall0XPoint){
-                double degrees = Math.toDegrees(Math.atan2(wall0XPoint - p.getXPos(), wall0YPoint - p.getYPos()));
-                degrees = degrees + Math.ceil( -degrees / 360 ) * 360;
-                double angle = Math.toRadians(degrees);
-
-                double vxx = vMax * Math.sin(angle);
-                if(vxx<0)
-                    vxx = vxx*-1;
-                double vyy = vMax * Math.cos(angle);
-                if(vyy<0)
-                    vyy = vyy*-1;
-                double modx= wall0XPoint - p.getXPos();
-                if(modx<0)
-                    modx = modx*-1;
-                double mody= wall0YPoint - p.getYPos();
-                if(mody<0)
-                    mody = mody*-1;
-
-                vx += vxx * ((wall0XPoint - p.getXPos())/modx);
-                vy += vyy * ((wall0YPoint - p.getYPos())/mody);
-            }
-
-            double wall1XPoint = ((size/2)-(d/2));
-            double wall1YPoint = 0;
-            double d1 = (sqrt((wall1YPoint - p.getYPos()) * (wall1YPoint - p.getYPos()) + (wall1XPoint - p.getXPos()) * (wall1XPoint - p.getXPos())) - (p.getRadius() + 0 ));
-            if (d1 < 0 &&  p.getXPos()<wall1XPoint){
-                double degrees = Math.toDegrees(Math.atan2(wall1XPoint - p.getXPos(), wall1YPoint - p.getYPos()));
-                degrees = degrees + Math.ceil( -degrees / 360 ) * 360;
-                double angle = Math.toRadians(degrees);
-
-                double vxx = vMax * Math.sin(angle);
-                if(vxx<0)
-                    vxx = vxx*-1;
-                double vyy = vMax * Math.cos(angle);
-                if(vyy<0)
-                    vyy = vyy*-1;
-                double modx= wall1XPoint - p.getXPos();
-                if(modx<0)
-                    modx = modx*-1;
-                double mody= wall1YPoint - p.getYPos();
-                if(mody<0)
-                    mody = mody*-1;
-
-
-                vx += vxx * ((wall1XPoint - p.getXPos())/modx);
-                vy += vyy * ((wall1YPoint - p.getYPos())/mody);
-            }
-
-            */
-
 
 
             for(int j=0; j<particles.size(); j++){
@@ -281,8 +203,7 @@ public class PederestianDynamics {
                     double distance = (sqrt((p2.getYPos() - p.getYPos()) * (p2.getYPos() - p.getYPos()) + (p2.getXPos() - p.getXPos()) * (p2.getXPos() - p.getXPos())) - (p.getRadius() + p2.getRadius() ));
                     if (distance < 0){
 
-                        // p.setRadius(Rmin);
-                        // p2.setRadius(Rmin);
+
 
                         double degrees = Math.toDegrees(Math.atan2(p2.getXPos() - p.getXPos(), p2.getYPos() - p.getYPos()));
                         degrees = degrees + Math.ceil( -degrees / 360 ) * 360;
@@ -347,31 +268,6 @@ public class PederestianDynamics {
 
             double targetX = targ.x;
             double targetY = targ.y;
-
-
-            /*
-            if(p.getYPos() >0){
-                if(p.getXPos() <= target1X0)
-                    targetX = target1X0;
-                else if(p.getXPos() >= target1X1)
-                    targetX = target1X1;
-                else{
-                    targetX = p.getXPos();
-                }
-            }
-            else{
-                targetY = -20;
-                targetX = p.getXPos();
-                if((p.getXPos())< ((size/2)-1.5d)){
-                    targetX = ((size/2)-1.5d);
-                }
-                if((p.getXPos())> ((size/2)+1.5d)){
-                    targetX = ((size/2)+1.5d);
-                }
-            }
-        //
-
-             */
 
 
             double degrees = Math.toDegrees(Math.atan2(targetX - p.getXPos(), targetY - p.getYPos()));
@@ -472,13 +368,6 @@ public class PederestianDynamics {
 
 
     private double horizontalBorders(Particle p, double vy){
-        //if(p.getYPos()>0) {
-        //    if (((p.getYPos() - p.getRadius() <= 0) && ( p.getXPos()  < ((size / 2) - (d / 2)))) || ((p.getYPos() - p.getRadius() <= 0) && (p.getXPos()  > ((size / 2) + (d / 2)))) ) {
-
-         //       vy -= vMax;
-        //    }
-       // }
-
 
 
         for(int n=0; n<hy0.length; n++){
@@ -500,11 +389,6 @@ public class PederestianDynamics {
             }
 
         }
-
-
-
-
-
 
         return vy;
     }
@@ -582,20 +466,7 @@ public class PederestianDynamics {
 
 
 
-
-
-    List<List<Point2D.Double[]>> targetPaths = new ArrayList<>();
-
-
-
-
-
-
     private Point2D.Double getTarget(Particle p){
-
-       // System.out.println("x " + p.getXPos() + " y " + p.getYPos());
-
-
 
         double x = 0;
         double y = 0;
@@ -616,14 +487,6 @@ public class PederestianDynamics {
                 }
                 //verticales
                 if(points[0].x == points[1].x){
-                  //  if(conf == 1){
-                  //      if(p.getXPos() > points[0].x){
-                  //          delete = true;
-                  //      }
-                  //  }
-                  //  if(conf == 2){
-                  //      //TODO
-                  //  }
 
                 }
             }
@@ -653,30 +516,12 @@ public class PederestianDynamics {
                     double distance0 = (sqrt((points[0].y - p.getYPos()) * (points[0].y - p.getYPos()) + (points[0].x - p.getXPos()) * (points[0].x - p.getXPos())) - (p.getRadius() + 0 ));
                     double distance1 = (sqrt((points[1].y - p.getYPos()) * (points[1].y - p.getYPos()) + (points[1].x - p.getXPos()) * (points[1].x - p.getXPos())) - (p.getRadius() + 0 ));
 
-                    //
-                    //
-                    //if(distance0<0)
-                    //    distance0 = distance0 * -1;
-                    //if(distance1<0)
-                    //    distance1 =distance1 * -1;
-                    //
-                    //
 
                     double distance = Math.min(distance0, distance1);
                     distances.add(distance);
                 }
                 //verticales
                 if(points[0].x == points[1].x){
-
-                    //si estoy en verticalTarget
-                   // if(p.getXPos() >= points[0].x && p.getXPos() <= points[1].x){
-                     //   x= points[0].x;
-                     //   y= p.getYPos();
-                    //    finish = true;
-                    //}
-
-
-
                 }
             }
 
@@ -699,14 +544,6 @@ public class PederestianDynamics {
                 double distance0 = (sqrt((selected[0].y - p.getYPos()) * (selected[0].y - p.getYPos()) + (selected[0].x - p.getXPos()) * (selected[0].x - p.getXPos())) - (p.getRadius() + 0 ));
                 double distance1 = (sqrt((selected[1].y - p.getYPos()) * (selected[1].y - p.getYPos()) + (selected[1].x - p.getXPos()) * (selected[1].x - p.getXPos())) - (p.getRadius() + 0 ));
 
-                //
-                //
-                //if(distance0<0)
-                //    distance0 = distance0 * -1;
-                //if(distance1<0)
-                //    distance1 =distance1 * -1;
-                //
-                //
 
                 //RANDOMIZAR EL PUNTO Q APUNTA
                 Random r = new Random();
@@ -722,8 +559,6 @@ public class PederestianDynamics {
                     y=selected[0].y;
                 }
 
-
-
                 //IR AL PUNTO MAS CERCANO
                 /*
                 if(distance0 < distance1){
@@ -735,9 +570,6 @@ public class PederestianDynamics {
                 }
 
                  */
-
-
-
 
             }
 
@@ -813,10 +645,6 @@ public class PederestianDynamics {
             edgePoints.add(new Point2D.Double(((size/2)+((d/3)/2)+l),0));
             edgePoints.add(new Point2D.Double( ((size/2)+((d/3)/2)+l+(d/3)) ,0));
 
-            System.out.println(0 + " " + ((size/2)-((d/3)/2)-l-(d/3)) );
-            System.out.println(((size/2)-((d/3)/2)-l) + " " + ((size/2)-((d/3)/2)) );
-            System.out.println(((size/2)+((d/3)/2)) + " " + ((size/2)+((d/3)/2)+l) );
-            System.out.println(((size/2)+((d/3)/2)+l+(d/3)) + " " + 20 );
 
             hx0  = new double[]{ 0                       , (size/2)-((d/3)/2)-l, (size/2)+((d/3)/2)  , ((size/2)+((d/3)/2)+l+(d/3))};
             hx1 = new double[]{(size/2)-((d/3)/2)-l-(d/3), (size/2)-((d/3)/2)  , (size/2)+((d/3)/2)+l, 20d};
@@ -828,57 +656,6 @@ public class PederestianDynamics {
             vy1 = new double[]{20, 20};
             vx0 = new double[]{0, 20};
         }
-
-
-        /*
-        //edges
-        edgePoints.add(new Point2D.Double(7.5,0));
-        edgePoints.add(new Point2D.Double(12.5,0));
-
-        edgePoints.add(new Point2D.Double(3,2));
-
-
-        //DE IZQUIERDA A DERECHA
-
-        //horizontal walls
-        hx0  = new double[]{0, 11.5, 5};
-        hx1 = new double[]{8.5, 20, 15};
-        hy0 = new double[]{0, 0, 2};
-
-        //vertical walls
-        vy0  = new double[]{0, 0};
-        vy1 = new double[]{20, 20};
-        vx0 = new double[]{0, 20};
-
-         */
-
-
-
-        //targets
-/*
-        List<Point2D.Double[]> target0 = new ArrayList<>();
-
-        Point2D.Double[] t00 = {new Point2D.Double(0,2),new Point2D.Double(5,2)};
-        Point2D.Double[] t01 = {new Point2D.Double(15,2),new Point2D.Double(20,2)};
-        target0.add(t00);
-        target0.add(t01);
-
-        List<Point2D.Double[]> target1 = new ArrayList<>();
-
-        Point2D.Double[] t10 = {new Point2D.Double(7.5,0),new Point2D.Double(12.5,0)};
-        target1.add(t10);
-
-        targetPaths.add(target0);
-        targetPaths.add(target1);
-
-
-        List<Point2D.Double[]> target2 = new ArrayList<>();
-
-        Point2D.Double[] t20 = {new Point2D.Double(0,-10),new Point2D.Double(20,-10)};
-
- */
-
-
 
     }
 
@@ -902,7 +679,7 @@ public class PederestianDynamics {
                 target1.add(target10);
 
                 List<Point2D.Double[]> target2= new ArrayList<>();
-                Point2D.Double[] target20 = {new Point2D.Double(0,-10),new Point2D.Double(20,-10)};
+                Point2D.Double[] target20 = {new Point2D.Double(0,-20),new Point2D.Double(20,-20)};
                 target2.add(target20);
 
                 if(l==0){
@@ -936,7 +713,7 @@ public class PederestianDynamics {
                 target1.add(target11);
 
                 List<Point2D.Double[]> target2= new ArrayList<>();
-                Point2D.Double[] target20 = {new Point2D.Double(0,-10),new Point2D.Double(20,-10)};
+                Point2D.Double[] target20 = {new Point2D.Double(0,-20),new Point2D.Double(20,-20)};
                 target2.add(target20);
 
 
@@ -957,11 +734,6 @@ public class PederestianDynamics {
             for(Particle p : particles) {
                 List<List<Point2D.Double[]>> targetPaths = new ArrayList<>();
 
-                //System.out.println(((size/2)-((d/3)/2)-(d/3)-l+0.2)  + " " + ((size/2)-((d/3)/2)-l-0.2));
-                //System.out.println( ((size/2)-((d/3)/2)+0.2)  + " " + ((size/2)+((d/3)/2)-0.2));
-                //System.out.println(((size/2)+((d/3)/2)+l+0.2)  + " " + ((size/2)+((d/3)/2)+(d/3)+l-0.2));
-
-
                 List<Point2D.Double[]> target0= new ArrayList<>();
                 Point2D.Double[] target00 = {new Point2D.Double((size/2)-((d/3)/2)-(d/3)-l+0.2, 0),new Point2D.Double(  (size/2)-((d/3)/2)-l-0.2,0)};
                 target0.add(target00);
@@ -974,7 +746,7 @@ public class PederestianDynamics {
 
 
                 List<Point2D.Double[]> target1= new ArrayList<>();
-                Point2D.Double[] target10 = {new Point2D.Double(0,-10),new Point2D.Double(20,-10)};
+                Point2D.Double[] target10 = {new Point2D.Double(0,-20),new Point2D.Double(20,-20)};
                 target1.add(target10);
 
                 targetPaths.add(target0);
@@ -989,52 +761,6 @@ public class PederestianDynamics {
 
 
         }
-
-
-
-
-
-        /*
-        for(Particle p : particles) {
-            List<List<Point2D.Double[]>> targetPaths = new ArrayList<>();
-
-
-            //
-            //
-            List<Point2D.Double[]> t000= new ArrayList<>();
-            Point2D.Double[] t0000 = {new Point2D.Double(0,1.8),new Point2D.Double(4.8,1.8)};
-            t000.add(t0000);
-
-
-            Point2D.Double[] t0001 = {new Point2D.Double(15.2,1.8),new Point2D.Double(20,1.8)};
-            t000.add(t0001);
-
-
-            List<Point2D.Double[]> t111= new ArrayList<>();
-            Point2D.Double[] t1111 = {new Point2D.Double(8.7,0),new Point2D.Double(11.3,0)};
-            t111.add(t1111);
-
-           // List<Point2D.Double[]> t111v= new ArrayList<>();
-           // Point2D.Double[] t1111v = {new Point2D.Double(7.5,0),new Point2D.Double(7.5,2)};
-           // t111v.add(t1111v);
-
-
-            List<Point2D.Double[]> t222= new ArrayList<>();
-            Point2D.Double[] t2222 = {new Point2D.Double(0,-10),new Point2D.Double(20,-10)};
-            t222.add(t2222);
-            targetPaths.add(t000);
-            targetPaths.add(t111);
-            //targetPaths.add(t111v);
-            targetPaths.add(t222);
-            //
-            //
-
-
-            p.targets = targetPaths;
-        }
-
-         */
-
 
     }
 

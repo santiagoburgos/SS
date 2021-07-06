@@ -10,9 +10,6 @@ public class Particle {
 
     public List<List<Point2D.Double[]>> targets;
 
-    public List<Point2D.Double> t;
-
-
     public Particle(double xPos, double yPos, double xVel, double yVel, double radius){
         this.xPos = xPos;
         this.yPos = yPos;
